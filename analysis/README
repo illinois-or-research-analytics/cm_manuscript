@@ -1,0 +1,15 @@
+# CM Workflow
+
+The conectivity modifier (CM)workflow consists of
+
+1. Clustering (Leiden or IKC for now)
+2. Filtering out tree clusters
+3. Eliminating small clusters
+4. Running CM (cm+cm_universal+json2.py)
+5. Filtering out tree clusters again
+6. Eliminating small clusters again
+7. Analyzing the output
+
+2 and 3 are accomplished with analyze_cen.py
+5 and 6 are accomplished with analyze_cen3.py
+7 is accomplished with analyze_cen.R, which outputs a .csv file
