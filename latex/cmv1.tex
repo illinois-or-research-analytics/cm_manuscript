@@ -1,0 +1,95 @@
+\documentclass[12pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{textcomp}
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+\usepackage{caption}
+\usepackage{subcaption}								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\usepackage{natbib}
+\usepackage{xcolor}
+% removed hyperref because of arXiv complaining
+\usepackage{authblk}
+\usepackage{float}
+\usepackage{rotating}
+\usepackage{adjustbox}
+\usepackage[font=small,labelfont=bf]{caption}
+%\usepackage{changes}
+\usepackage{changes}
+\definechangesauthor[name={George Chacko}, color=blue]{gc}
+
+\usepackage{authblk}
+\title{TO BE FILLED IN }
+\author[1]{tba}
+\author[1]{tba}
+\author[1]{Baqiao Liu}
+\author[2]{Dmitriy Korobskiy}
+\author[1,3]{George Chacko\thanks{warnow@illinois.edu}}
+\author[1]{Tandy Warnow\thanks{chackoge@illinois.edu}}
+\affil[1]{Department of Computer Science, University of Illinois Urbana-Champaign, Urbana, IL 61801}
+\affil[2]{NTT DATA, McLean, VA 22102}
+\affil[3]{Office of Research, Grainger College of Engineering, University of Illinois Urbana-Champaign, Urbana, IL 61801}
+
+% \setlength{\parindent}{0pt}
+%SetFonts
+
+% ORCID IDs
+
+% Baqiao Liu: 0000-0002-4210-8269
+% Tandy Warnow: 0000-0001-7717-3514
+% George Chacko: 0000-0002-2127-1892
+
+\begin{document}
+\maketitle
+	
+\abstract{}
+	
+\clearpage
+	
+\section{Introduction} 
+
+\section{Materials and Methods}
+	
+\subsection{Methods} 
+\subsection{Data} 
+\section{Results and Discussion}
+	
+\begin{figure}[H]
+\centering
+\begin{subfigure}[t]{0.48\textwidth}
+\centering
+#\includegraphics[width=0.9\linewidth]{fig7_overlapping_m.pdf}
+\caption{AOC\_m}
+%\caption{Generic fig2 a caption} \label{fig:2a}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{0.48\textwidth}
+\centering
+#\includegraphics[width=0.9\linewidth]{fig7_overlapping_k.pdf} 
+\caption{AOC\_k}
+\end{subfigure}
+\caption{}
+\label{fig:overlapping}
+\end{figure}
+		
+\section{Conclusions}
+	
+\section*{Competing Interests} \vspace{3mm} The authors have no competing interests. 
+	
+\section*{Funding Information} 
+	
+\section*{Data Availability} 
+	
+\section*{Acknowledgments} 
+
+\bibliographystyle{apalike}
+\bibliography{}
+\end{document}
+
+
