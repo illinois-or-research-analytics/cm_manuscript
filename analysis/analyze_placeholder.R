@@ -51,10 +51,10 @@ t.01 <- lapply(lei_list.01, FUN = function(x) x[,.N,by='V2'][N>10,.(cc=length(N)
 t.001 <-lapply(lei_list.001, FUN = function(x) x[,.N,by='V2'][N>10,.(cc=length(N),nc=sum(N)/nc_denom,count=sum(N),min=min(N),med=median(N),max=max(N))])
 
 
-t.5 <- cbind(names(t.5),c(3,2,1,4,5),rbindlist(t.5))[order(-V2)][,.(Rx=V1,clus_ct=cc,node_cov=nc,node_count=count,min,med,max)]
-t.1 <- cbind(names(t.1),c(3,2,1,4,5),rbindlist(t.1))[order(-V2)][,.(Rx=V1,clus_ct=cc,node_cov=nc,node_count=count,min,med,max)]
-t.01 <- cbind(names(t.01),c(3,2,1,4,5),rbindlist(t.01))[order(-V2)][,.(Rx=V1,clus_ct=cc,node_cov=nc,node_count=count,min,med,max)]
-t.001 <- cbind(names(t.001),c(3,2,1,4,5),rbindlist(t.001))[order(-V2)][,.(Rx=V1,clus_ct=cc,node_cov=nc,node_count=count,min,med,max)]
+t.5 <- cbind(names(t.5),rbindlist(t.5))[,.(Rx=V1,clus_ct=cc,node_cov=nc,node_count=count,min,med,max)]
+t.1 <- cbind(names(t.1),rbindlist(t.1))[,.(Rx=V1,clus_ct=cc,node_cov=nc,node_count=count,min,med,max)]
+t.01 <- cbind(names(t.01),rbindlist(t.01))[,.(Rx=V1,clus_ct=cc,node_cov=nc,node_count=count,min,med,max)]
+t.001 <- cbind(names(t.001),rbindlist(t.001))[,.(Rx=V1,clus_ct=cc,node_cov=nc,node_count=count,min,med,max)]
 
 placeholder_cm_df <- rbind(t.5,t.1,t.01,t.001)
 # optional to remove preprocessed data (cm before cm_universal)
