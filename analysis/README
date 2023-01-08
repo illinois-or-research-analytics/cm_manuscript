@@ -14,5 +14,5 @@ The conectivity modifier (CM)workflow consists of
 5 and 6 are accomplished with analyze_cen3.py
 7 is accomplished with analyze_cen.R, which outputs a .csv file
 
-The cleanup_el.R script takes an edgelist fornattedas csv, tsv, or whitespace-separated and removes duplicate edges, parallel edges, and self-loops.
+The cleanup_el.R script takes an edgelist fornatted as csv, tsv, or whitespace-separated and removes duplicate edges, parallel edges, and self-loops.
 
