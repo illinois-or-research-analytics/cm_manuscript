@@ -22,7 +22,7 @@ bound = args.b
 cnames=['node_id','cluster_id']
 
 print("Read in clustering file")
-l_df = pd.read_table(input_graph,header=None,names=cnames)
+l_df = pd.read_table(input_clustering,header=None,names=cnames)
 
 print("Converting clustering df to dict")
 l_dict = dict(l_df.groupby('cluster_id')['node_id'].apply(lambda x: x.tolist()))
@@ -34,7 +34,7 @@ g = nk.graphtools.toUndirected(g) # may not be necessary
 print(nk.graphtools.size(g))
 print("Loaded graph of size {}".format(nk.graphtools.size(g)))
 
-print("Make a working dict (reduces the amount of computation)"
+print("Make a working dict (reduces the amount of computation)")
 working_dict  = {k:v for k, v in l_dict.items() if len(v)> bound}
 
 # convert node labels to ids
@@ -51,14 +51,16 @@ for key in working_dict:
     if t.numberOfNodes() <= bound:
         continue
     node_tuple = (key, t.numberOfNodes(), t.numberOfEdges())
-    print("Completed {}".format(key))
     datalist.append(node_tuple)
+    if key % 50 == 0:
+        print("Completed {}".format(key))
 
 print("Converting datalist to df")
 # Convert to df and write to file
 df2 = pd.DataFrame(datalist, columns =['cluster_id', 'node_count', 'edge_count'])
 df2.to_csv("datalist_{}_{}.tsv".format(args.o,args.b), sep="\t")
-print("All Done")
+print("*** All Done ***")
+
     
 
 
