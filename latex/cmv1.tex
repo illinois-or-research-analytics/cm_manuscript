@@ -57,6 +57,21 @@
 \section{Materials and Methods}
 	
 \subsection{Methods} 
+
+The custom-implemented ETL process was designed to process a publically available COCI, the OpenCitations Index of Crossref open DOI-to-DOI citations dump and load it into PostgreSQL RDBMS. The Citation data (CSV) is downloaded from https://opencitations.net/download#coci and unzipped. After that, the custom ETL script, written in Bash and SQL, works as follows:
+Finds all CSV files and pipes them in parallel using GNU Parallel command-line utility to the load function
+The number of parallel jobs was capped at 20 on a 64 CPU core, 128 GB VM to prevent overloading the machine or Postgres server.
+The load function then loads an individual CSV file into a staging view via psql: \\copy stg_open_citations(oci, citing, cited, creation, timespan, journal_sc, author_sc) from '${absolute_file_path}' (FORMAT CSV, HEADER ON)
+The staging view is a stub (empty) view that uses a custom INSTEAD OF INSERT trigger to process (transform) a single citation record.
+The trigger does the following citation record processing:
+Converting creation to the DATE data type
+Converting timespan to the INTERVAL data type
+Handling duplicate records (by the oci key). There are a few duplicate oci -s in COCI source data. The logic updates an existing citation record with the processed data. Correspondingly, the last processed duplicate "wins."
+A SQL script was used to clean the data by eliminating:
+Self-citations: from a DOI to the same DOI
+Parallel edges: two or more citations from a DOI A to the same DOI B. No instances of parallel edges were found in the dataset processed.
+A SQL DDL statement extracts all unique publication DOIs into a separate table and indexes DOIs using a zero-based integer index to facilitate clustering.
+The DOIs were checked for case differences. No duplicate DOIs differing in case only were found in the dataset processed.
 \subsection{Data} 
 \section{Results and Discussion}
 	
