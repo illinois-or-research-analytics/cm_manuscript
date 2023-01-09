@@ -10,6 +10,7 @@
 \usepackage{color}
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage{url}
 \newtheorem{theorem}{Theorem}
 \newtheorem{definition}{Definition}
 \usepackage{natbib}
@@ -25,9 +26,9 @@
 \definechangesauthor[name={George Chacko}, color=blue]{gc}
 
 \usepackage{authblk}
-\title{TO BE FILLED IN }
+\title{Finding Well-Connected Communities in Real-World Networks}
 \author[1]{tba}
-\author[1]{tba}
+\author[1]{Minhyuk Park}
 \author[1]{Baqiao Liu}
 \author[2]{Dmitriy Korobskiy}
 \author[1,3]{George Chacko\thanks{warnow@illinois.edu}}
@@ -48,7 +49,27 @@
 \begin{document}
 \maketitle
 	
-\abstract{}
+\abstract{Community detection in real-world networks is a basic step in scientometrics research, and is typically addressed through the use of
+graph clustering methods that partition the vertices of a network into disjoint subsets.
+While  the formal definition for ``community" vary across methods, it is well accepted that a community should be well-connected, so that the deletion of a small
+number of edges should not disconnect the community.
+Here, we evaluate how well-connected the clusters are that are produced using two 
+ approaches for graph clustering -- the Leiden software using different resolution parameters
+and Iterative k-core clustering (Wedell et al., QSS 2022). 
+We find that both methods produce clusters that are poorly connected when applied to real-world networks, but this is especially true for Leiden when run
+with small resolution parameter values.
+We present a new pipeline for use with these clustering methods that guarantees that the output clusters will be well-connected, and explore its use
+on a collection of real world networks, including several citation networks, and their  corresponding synthetic LFR networks.
+Used with Leiden and IKC, our study suggests that only a fraction (ranging from x\% to 80\%) of  the  vertices in real world networks are found in 
+well-connected communities containing at least 11 vertices.
+Interestingly, when applied to the corresponding synthetic LFR networks, a different pattern is observed: most of the network is 
+contained in well-connected clusters containing at least 11 vertices.
+Since the LFR network generation process by definition assumes that every vertex is in a community, this 
+study suggests the possibility that community structure is not globally found within real-world networks, and that clusters produced by
+standard methods should be post-processed to evaluate whether they satisfy criteria for being a valid community.
+The pipeline we provide is tunable to allow the user to specify the criteria for a valid community in terms of (a)  a lower bound on the community size and (b) the 
+minimum edge cut size as a function of the cluster size. 
+}
 	
 \clearpage
 	
@@ -58,10 +79,11 @@
 	
 \subsection{Methods} 
 
-The custom-implemented ETL process was designed to process a publically available COCI, the OpenCitations Index of Crossref open DOI-to-DOI citations dump and load it into PostgreSQL RDBMS. The Citation data (CSV) is downloaded from https://opencitations.net/download#coci and unzipped. After that, the custom ETL script, written in Bash and SQL, works as follows:
+The custom-implemented ETL process was designed to process a publicly available COCI, the OpenCitations Index of Crossref open DOI-to-DOI citations dump and load it into PostgreSQL RDBMS. 
+The Citation data (CSV) is downloaded from \url{https://opencitations.net/download#coci} and unzipped. After that, the custom ETL script, written in Bash and SQL, works as follows:
 Finds all CSV files and pipes them in parallel using GNU Parallel command-line utility to the load function
 The number of parallel jobs was capped at 20 on a 64 CPU core, 128 GB VM to prevent overloading the machine or Postgres server.
-The load function then loads an individual CSV file into a staging view via psql: \\copy stg_open_citations(oci, citing, cited, creation, timespan, journal_sc, author_sc) from '${absolute_file_path}' (FORMAT CSV, HEADER ON)
+%The load function then loads an individual CSV file into a staging view via psql: \\copy stg_open_citations(oci, citing, cited, creation, timespan, journal_sc, author_sc) from '${absolute_file_path}' (FORMAT CSV, HEADER ON)
 The staging view is a stub (empty) view that uses a custom INSTEAD OF INSERT trigger to process (transform) a single citation record.
 The trigger does the following citation record processing:
 Converting creation to the DATE data type
@@ -79,14 +101,14 @@ The DOIs were checked for case differences. No duplicate DOIs differing in case 
 \centering
 \begin{subfigure}[t]{0.48\textwidth}
 \centering
-#\includegraphics[width=0.9\linewidth]{fig7_overlapping_m.pdf}
+%\includegraphics[width=0.9\linewidth]{fig7_overlapping_m.pdf}
 \caption{AOC\_m}
 %\caption{Generic fig2 a caption} \label{fig:2a}
 \end{subfigure}
 \hfill
 \begin{subfigure}[t]{0.48\textwidth}
 \centering
-#\includegraphics[width=0.9\linewidth]{fig7_overlapping_k.pdf} 
+%\includegraphics[width=0.9\linewidth]{fig7_overlapping_k.pdf} 
 \caption{AOC\_k}
 \end{subfigure}
 \caption{}
