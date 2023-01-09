@@ -94,15 +94,35 @@ As proven in \cite{Traag_2019} (Equation D1 in the supplementary information),
 given any optimal CPM clustering of a network using resolution parameter $\gamma$, if an edge cut $E_0$
 separates a cluster into two sets $A$ and $B$, then the edge cut has at least $\gamma ||A|| \times ||B||$, where
 $||.||$ indicates the number of vertices in the given set.
-This is a strong guarantee for large clusters,  but as it depends on the value for $\gamma$, it may have no guarantee on small clusters (below, for example, 
-$\sqrt \frac{2}{\gamma}$).
+This is a strong guarantee for large clusters,  but as it depends on the value for $\gamma$, it may have no guarantee  beyond being connected for small clusters
+(see Discussion). 
+% (below, for example,  $2\sqrt \frac{1}{\gamma}$).
 
 Given the importance of communities being well-connected, we performed a study to evaluate the question of whether clusters produced by different clustering methods
-were consistently found to be well-connected.
-We used a collection of real-world networks in our study, including some citation graphs but also including networks from SNAP \citep{leskovec2016snap}.
+were consistently found to be well-connected, using the first criterion we pose, so that for every cluster, the minimum edge-cut size must be greater than $\log_{10}n$, where $n$ is the number of vertices in the cluster. 
+We used a collection of real-world networks in our study, including some citation graphs (e.g., the Curated Exosome Network \citep{Wedell2022})  but also including networks of other types from the Stanford Network Analysis Platform (SNAP) \citep{leskovec2016snap}.
+This evaluation showed that both Leiden and IKC clusterings produced clusters that failed to be well-connected according to this criterion.
+The results depended on the resolution parameter selected for Leiden,  with a higher incidence of failure for small values for the resolution parameter.
 
+We then designed a pipeline to work with both Leiden and IKC that would ensure that all output clusters satisfy two constraints for being valid communities: (1) they are well-connected, according to our criterion, and (2) each cluster is not too small (by default, we require that each cluster have at least 11 vertices).
+The pipeline takes the clustering as input, and first finds and removes all clusters that are either trees or are too small.  It then checks each remaining cluster for being well-connected; if a cluster
+fails this check so that it has a small edge cut, the minimum edge cut is deleted from the cluster, thus producing a set of subsets.  Each of these subsets are then re-clustered using the selected clustering
+method (IKC or Leiden), and the process recurses on the resultant set of clusters.
 
+Our study using this pipeline on a collection of real-world networks shows some surprising results.
+First, we find that the final clustering produced using Leiden, across a range of resolution values, 
+covered only a portion of the input network, with a  fraction that ranged from x\% to y\% of the vertices.
 
+\textcolor{blue}{TO do:
+\begin{itemize}
+\item Report the fraction of input clusters that fail our test as a function of the cluster size.
+We expect this to be a large fraction for small clusters but it may continue into the larger clusters.
+Will be good to note.
+\item Look at how much of the network is in the *union* of the output (post-pipeline) clusterings, across the Leiden resolution parameter values.
+\item Compute the overlap between clusterings both pre-pipeline and post-pipeline
+\item  Evaluate accuracy of Leiden clusterings on LFR networks 
+\end{itemize}
+}
 
 
 \section{Materials and Methods}
@@ -110,6 +130,7 @@ We used a collection of real-world networks in our study, including some citatio
 \subsection{Materials}
 
 \paragraph{SNAP}
+The Stanford Network Analysis Platform (SNAP) provides a collection of real-world networks \citep{leskovec2016snap}.
 
 \paragraph{LFR}
 
@@ -164,7 +185,7 @@ The DOIs were checked for case differences. No duplicate DOIs differing in case 
 \section*{Acknowledgments} 
 
 \bibliographystyle{apalike}
-\bibliography{references}
+\bibliography{references,akhil}
 \end{document}
 
 
