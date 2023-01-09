@@ -75,16 +75,16 @@ minimum edge cut size as a function of the cluster size.
 	
 \section{Introduction} 
 
-Community detection in large networks has applications throughout scientometrics, including the detection of emerging research areas, authorship communities, etc.
-The problem of finding communities in large networks has been posed as a {\em graph partitioning} problem, where the input is a graph (i.e., a network with vertices and edges) and the
-objective is a partitioning of the vertices into disjoint subsets, so that each of the subsets defines a community.
-While variations of this formulation appear (e.g., in some cases overlapping communities are sought, and in other cases additional meta data may be available to assist in community
-detection), this is a common approach to community detection that has been used in many studies (cites).
+The problem of finding communities in complex networks can be posed as a {\em graph partitioning} problem, where the input is a network (a graph with vertices and edges) and the
+objective is a partitioning of the vertices into disjoint subsets, so that each of the subsets defines a community. While variants of this formulation exist [cite Coscia], constructing 
+overlapping clusters for example, this is a common approach to community detection that has been used in many studies [cites]. Community detection in large networks has 
+broad applications that include, in scientometrics, the detection of research areas, and author communities [cite].
 
-While a formal definition for what constitutes a community is not fully agreed upon, most research supports the assumption that a community will be {\em well-connected}, which
-can be formulated as saying that for a cluster to define a valid community, it  should not have a small edge cut (i.e., there should not be a small set of edges whose deletion disconnects
-the cluster); see discussion in
-\cite{Traag_2019}. 
+While definitions of what constitutes a community vary, a common assumption is that elements of community are more connected to each other than to those outside the community. 
+In other words, that a community will be {\em well-connected}. Well connected can be further clarified by asserting that for a cluster to define a valid community, it  should not have a small 
+edge cut, i.e., there should not be a small set of edges whose deletion disconnects the cluster; see discussion in \cite{Traag_2019}. 
+
+
 While the minimum size of an edge cut is a matter that can be debated, two formulations have been proposed for this.
 The first approach simply requires that an edge cut be above some size that depends on the number $n$ of vertices in the cluster, such as $\log_{10}(n)$. 
 This is a relatively weak bound for large values of $n$, but does provide some constraints on small clusters (e.g., a tree cluster with ten or more vertices would be considered to be poorly connected).  
@@ -173,7 +173,7 @@ into a staging view. The script was designed to remove duplicate records, self-c
 \section*{Acknowledgments} 
 
 \bibliographystyle{apalike}
-\bibliography{cmv1.bibl}
+\bibliography{cmv1}
 \end{document}
 
 
