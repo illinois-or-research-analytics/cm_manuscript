@@ -27,9 +27,9 @@
 
 \usepackage{authblk}
 \title{Finding Well-Connected Communities in Real-World Networks}
-\author[1]{tba}
-\author[1]{Minhyuk Park}
-\author[1]{Baqiao Liu}
+\author[1]{Minhyuk Park\thanks{author order to be determined later}}
+\author[1]{Yasamin Tabatabaee\thanks{author order to be determined later}}
+\author[1]{Baqiao Liu\thanks{author order to be determined later}}
 \author[2]{Dmitriy Korobskiy}
 \author[1,3]{George Chacko\thanks{warnow@illinois.edu}}
 \author[1]{Tandy Warnow\thanks{chackoge@illinois.edu}}
@@ -75,7 +75,45 @@ minimum edge cut size as a function of the cluster size.
 	
 \section{Introduction} 
 
+Community detection in large networks has applications throughout scientometrics, including the detection of emerging research areas, authorship communities, etc.
+The problem of finding communities in large networks has been posed as a {\em graph partitioning} problem, where the input is a graph (i.e., a network with vertices and edges) and the
+objective is a partitioning of the vertices into disjoint subsets, so that each of the subsets defines a community.
+While variations of this formulation appear (e.g., in some cases overlapping communities are sought, and in other cases additional meta data may be available to assist in community
+detection), this is a common approach to community detection that has been used in many studies (cites).
+
+While a formal definition for what constitutes a community is not fully agreed upon, most research supports the assumption that a community will be {\em well-connected}, which
+can be formulated as saying that for a cluster to define a valid community, it  should not have a small edge cut (i.e., there should not be a small set of edges whose deletion disconnects
+the cluster); see discussion in
+\cite{Traag_2019}. 
+While the minimum size of an edge cut is a matter that can be debated, two formulations have been proposed for this.
+The first approach simply requires that an edge cut be above some size that depends on the number $n$ of vertices in the cluster, such as $\log_{10}(n)$. 
+This is a relatively weak bound for large values of $n$, but does provide some constraints on small clusters (e.g., a tree cluster with ten or more vertices would be considered to be poorly connected).  
+The second approach, which is used in providing guarantees for the Leiden clustering, evaluates the size of an edge cut by the split  of the cluster into two parts produces when the edge cut is removed from a cluster, and requires that the
+edge cut size be at least a fraction of the number of possible edges between the two  parts.
+As proven in \cite{Traag_2019} (Equation D1 in the supplementary information), 
+given any optimal CPM clustering of a network using resolution parameter $\gamma$, if an edge cut $E_0$
+separates a cluster into two sets $A$ and $B$, then the edge cut has at least $\gamma ||A|| \times ||B||$, where
+$||.||$ indicates the number of vertices in the given set.
+This is a strong guarantee for large clusters,  but as it depends on the value for $\gamma$, it may have no guarantee on small clusters (below, for example, 
+$\sqrt \frac{2}{\gamma}$).
+
+Given the importance of communities being well-connected, we performed a study to evaluate the question of whether clusters produced by different clustering methods
+were consistently found to be well-connected.
+We used a collection of real-world networks in our study, including some citation graphs but also including networks from SNAP \citep{leskovec2016snap}.
+
+
+
+
+
 \section{Materials and Methods}
+
+\subsection{Materials}
+
+\paragraph{SNAP}
+
+\paragraph{LFR}
+
+
 	
 \subsection{Methods} 
 
@@ -126,7 +164,7 @@ The DOIs were checked for case differences. No duplicate DOIs differing in case 
 \section*{Acknowledgments} 
 
 \bibliographystyle{apalike}
-\bibliography{}
+\bibliography{references}
 \end{document}
 
 
