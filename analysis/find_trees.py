@@ -59,7 +59,7 @@ print("Converting datalist to df",flush=True)
 # Convert to df and write to file
 df2 = pd.DataFrame(datalist, columns =['cluster_id', 'node_count', 'edge_count'])
 df2.to_csv("datalist_{}_{}.tsv".format(args.o,args.b), sep="\t")
-print("*** All Done ***"),flush=True)
+print("*** All Done ***",flush=True)
 
     
 
