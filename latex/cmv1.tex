@@ -10,6 +10,7 @@
 \usepackage{color}
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage{url}
 \newtheorem{theorem}{Theorem}
 \newtheorem{definition}{Definition}
 \usepackage{natbib}
@@ -25,10 +26,10 @@
 \definechangesauthor[name={George Chacko}, color=blue]{gc}
 
 \usepackage{authblk}
-\title{TO BE FILLED IN }
-\author[1]{tba}
-\author[1]{tba}
-\author[1]{Baqiao Liu}
+\title{Finding Well-Connected Communities in Real-World Networks}
+\author[1]{Minhyuk Park\thanks{author order to be determined later}}
+\author[1]{Yasamin Tabatabaee\thanks{author order to be determined later}}
+\author[1]{Baqiao Liu\thanks{author order to be determined later}}
 \author[2]{Dmitriy Korobskiy}
 \author[1,3]{George Chacko\thanks{warnow@illinois.edu}}
 \author[1]{Tandy Warnow\thanks{chackoge@illinois.edu}}
@@ -48,45 +49,113 @@
 \begin{document}
 \maketitle
 	
-\abstract{}
+\abstract{Community detection in real-world networks is a basic step in scientometrics research, and is typically addressed through the use of
+graph clustering methods that partition the vertices of a network into disjoint subsets.
+While  the formal definition for ``community" vary across methods, it is well accepted that a community should be well-connected, so that the deletion of a small
+number of edges should not disconnect the community.
+Here, we evaluate how well-connected the clusters are that are produced using two 
+ approaches for graph clustering -- the Leiden software using different resolution parameters
+and Iterative k-core clustering (Wedell et al., QSS 2022). 
+We find that both methods produce clusters that are poorly connected when applied to real-world networks, but this is especially true for Leiden when run
+with small resolution parameter values.
+We present a new pipeline for use with these clustering methods that guarantees that the output clusters will be well-connected, and explore its use
+on a collection of real world networks, including several citation networks, and their  corresponding synthetic LFR networks.
+Used with Leiden and IKC, our study suggests that only a fraction (ranging from x\% to 80\%) of  the  vertices in real world networks are found in 
+well-connected communities containing at least 11 vertices.
+Interestingly, when applied to the corresponding synthetic LFR networks, a different pattern is observed: most of the network is 
+contained in well-connected clusters containing at least 11 vertices.
+Since the LFR network generation process by definition assumes that every vertex is in a community, this 
+study suggests the possibility that community structure is not globally found within real-world networks, and that clusters produced by
+standard methods should be post-processed to evaluate whether they satisfy criteria for being a valid community.
+The pipeline we provide is tunable to allow the user to specify the criteria for a valid community in terms of (a)  a lower bound on the community size and (b) the 
+minimum edge cut size as a function of the cluster size. 
+}
 	
 \clearpage
 	
 \section{Introduction} 
 
+The problem of finding communities in complex networks can be posed as a {\em graph partitioning} problem, where the input is a network (a graph with vertices and edges) and the
+objective is a partitioning of the vertices into disjoint subsets, so that each of the subsets represents a community. While variants of this formulation exist \citep{Coscia2011}, constructing 
+overlapping clusters for example, this is a common approach to community detection that has been used in many studies \citep{Fortunato2022,Fortunato2010}. Community detection in 
+large networks has broad applications that include, in scientometrics, the detection of research areas, and author communities [cite Waltman].
+
+While definitions of what constitutes a community vary, a common assumption is that elements of community are more connected to each other than to those outside the community. 
+In other words, that a community will be {\em well-connected}. Well connected can be further clarified by asserting that for a cluster to define a valid community, it  should not have a small 
+edge cut, i.e., there should not be a small set of edges whose deletion disconnects the cluster; see discussion in \cite{Traag_2019}. 
+
+
+While the minimum size of an edge cut is a matter that can be debated, two formulations have been proposed for this.
+The first approach simply requires that an edge cut be above some size that depends on the number $n$ of vertices in the cluster, such as $\log_{10}(n)$. 
+This is a relatively weak bound for large values of $n$, but does provide some constraints on small clusters (e.g., a tree cluster with ten or more vertices would be considered to be poorly connected).  
+The second approach, which is used in providing guarantees for the Leiden clustering, evaluates the size of an edge cut by the split  of the cluster into two parts produces when the edge cut is removed from a cluster, and requires that the
+edge cut size be at least a fraction of the number of possible edges between the two  parts.
+As proven in \cite{Traag_2019} (Equation D1 in the supplementary information), 
+given any optimal CPM clustering of a network using resolution parameter $\gamma$, if an edge cut $E_0$
+separates a cluster into two sets $A$ and $B$, then the edge cut has at least $\gamma ||A|| \times ||B||$, where
+$||.||$ indicates the number of vertices in the given set.
+This is a strong guarantee for large clusters,  but as it depends on the value for $\gamma$, it may have no guarantee  beyond being connected for small clusters
+(see Discussion). 
+% (below, for example,  $2\sqrt \frac{1}{\gamma}$).
+
+Given the importance of communities being well-connected, we performed a study to evaluate the question of whether clusters produced by different clustering methods
+were consistently found to be well-connected, using the first criterion we pose, so that for every cluster, the minimum edge-cut size must be greater than $\log_{10}n$, where $n$ is the number of vertices in the cluster. 
+We used a collection of real-world networks in our study, including some citation graphs (e.g., the Curated Exosome Network \citep{Wedell2022})  but also including networks of other types from the Stanford Network Analysis Platform (SNAP) \citep{leskovec2016snap}.
+This evaluation showed that both Leiden and IKC clusterings produced clusters that failed to be well-connected according to this criterion.
+The results depended on the resolution parameter selected for Leiden,  with a higher incidence of failure for small values for the resolution parameter.
+
+We then designed a pipeline to work with both Leiden and IKC that would ensure that all output clusters satisfy two constraints for being valid communities: (1) they are well-connected, according to our criterion, and (2) each cluster is not too small (by default, we require that each cluster have at least 11 vertices).
+The pipeline takes the clustering as input, and first finds and removes all clusters that are either trees or are too small.  It then checks each remaining cluster for being well-connected; if a cluster
+fails this check so that it has a small edge cut, the minimum edge cut is deleted from the cluster, thus producing a set of subsets.  Each of these subsets are then re-clustered using the selected clustering
+method (IKC or Leiden), and the process recurses on the resultant set of clusters.
+
+Our study using this pipeline on a collection of real-world networks shows some surprising results.
+First, we find that the final clustering produced using Leiden, across a range of resolution values, 
+covered only a portion of the input network, with a  fraction that ranged from x\% to y\% of the vertices.
+
+\textcolor{blue}{TO do:
+\begin{itemize}
+\item Report the fraction of input clusters that fail our test as a function of the cluster size.
+We expect this to be a large fraction for small clusters but it may continue into the larger clusters.
+Will be good to note.
+\item Look at how much of the network is in the *union* of the output (post-pipeline) clusterings, across the Leiden resolution parameter values.
+\item Compute the overlap between clusterings both pre-pipeline and post-pipeline
+\item  Evaluate accuracy of Leiden clusterings on LFR networks 
+\end{itemize}
+}
+
+
 \section{Materials and Methods}
+
+\subsection{Materials}
+
+\paragraph{SNAP}
+The Stanford Network Analysis Platform (SNAP) provides a collection of real-world networks \citep{leskovec2016snap}.
+
+\paragraph{LFR}
+
+
 	
 \subsection{Methods} 
 
-The custom-implemented ETL process was designed to process a publically available COCI, the OpenCitations Index of Crossref open DOI-to-DOI citations dump and load it into PostgreSQL RDBMS. The Citation data (CSV) is downloaded from https://opencitations.net/download#coci and unzipped. After that, the custom ETL script, written in Bash and SQL, works as follows:
-Finds all CSV files and pipes them in parallel using GNU Parallel command-line utility to the load function
-The number of parallel jobs was capped at 20 on a 64 CPU core, 128 GB VM to prevent overloading the machine or Postgres server.
-The load function then loads an individual CSV file into a staging view via psql: \\copy stg_open_citations(oci, citing, cited, creation, timespan, journal_sc, author_sc) from '${absolute_file_path}' (FORMAT CSV, HEADER ON)
-The staging view is a stub (empty) view that uses a custom INSTEAD OF INSERT trigger to process (transform) a single citation record.
-The trigger does the following citation record processing:
-Converting creation to the DATE data type
-Converting timespan to the INTERVAL data type
-Handling duplicate records (by the oci key). There are a few duplicate oci -s in COCI source data. The logic updates an existing citation record with the processed data. Correspondingly, the last processed duplicate "wins."
-A SQL script was used to clean the data by eliminating:
-Self-citations: from a DOI to the same DOI
-Parallel edges: two or more citations from a DOI A to the same DOI B. No instances of parallel edges were found in the dataset processed.
-A SQL DDL statement extracts all unique publication DOIs into a separate table and indexes DOIs using a zero-based integer index to facilitate clustering.
-The DOIs were checked for case differences. No duplicate DOIs differing in case only were found in the dataset processed.
-\subsection{Data} 
+\subsection{Data}  A custom-implemented ETL process was designed to process the publicly available OpenCitations dataset and load it into a PostgreSQL table. Citation data (CSV) was downloaded in Aug 2022.
+A custom ETL script, written in Bash and SQL, was used to find all CSV files and pipe them in 20 parallel jobs using the GNU Parallel command-line utility to the load function which then loaded individual CSV files 
+into a staging view. The script was designed to remove duplicate records, self-citations, and parallel edges. DOIs were also checked for case differences. and no duplicate DOIs differing in case only were found. 
+
 \section{Results and Discussion}
 	
 \begin{figure}[H]
 \centering
 \begin{subfigure}[t]{0.48\textwidth}
 \centering
-#\includegraphics[width=0.9\linewidth]{fig7_overlapping_m.pdf}
+%\includegraphics[width=0.9\linewidth]{fig7_overlapping_m.pdf}
 \caption{AOC\_m}
 %\caption{Generic fig2 a caption} \label{fig:2a}
 \end{subfigure}
 \hfill
 \begin{subfigure}[t]{0.48\textwidth}
 \centering
-#\includegraphics[width=0.9\linewidth]{fig7_overlapping_k.pdf} 
+%\includegraphics[width=0.9\linewidth]{fig7_overlapping_k.pdf} 
 \caption{AOC\_k}
 \end{subfigure}
 \caption{}
@@ -104,7 +173,7 @@ The DOIs were checked for case differences. No duplicate DOIs differing in case 
 \section*{Acknowledgments} 
 
 \bibliographystyle{apalike}
-\bibliography{}
+\bibliography{cmv1}
 \end{document}
 
 
