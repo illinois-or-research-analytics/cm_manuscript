@@ -30,6 +30,9 @@
 \author[1]{Minhyuk Park\thanks{author order to be determined later}}
 \author[1]{Yasamin Tabatabaee\thanks{author order to be determined later}}
 \author[1]{Baqiao Liu\thanks{author order to be determined later}}
+\author[1]{Placeholder1\thanks{author order to be determined later}}
+\author[1]{Placeholder2\thanks{author order to be determined later}}
+\author[1]{Placeholder3\thanks{author order to be determined later}}
 \author[2]{Dmitriy Korobskiy}
 \author[1,3]{George Chacko\thanks{warnow@illinois.edu}}
 \author[1]{Tandy Warnow\thanks{chackoge@illinois.edu}}
@@ -137,10 +140,15 @@ The Stanford Network Analysis Platform (SNAP) provides a collection of real-worl
 
 	
 \subsection{Methods} 
+\emph{Leiden}
+\emph{Iterative K-core Clustering (IKC)}
+\emph{Filters}
+\emph{Connectivity Modifier}
+\emph{Pipeline}
 
 \subsection{Data}  A custom-implemented ETL process was designed to process the publicly available OpenCitations dataset and load it into a PostgreSQL table. Citation data (CSV) was downloaded in Aug 2022.
 A custom ETL script, written in Bash and SQL, was used to find all CSV files and pipe them in 20 parallel jobs using the GNU Parallel command-line utility to the load function which then loaded individual CSV files 
-into a staging view. The script was designed to remove duplicate records, self-citations, and parallel edges. DOIs were also checked for case differences. and no duplicate DOIs differing in case only were found. 
+into a staging view. The script was designed to remove duplicate records, self-citations, and parallel edges. DOIs were also checked for case differences to remove duplicates. 
 
 \section{Results and Discussion}
 	
@@ -148,15 +156,14 @@ into a staging view. The script was designed to remove duplicate records, self-c
 \centering
 \begin{subfigure}[t]{0.48\textwidth}
 \centering
-%\includegraphics[width=0.9\linewidth]{fig7_overlapping_m.pdf}
-\caption{AOC\_m}
-%\caption{Generic fig2 a caption} \label{fig:2a}
+\includegraphics[width=0.9\linewidth]{cit_patents.pdf}
+\caption{Generic fig2 a caption} \label{fig:2a}
 \end{subfigure}
 \hfill
 \begin{subfigure}[t]{0.48\textwidth}
 \centering
-%\includegraphics[width=0.9\linewidth]{fig7_overlapping_k.pdf} 
-\caption{AOC\_k}
+\includegraphics[width=0.9\linewidth]{lfr_wtp_0.5.pdf} 
+\caption{Generic fig2 b caption} \label{fig:2a}
 \end{subfigure}
 \caption{}
 \label{fig:overlapping}
