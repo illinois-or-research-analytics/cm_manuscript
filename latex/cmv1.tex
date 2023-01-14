@@ -146,11 +146,30 @@ The Stanford Network Analysis Platform (SNAP) provides a collection of real-worl
 \emph{Connectivity Modifier}
 \emph{Pipeline}
 
-\subsection{Data}  A custom-implemented ETL process was designed to process the publicly available OpenCitations dataset and load it into a PostgreSQL table. Citation data (CSV) was downloaded in Aug 2022.
-A custom ETL script, written in Bash and SQL, was used to find all CSV files and pipe them in 20 parallel jobs using the GNU Parallel command-line utility to the load function which then loaded individual CSV files 
-into a staging view. The script was designed to remove duplicate records, self-citations, and parallel edges. DOIs were also checked for case differences to remove duplicates. 
+\subsection{Data}  \emph{Open Citations} A custom-implemented ETL process was designed to process the publicly available OpenCitations dataset and load it into a PostgreSQL table. Citation data (CSV) was downloaded in Aug 2022.
+A custom ETL script, written in Bash and SQL, was used to find and pipe uncompressed CSV files, in 20 parallel jobs using the GNU Parallel command-line utility, to a custom function which loaded individual CSV files 
+into a staging view. The script was designed to remove duplicate records, self-citations, and parallel edges. DOIs were also checked for case differences to remove duplicates.  \emph{Curated Exosome Network (CEN)}. The CEN is centered around the exosome research literature. has been previously described in \cite{Jakatdar_2022}, and consists of consists of X nodes and y edges.
 
 \section{Results and Discussion}
+
+	
+\begin{figure}[H]
+\centering
+\begin{subfigure}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{node_cov.pdf}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{0.48\textwidth}
+\centering
+\includegraphics[width=\linewidth]{clus_count.pdf} 
+\end{subfigure}
+\captionsetup{width=0.9\textwidth}
+\caption{Draft Comments: As res\_val decreases, node coverage increases although the number of N$>$10 clusters first goes up then falls. Thus cluster size must be increasing. See Table 1}
+\label{fig:overlapping}
+\end{figure}
+
+
 
 % latex table generated in R 4.2.2 by xtable 1.8-4 package
 % Fri Jan 13 18:03:02 2023
@@ -168,28 +187,10 @@ into a staging view. The script was designed to remove duplicate records, self-c
 0.0001 & 39069 & 91.81 &  11 & 177.00 & 176557 \\ 
    \hline
 \end{tabular}
-\caption{Clustering the Open Citations Network. The open citations network (Materials and Methods) consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered using the Leiden algorithm with the Constant Potts Model (CPM ) as quality function using various resolution values (column 1). Column 2 shows the number of clusters of at least size 11. Node coverage is expressed as the the percent of nodes in these clusters relative to the total number of nodes in the network. Minimum, median, and max cluster sizes are shown in the last three columns.
- }
+\caption{Clustering the Open Citations Network. The open citations network (Materials and Methods) consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered with the Leiden algorithm, using the Constant Potts Model (CPM ) as quality function, and using various resolution values (column 1). Node coverage is expressed as the the percent of nodes in these clusters of size $>$ 10 relative to the total number of nodes in the network. Minimum, median, and max cluster sizes are shown in the last three columns.  }
 \end{table}
 
 
-	
-\begin{figure}[H]
-\centering
-\begin{subfigure}[t]{0.48\textwidth}
-\centering
-\includegraphics[width=0.9\linewidth]{cit_patents.pdf}
-\caption{Generic fig2 a caption} \label{fig:2a}
-\end{subfigure}
-\hfill
-\begin{subfigure}[t]{0.48\textwidth}
-\centering
-\includegraphics[width=0.9\linewidth]{lfr_wtp_0.5.pdf} 
-\caption{Generic fig2 b caption} \label{fig:2a}
-\end{subfigure}
-\caption{}
-\label{fig:overlapping}
-\end{figure}
 		
 \section{Conclusions}
 	
