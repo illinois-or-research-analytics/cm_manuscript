@@ -85,7 +85,7 @@ large networks has broad applications that include, in scientometrics, the detec
 
 While definitions of what constitutes a community vary, a common assumption is that elements of community are more connected to each other than to those outside the community. 
 In other words, that a community will be {\em well-connected}. Well connected can be further clarified by asserting that for a cluster to define a valid community, it  should not have a small 
-edge cut, i.e., there should not be a small set of edges whose deletion disconnects the cluster; see discussion in \cite{Traag_2019}. 
+edge cut, i.e., there should not be a small set of edges whose deletion disconnects the cluster; see discussion in \citep{Traag_2019}. 
 
 
 While the minimum size of an edge cut is a matter that can be debated, two formulations have been proposed for this.
@@ -93,7 +93,7 @@ The first approach simply requires that an edge cut be above some size that depe
 This is a relatively weak bound for large values of $n$, but does provide some constraints on small clusters (e.g., a tree cluster with ten or more vertices would be considered to be poorly connected).  
 The second approach, which is used in providing guarantees for the Leiden clustering, evaluates the size of an edge cut by the split  of the cluster into two parts produces when the edge cut is removed from a cluster, and requires that the
 edge cut size be at least a fraction of the number of possible edges between the two  parts.
-As proven in \cite{Traag_2019} (Equation D1 in the supplementary information), 
+As proven in \citep{Traag_2019} (Equation D1 in the supplementary information), 
 given any optimal CPM clustering of a network using resolution parameter $\gamma$, if an edge cut $E_0$
 separates a cluster into two sets $A$ and $B$, then the edge cut has at least $\gamma ||A|| \times ||B||$, where
 $||.||$ indicates the number of vertices in the given set.
@@ -127,7 +127,6 @@ Will be good to note.
 \end{itemize}
 }
 
-
 \section{Materials and Methods}
 
 \subsection{Materials}
@@ -137,8 +136,6 @@ The Stanford Network Analysis Platform (SNAP) provides a collection of real-worl
 
 \paragraph{LFR}
 
-
-	
 \subsection{Methods} 
 \emph{Leiden}
 \emph{Iterative K-core Clustering (IKC)}
@@ -146,9 +143,8 @@ The Stanford Network Analysis Platform (SNAP) provides a collection of real-worl
 \emph{Connectivity Modifier}
 \emph{Pipeline}
 
-\subsection{Data}  \emph{Open Citations} A custom-implemented ETL process was designed to process the publicly available OpenCitations dataset and load it into a PostgreSQL table. Citation data (CSV) was downloaded in Aug 2022.
-A custom ETL script, written in Bash and SQL, was used to find and pipe uncompressed CSV files, in 20 parallel jobs using the GNU Parallel command-line utility, to a custom function which loaded individual CSV files 
-into a staging view. The script was designed to remove duplicate records, self-citations, and parallel edges. DOIs were also checked for case differences to remove duplicates.  \emph{Curated Exosome Network (CEN)}. The CEN is centered around the exosome research literature. has been previously described in \cite{Jakatdar_2022}, and consists of consists of X nodes and y edges.
+\subsection{Data} Several networks were used for testing and analysis and were selected to provide a range of sizes and edge density. In all cases, below the counts of nodes and edges are reported after removing duplicate records, 
+self-citations, and parallel edges from the source data.  \emph{Open Citations} A custom-implemented ETL process was designed to process the publicly available OpenCitations dataset \citep{Peroni2020} and load it into a PostgreSQL table. Citation data (CSV) was downloaded in Aug 2022. A custom ETL script, written in Bash and SQL, was used to find and pipe uncompressed CSV files, in 20 parallel jobs using the GNU Parallel command-line utility, to a custom function which loaded individual CSV files into a staging view. DOIs were also checked for case differences to remove duplicates.  The resultant network contained 75,025,194 nodes and 1,363,605,603 edges. \emph{Curated Exosome Network (CEN)}. The CEN is centered around the exosome research literature. Its construction has previously been previously described in \citep{Jakatdar_2022}, and it consists of 13,989,436 nodes and 92,051,051 edges after removing duplicate records, self-citations, and parallel edges. In addition, four more real world networks from the Stanford Network Analysis Project (SNAP) collection \citep{leskovec2016snap} were downloaded in Dec 2022: \emph{cit\_patents} (3,774,768 nodes, 16,518,947 edges), \emph{cit\_hepph} (34,546 nodes, 420,877 edges), \emph{wiki\_topcats} (1,791,489 nodes, 25,444,207 edges), and \emph{orkut} (3,072,441 nodes, 117,185,083 edges). Last synthetic networks were generated using the LFR methodology \citep{Lancichinetti2008} with some modifications. [Ask Yasamin to write this section up].
 
 \section{Results and Discussion}
 
