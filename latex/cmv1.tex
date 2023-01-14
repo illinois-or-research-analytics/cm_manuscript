@@ -151,6 +151,28 @@ A custom ETL script, written in Bash and SQL, was used to find all CSV files and
 into a staging view. The script was designed to remove duplicate records, self-citations, and parallel edges. DOIs were also checked for case differences to remove duplicates. 
 
 \section{Results and Discussion}
+
+% latex table generated in R 4.2.2 by xtable 1.8-4 package
+% Fri Jan 13 18:03:02 2023
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrr}
+  \hline
+ res\_value & clus\_count & node\_cov & min & med & max \\ 
+  \hline
+0.5 & 297038 & 5.98 &  11 & 13.00 & 183 \\ 
+0.1 & 1313856 & 43.78 &  11 & 17.00 & 882 \\ 
+0.01 & 1361168 & 88.93 &  11 & 19.00 & 3530 \\ 
+0.01 & 232288 & 90.56 &  11 & 64.00 & 23470 \\ 
+0.0005 & 133147 & 90.97 &  11 & 90.00 & 39049 \\  
+0.0001 & 39069 & 91.81 &  11 & 177.00 & 176557 \\ 
+   \hline
+\end{tabular}
+\caption{Clustering the Open Citations Network. The open citations network (Materials and Methods) consisting of X nodes and Y edges was clustered using the Leiden algorithm with the Constant Potts Model (CPM )as quality function usinng ving various resolution values (column 1). Node coverage indicates the percent of nodes in clusters of size at least 11 relative to the total number of nodes in the network.
+ }
+\end{table}
+
+
 	
 \begin{figure}[H]
 \centering
