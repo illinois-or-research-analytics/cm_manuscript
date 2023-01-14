@@ -129,19 +129,15 @@ Will be good to note.
 
 \section{Materials and Methods}
 
-\subsection{Materials}
-
-\paragraph{SNAP}
-The Stanford Network Analysis Platform (SNAP) provides a collection of real-world networks \citep{leskovec2016snap}.
-
-\paragraph{LFR}
-
 \subsection{Methods} 
-\emph{Leiden}
-\emph{Iterative K-core Clustering (IKC)}
-\emph{Filters}
-\emph{Connectivity Modifier}
-\emph{Pipeline}
+\emph{Pipeline} A modular pipeline was developed that (i) generated a clustering from an input network (ii) filtered the resultant clusters to remove small clusters ($<$ 10 nodes) and trees (the case where the sum of internal edges in a cluster was one less than the number of nodes in the same cluster) (iii) applied \emph{Connectivity Modifier} (CM), a recursive minimum cut to each filtered cluster to ensure well-connectedness.
+
+\vspace{5 mm}
+\textbf{[Insert flow chart of workflow/pipeline]}
+
+\subsubsection{Clustering} insert text
+\subsubsection{Filters} insert text
+\subsubsection{Connectivity Modifier} insert text 
 
 \subsection{Data} Several networks were used for testing and analysis and were selected to provide a range of sizes and edge density. In all cases, below the counts of nodes and edges are reported after removing duplicate records, 
 self-citations, and parallel edges from the source data.  \emph{Open Citations} A custom-implemented ETL process was designed to process the publicly available OpenCitations dataset \citep{Peroni2020} and load it into a PostgreSQL table. Citation data (CSV) was downloaded in Aug 2022. A custom ETL script, written in Bash and SQL, was used to find and pipe uncompressed CSV files, in 20 parallel jobs using the GNU Parallel command-line utility, to a custom function which loaded individual CSV files into a staging view. DOIs were also checked for case differences to remove duplicates.  The resultant network contained 75,025,194 nodes and 1,363,605,603 edges. \emph{Curated Exosome Network (CEN)}. The CEN is centered around the exosome research literature. Its construction has previously been previously described in \citep{Jakatdar_2022}, and it consists of 13,989,436 nodes and 92,051,051 edges after removing duplicate records, self-citations, and parallel edges. In addition, four more real world networks from the Stanford Network Analysis Project (SNAP) collection \citep{leskovec2016snap} were downloaded in Dec 2022: \emph{cit\_patents} (3,774,768 nodes, 16,518,947 edges), \emph{cit\_hepph} (34,546 nodes, 420,877 edges), \emph{wiki\_topcats} (1,791,489 nodes, 25,444,207 edges), and \emph{orkut} (3,072,441 nodes, 117,185,083 edges). Last synthetic networks were generated using the LFR methodology \citep{Lancichinetti2008} with some modifications. [Ask Yasamin to write this section up].
