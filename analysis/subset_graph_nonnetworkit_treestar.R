@@ -59,7 +59,7 @@ t1t2[is.na(t1t2)] <-0
 t1t2 <- t1t2[,.(node_id=V1,degree=N.x+N.y)]
 
 # merge with clustering data c_10 is faster per Rajiv
-t3 <- merge(t1t2,c_10,by.x="node_id",by.y="V1")
+t3 <- merge(t1t2, sized_clusters,by.x="node_id",by.y="V1")
 
 # select maxdegree
 # funky Arun Srinivasan expression 
