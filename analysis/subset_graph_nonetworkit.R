@@ -1,4 +1,5 @@
 # script that reduces the size of a large graph to allow find_trees.py to run more efficiently.
+# George Chacko Jan 15, 2023
 
 # usage "Rscript subset_graph.R -g  <name of input edgelist> -i <input clustering file> -o <output_edgelist_string> 
 # which should be in tsv without headers
