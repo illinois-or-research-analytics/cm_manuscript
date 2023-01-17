@@ -10,15 +10,19 @@
 library(data.table)
 rm(list=ls())
 
-
 args = commandArgs(trailingOnly=TRUE)
 
 if (length(args)==0) {
   stop("At least one argument must be supplied (input file).n", call.=FALSE)
 } else if (length(args)==1) {
   # default output file
-  args[3] = "default.tsv"<
+  args[3] = "default.tsv"
 }
+
+print(getwd())
+print(args[1])
+print(args[2])
+print(args[3])
 
 x <- fread(args[1])
 # filter out trees and stars
@@ -42,12 +46,11 @@ i=i+1
 }
 
 #import original clustering
-original_clustering <- fread('args[2]')
+original_clustering <- fread(args[2])
 cmready_clustering <- original_clustering[V2 %in% sample]
 
-write.table(sample,file=paste0('dec_sample_',args[1],i,'.tsv'),sep='\t',row.names=F,col.names=F)
-write.table(sample,file=paste0('cm_ready_sample_',args[1],i,'.tsv'),sep='\t',row.names=F,col.names=F)
+write.table(sample,file=paste0('dec_sample_',args[1],'.tsv'),sep='\t',row.names=F,col.names=F)
+write.table(sample,file=paste0('cm_ready_sample_',args[1],'.tsv'),sep='\t',row.names=F,col.names=F)
 
 
-# subset clustering by sample
 
