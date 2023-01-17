@@ -28,7 +28,7 @@ x <- fread(args[1])
 # filter out trees and stars
 x <- x[type=='non_tree']
 
-# probably unnencessary
+# probably unnecessary
 set.seed(12345)
 
 # construct quantiles
@@ -50,7 +50,7 @@ original_clustering <- fread(args[2])
 cmready_clustering <- original_clustering[V2 %in% sample]
 
 write.table(sample,file=paste0('dec_sample_',args[1],'.tsv'),sep='\t',row.names=F,col.names=F)
-write.table(sample,file=paste0('cm_ready_sample_',args[1],'.tsv'),sep='\t',row.names=F,col.names=F)
+write.table(cmready_clustering,file=paste0('cm_ready_sample_',args[1],'.tsv'),sep='\t',row.names=F,col.names=F)
 
 
 
