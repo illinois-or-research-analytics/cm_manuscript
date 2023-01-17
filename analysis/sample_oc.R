@@ -41,7 +41,7 @@ i=1
 while (i <= (length(qvec)-1)) {
 print(paste(i,i+1))
 s <- x[node_count >= qvec[i] & node_count <= qvec[i+1]][,sample(cluster_id,ceiling(5*length(cluster_id)/100))]
-sample <- union(sample,s)
+sample <- union(sample,s) # eliminates duplicates
 i=i+1
 }
 
