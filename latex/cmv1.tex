@@ -126,6 +126,8 @@ self-citations, and parallel edges from the source data. \emph{Curated Exosome N
 
 In addition, four more real world networks from the Stanford Network Analysis Project (SNAP) collection \citep{leskovec2016snap} were downloaded in Dec 2022: \emph{cit\_patents} (3,774,768 nodes, 16,518,947 edges), \emph{cit\_hepph} (34,546 nodes, 420,877 edges), \emph{wiki\_topcats} (1,791,489 nodes, 25,444,207 edges), and \emph{orkut} (3,072,441 nodes, 117,185,083 edges). As a comparison group, synthetic networks were generated using the LFR `benchmark' methodology \citep{Lancichinetti2008}. [Ask Yasamin to write this section up].
 
+\emph{Cluster Sampling}. The Open Citations dataset was large enough that evaluating every cluster was not feasible. Thus, samples were used for analysis by connectivity modifier. Briefly, non-tree samples of size at least 11 were divided into deciles based on cluster sizes and 5\% of each decile was randomly sampled. Where decile values were similar, multiple samples were taken. For example, when the Open Citations data was clustered with the Leiden algorithm at resolution value of 0.5, the first, second, and third deciles were equal to 11. Thus three 5\% samples were taken from the class $11 >= x <=11$ with replacement and de-duplicated after collection. 
+
 \section{Results and Discussion}
 
 \emph{Overview editorial for consideration by authors. We need to agree on a vision to integrate the Leiden and IKC results into an overarching hypothesis-driven framework. What is it that we're looking for or trying to say? To me, the answer is in an improved understanding of how the the properties of networks affect clustering and the converse- how clustering methods influence interpretation of the networks that are fed to them. Are we asking too much of ourselves? Should the IKC effort be in its own paper? My sense is that IKC is a valuable comparison method because of the way in which it is so different from Leiden and perhaps less valuable because it's so different from Leiden.}
@@ -134,9 +136,50 @@ In addition, four more real world networks from the Stanford Network Analysis Pr
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.5\linewidth]{cen_fig1.pdf}
-\caption{For the purpose of discussion. The CEN consists of roughly 13,989,436 million nodes and has average degree of 13.16. Clustering the CEN with Leiden-CPM at res 0.01 results in around 85\% node coverage considering clusters of size $>$ 10.  The number of such clusters is 65,771 AND 35\% of them are trees (green). (I set alpha to 0.05 to indicate overplotting effects else 35\% might seem unlikely.) The order and motivation of our exposition could therefore be...``In an extended examination of the features of clusters in a network we have previously studied, we observed that a significant fraction were trees, which are the minimally dense state of a connected cluster. This motivated us to empirically examine the output of the Leiden algorithm with its guarantees of well connected clusters and ask whether features of the network affected such guarantees.'' Thus, the CEN would be our Eureka observation but it should be made clear that the hypothesis follows the serendipitous finding.}
+%:
+
+\includegraphics[width=0.7\linewidth]{cen_quad_fig1.png}
+\caption{The Curated Exosome Network (CEN) consists of 13,989,436 nodes with average degree of 13.16. The CEN was clustered at four resolution values (0.5, 0.1, 0.01, 0.001) using the Leiden algorithm with Constant Potts Model as quality function. The figure shows the count of edges in each cluster of size $>$  10 plotted against the count of nodes in each cluster (cluster size). Tree clusters are colored green.  resolution values is decreased, node coverage defined here as the fraction of nodes in the network that are found in clusters of size $>$  10, increases. The number of such clusters does not, however, monotonically increase (Table 1). As the resolution value is decreased, the number of tree clusters (dark blue) increases. At a resolution value of 0.01, 84.45\% of network nodes are found in 65,771 clusters of size $>$ 10. Of these 65,771 clusters, 35\% are trees.}
 \end{figure}
+
+% latex table generated in R 4.2.2 by xtable 1.8-4 package
+% Sun Jan 15 17:20:47 2023
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlrrr}
+  \hline
+ gp & clus\_count & node\_cov & edge\_cov \\ 
+  \hline
+leiden 0.5 & 8503 & 0.97 & 0.93 \\ 
+leiden 0.1 & 273420 & 23.98 & 7.35 \\ 
+leiden 0.01 & 275641 & 76.52 & 24.39 \\   
+leiden 0.001 & 65771 & 84.45 & 39.01 \\ 
+   \hline
+\end{tabular}
+\end{table} 
+
+% latex table generated in R 4.2.2 by xtable 1.8-4 package
+% Sun Jan 15 17:37:03 2023
+\begin{table}[ht]
+\centering
+\begin{tabular}{rllrrr}
+  \hline
+ gp & type & min & med & max \\ 
+  \hline
+leiden 0.5 & non\_tree &  11 & 14 &  68 \\ 
+leiden 0.5 & tree &  NA & NA &  NA \\ 
+leiden 0.1 & tree &  11 & 11 &  11 \\ 
+leiden 0.1 & non\_tree &  11 & 20 & 319 \\ 
+leiden 0.01 & tree &  11 & 27 & 101 \\ 
+leiden 0.01 & non\_tree &  11 & 34 & 3186 \\ 
+leiden 0.001 & tree &  11 & 65 & 1001 \\ 
+leiden 0.001 & non\_tree &  12 & 112 & 16481 \\ 
+
+   \hline
+\end{tabular}
+\end{table}
+
+
 
 	
 \begin{figure}[H]
@@ -151,11 +194,10 @@ In addition, four more real world networks from the Stanford Network Analysis Pr
 \includegraphics[width=\linewidth]{clus_count.pdf} 
 \end{subfigure}
 \captionsetup{width=0.9\textwidth}
-\caption{Draft Comments: As res\_val decreases, node coverage increases although the number of N$>$10 clusters first goes up then falls. Thus cluster size must be increasing. See Table 1}
+\caption{Draft Comments: As res\_val decreases, node coverage increases although the number of N$>$10 clusters first goes up then falls. Thus cluster size must be increasing. See Table 1 Maybe this should first be done with CEN clusters?
+}
 \label{fig:overlapping}
 \end{figure}
-
-
 
 % latex table generated in R 4.2.2 by xtable 1.8-4 package
 % Fri Jan 13 18:03:02 2023

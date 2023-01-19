@@ -46,9 +46,25 @@
 
 \section{}
 
+\section{CM Pipeline} 
+
+The pipeline consists of stages
+\begin{itemize}
+\item Clustering an input network using either the Leiden algorithm or Iterative K-core Clustering (IKC)
+\item Removing clusters of size $<$ 10a s well as trees ($n=m+1$). Depending on the user and the dataset being analyzed one of the following
+options was used. 
+\begin{enumerate}
+\item belinda \citep{belinda2022} expressions, e.g., $g1.filter(pl.col('n') > 10)$ and \\ $g1.filter(pl.col('n') != pl.col('m') + 1)$
+\item find\_trees.py- a slow script that relies on Networkit \citep{Staudt2016}
+\item cluster\_analyzer.py- a parallelized version of find\_trees.py
+\item subset\_graph\_nonnetworkit.R- a fast script without dependence on Networkit that also returns maxDegree for a cluster. 
+\end{enumerate}
+
+\item Applying connectivity modifier \citep{cm2022}
+\item Removing clusters of size 10 and below as well as trees ($n=m+1$)
+\end{itemize}
 \section{}
 
-\section{}
-
-
+\bibliographystyle{apalike}
+\bibliography{cmv1}
 \end{document}  
