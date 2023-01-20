@@ -5,7 +5,7 @@
 
 # Revised strategy
 # Sample 1 % of the population from above the 3rd quartile and
-# 3 % from below the third quartile
+# 3 % from below or equal to the third quartile
 
 
 # usage "Rscript sample_oc.R <original clustering> <annotated_cluster_file> 
@@ -41,6 +41,7 @@ set.seed(12345)
 
 # construct quantiles
 q3 <- quantile(x$node_count,probs=0.75)
+print(paste("Q3= ",q3)
 
 s1 <- x[node_count >= q3][,sample(cluster_id,ceiling(length(cluster_id)/100))]
 s2 <- x[node_count < q3][,sample(cluster_id,ceiling(3*length(cluster_id)/100))]
