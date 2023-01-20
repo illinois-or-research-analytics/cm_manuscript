@@ -63,7 +63,7 @@ well-connected output clusters, which allows a user to specify the criterion for
 use of this pipeline on real world networks and  synthetic LFR networks.
 The differences we observe between real world and synthetic LFR networks are striking: while many clusters produced on real-world networks are poorly connected, clusters computed on LFR networks  are nearly always well-connected, and 
 most of the LFR network is thus covered by well-connected clusters.
-Since a basic assumption of the LFR network network generation process is that every vertex  is in a community, this  study suggests the possibility that community structure is not globally found within real-world networks, and that clusters produced by standard methods  should be further evaluated. 
+Since a basic assumption of the LFR network generation process is that every vertex  is in a community, this  study suggests the possibility that community structure is not globally found within real-world networks, and that clusters produced by standard methods  should be further evaluated. 
 }
 	
 \clearpage
@@ -75,32 +75,34 @@ objective is a partitioning of the vertices into disjoint subsets, so that each 
 detection in  large networks has broad applications that include, in scientometrics, the detection of research areas, and author communities \citep{Waltman_2012,Li2014,Fiallos2017,Traag_2019,Chandrasekharan_2020,Wedell2022}.
 
 While variations of the disjoint partition theme arise from different scientific interests \citep{Coscia2011,Schaub2017}, it is a  common approach to community detection that has been used in many 
-studies \citep{Fortunato2022,Fortunato2010}, in which the assumption is made that elements of a community are more connected to each other than to those outside the community. 
-In other words, that a community will be {\em well-connected}. Well connected can be further clarified by asserting that for a cluster to define a valid community, it  should not have a small 
-edge cut. In other words, there should not be a small set of edges whose deletion disconnects the cluster; see discussion in \cite{Traag_2019}. 
+studies \citep{Fortunato2022,Fortunato2010}.
+Moreover, a common feature of the different formulations of community detection is that  the elements of a community are more connected to each other than to those outside the community. 
+In other words, a community should be {\em well-connected}.
+Using graph-theoretic terminology, a cluster is said to be well-connected if it does not have a small 
+edge cut, which means that there should not be a small set of edges whose deletion disconnects the cluster; see discussion in \cite{Traag_2019}. 
 
 While the concept of being well-connected depends on the size of the edge cut, the definition of what is ``too small" can be formulated in two
 natural ways.
 The first way
-requires that an edge cut be above some value derived from the number $n$ of 
-vertices in the cluster, such as $\log_{10}(n)$. 
-A tree, where the number of nodes is one greater than the number of edges, is  a compelling example of a poorly connected cluster. 
-This requirement is a relatively weak bound for large values of $n$, but does provide some constraints on small clusters. 
+requires that an edge cut  $E_0$ be above some value derived from the number $n$ of 
+vertices in the cluster $C$ such as $$||E_0|| \geq \log_{10}(||C||),$$    where $||.||$ denotes the number of elements in the given set.
+Note that every edge in  a tree cluster is a cut edge, and so is  a compelling example of a poorly connected cluster. 
+Note also that this is a relatively weak bound for large clusters (i.e., when   $n$ is large), but does provide some constraints on small clusters. 
 
 The second approach, which is used in providing guarantees for the widely used Leiden algorithm \citep{Traag_2019}, evaluates the size of an edge cut by the split  of the cluster into two parts produces 
 when the edge cut is removed from a cluster, and requires that the edge cut size be at least a fraction of the number of possible edges between the two  parts.
 As proven, Equation D1 in the supplementary information in \cite{Traag_2019}, given any optimal CPM clustering of a network using resolution parameter $\gamma$, if an edge cut $E_0$
-separates a cluster into two sets $A$ and $B$ then the edge cut has at least $\gamma ||A|| \times ||B||$, where $||.||$ indicates the number of vertices in the given set.
-This is a strong guarantee for large clusters,  but as it depends on the user-specified value for $\gamma$, it may have no guarantee  beyond being connected for small clusters. 
+separates a cluster into two sets $A$ and $B$ then $$||E_0|| \geq \gamma ||A|| \times ||B||$$
+This is a strong guarantee when the cluster is large,  but as it depends on the user-specified value for $\gamma$, it may have no guarantee  beyond being connected for small clusters.
+Thus, the two approaches provide guarantees about clusters being well-connected for different size clusters, with the first approach a stronger guarantee for small to moderate-sized clusters, and the second approach providing a stronger guarantee on the larger clusters.
 
-
-Given the importance of communities being well-connected, we performed a study to evaluate the question of whether clusters produced by two tdifferent clustering methods
+Given the importance of communities being well-connected, we performed a study to evaluate the question of whether clusters produced by two different clustering methods
 were consistently found to be well-connected, using the first criterion we pose, so that for every cluster, the minimum edge-cut size must be greater than $\log_{10}n$, where $n$ is the number of vertices in the cluster. 
 We used a collection of real-world networks in our study, including some citation graphs.
 This evaluation showed that both Leiden and IKC clusterings produced clusters that failed to be well-connected according to this criterion.
 The results depended on the resolution parameter selected for Leiden,  with a higher incidence of failure for small values for the resolution parameter.
 
-We then designed a pipeline to work with both Leiden and IKC that would ensure that all output clusters satisfy two constraints for being valid communities: (1) they are well-connected, according to our criterion, and (2) each cluster meets a minimum user-specified size requirement. The pipeline takes the clustering as input, and first finds and removes all clusters that are either trees or are too small.  It then checks each remaining cluster for being well-connected; if a cluster fails this check so that it has a small edge cut, the minimum edge cut is deleted from the cluster, thus producing a set of subsets.  Each of these subsets are then re-clustered using the selected clustering method (IKC or Leiden), and the process recurses on the resultant set of clusters.
+We then designed a pipeline to work with both Leiden and IKC that would ensure that all output clusters satisfy two constraints for being valid communities: (1) they are well-connected according to our criterion, and (2) each cluster meets a minimum user-specified size requirement. The pipeline takes the clustering as input, and first finds and removes all clusters that are either trees or are too small.  It then checks each remaining cluster for being well-connected; if a cluster fails this check so that it has a small edge cut, the minimum edge cut is deleted from the cluster, thus producing a set of subsets.  Each of these subsets are then re-clustered using the selected clustering method (IKC or Leiden), and the process recurses on the resultant set of clusters.
 
 Our study using this pipeline on a collection of real-world networks shows some surprising results. First, we find that the final clustering produced using Leiden, across a range of resolution values, 
 covered only a portion of the input network, with a  fraction that ranged from x\% to y\% of the vertices. \textcolor{blue}{pending rewrite}.
@@ -128,14 +130,33 @@ Will be good to note.
 
 \subsubsection{Filters} Three different approaches were used to filter out trees and restrictt output clusterings by size. All three returned the same output on test cases. (i) Belinda, a Python package [insert Github reference to https://github.com/illinois-or-research-analytics/belinda] for clustering analysis (ii) a Python script that uses the Networkit library \citep{Staudt2016} to compute edge and node counts for each cluster, and (iii) an R script that computed edge and node counts for clusters (see Supplementary Materials). 
 
-\subsubsection{Connectivity Modifier} To recursively compute and apply minimum cuts to individual clusters, we used [insert Github reference to Connectivity Modifier], which uses Viecut \cite{Henzinger2018,Henzinger2019} as a dependency, and takes, as input a clustering from either the Leiden algorithm or IKC, and returns a set of clusters. We filtered the input clustering as above before passing it as input to Connectivity Modifier. [insert references https://pypi.org/project/connectivity-modifier/].
+\subsubsection{Connectivity Modifier} To recursively compute and apply minimum cuts to individual clusters, we used [insert Github reference to Connectivity Modifier], which uses Viecut \citep{Henzinger2018,Henzinger2019} as a dependency, and takes, as input a clustering from either the Leiden algorithm or IKC, and returns a set of clusters. We filtered the input clustering as above before passing it as input to Connectivity Modifier. [insert references https://pypi.org/project/connectivity-modifier/].
 
 \subsection{Data} Several networks were used for testing and analysis and were selected to provide a range of sizes and edge density. In all cases, below the counts of nodes and edges are reported after removing duplicate records, 
-self-citations, and parallel edges from the source data. \emph{Curated Exosome Network (CEN)}. The CEN is centered around the exosome research literature. and it consists of 13,989,436 nodes and 92,051,051 edges and its construction has previously been previously described in \citep{Jakatdar_2022}.  \emph{Open Citations} A custom-implemented ETL process was designed to process the publicly available OpenCitations dataset \citep{Peroni2020} and load it into a PostgreSQL table. Citation data (CSV) was downloaded in Aug 2022. A custom ETL script, written in Bash and SQL, was used to find and pipe uncompressed CSV files, in 20 parallel jobs using the GNU Parallel command-line utility, to a custom function which loaded individual CSV files into a staging view. DOIs were also checked for case differences to remove duplicates.  The resultant network contained 75,025,194 nodes and 1,363,605,603 edges.  
+self-citations, and parallel edges from the source data. 
 
-In addition, four more real world networks from the Stanford Network Analysis Project (SNAP) collection \citep{leskovec2016snap} were downloaded in Dec 2022: \emph{cit\_patents} (3,774,768 nodes, 16,518,947 edges), \emph{cit\_hepph} (34,546 nodes, 420,877 edges), \emph{wiki\_topcats} (1,791,489 nodes, 25,444,207 edges), and \emph{orkut} (3,072,441 nodes, 117,185,083 edges). As a comparison group, synthetic networks were generated using the LFR `benchmark' methodology \citep{Lancichinetti2008}. [Ask Yasamin to write this section up].
 
-\emph{Cluster Sampling}. The Open Citations dataset was large enough that evaluating every cluster was not feasible. Thus, samples were used for analysis by connectivity modifier. Briefly, non-tree samples of size at least 11 were divided into deciles based on cluster sizes and 5\% of each decile was randomly sampled. Where decile values were similar, multiple samples were taken. For example, when the Open Citations data was clustered with the Leiden algorithm at resolution value of 0.5, the first, second, and third deciles were equal to 11. Thus three 5\% samples were taken from the class $11 >= x <=11$ with replacement and de-duplicated after collection. 
+\paragraph{Curated Exosome Network (CEN)}
+The CEN is centered around the exosome research literature. and it consists of 13,989,436 nodes and 92,051,051 edges and its construction has previously been previously described in \cite{Jakatdar_2022}.  
+
+\paragraph{Open Citations}
+A custom-implemented ETL process was designed to process the publicly available OpenCitations dataset \citep{Peroni2020} and load it into a PostgreSQL table. Citation data (CSV) was downloaded in Aug 2022. A custom ETL script, written in Bash and SQL, was used to find and pipe uncompressed CSV files, in 20 parallel jobs using the GNU Parallel command-line utility, to a custom function which loaded individual CSV files into a staging view. DOIs were also checked for case differences to remove duplicates.  The resultant network contained 75,025,194 nodes and 1,363,605,603 edges.  
+The Open Citations dataset was large enough that evaluating every cluster was not feasible. Thus, samples were used for analysis by connectivity modifier. Briefly, non-tree samples of size at least 11 were divided into deciles based on cluster sizes and 5\% of each decile was randomly sampled. Where decile values were similar, multiple samples were taken. For example, when the Open Citations data was clustered with the Leiden algorithm at resolution value of 0.5, the first, second, and third deciles were equal to 11. Thus three 5\% samples were taken from the class $x=11$ with replacement and de-duplicated after collection. 
+
+\paragraph{SNAP benchmarks}
+In addition, four more real world networks from the Stanford Network Analysis Project (SNAP) collection \citep{leskovec2016snap} were downloaded in Dec 2022:
+\begin{itemize}
+\item  \emph{cit\_patents} (3,774,768 nodes, 16,518,947 edges), \
+\item emph{cit\_hepph} (34,546 nodes, 420,877 edges),
+\item  \emph{wiki\_topcats} (1,791,489 nodes, 25,444,207 edges), and
+\item  \emph{orkut} (3,072,441 nodes, 117,185,083 edges). 
+\end{itemize}
+
+
+
+
+\paragraph{LFR (random) networks}
+As a comparison group, synthetic networks were generated using the LFR `benchmark' methodology \citep{Lancichinetti2008}. [Ask Yasamin to write this section up].
 
 \section{Results and Discussion}
 
@@ -147,7 +168,7 @@ In addition, four more real world networks from the Stanford Network Analysis Pr
 \centering
 %:
 
-\includegraphics[width=0.7\linewidth]{cen_quad_fig1.png}
+%\includegraphics[width=0.7\linewidth]{cen_quad_fig1.png}
 \caption{The Curated Exosome Network (CEN) consists of 13,989,436 nodes with average degree of 13.16. The CEN was clustered at four resolution values (0.5, 0.1, 0.01, 0.001) using the Leiden algorithm with Constant Potts Model as quality function. The figure shows the count of edges in each cluster of size $>$  10 plotted against the count of nodes in each cluster (cluster size). Tree clusters are colored green.  resolution values is decreased, node coverage defined here as the fraction of nodes in the network that are found in clusters of size $>$  10, increases. The number of such clusters does not, however, monotonically increase (Table 1). As the resolution value is decreased, the number of tree clusters (dark blue) increases. At a resolution value of 0.01, 84.45\% of network nodes are found in 65,771 clusters of size $>$ 10. Of these 65,771 clusters, 35\% are trees.}
 \end{figure}
 
@@ -155,37 +176,41 @@ In addition, four more real world networks from the Stanford Network Analysis Pr
 % Sun Jan 15 17:20:47 2023
 \begin{table}[ht]
 \centering
-\begin{tabular}{rlrrr}
+\begin{tabular}{llrrrr}
   \hline
- gp & clus\_count & node\_cov & edge\_cov \\ 
+ Clustering  & Resolution &  \# clusters & node coverage & edge coverage \\ 
   \hline
-leiden 0.5 & 8503 & 0.97 & 0.93 \\ 
-leiden 0.1 & 273420 & 23.98 & 7.35 \\ 
-leiden 0.01 & 275641 & 76.52 & 24.39 \\   
-leiden 0.001 & 65771 & 84.45 & 39.01 \\ 
+leiden &  0.5 & 8503 & 0.97 & 0.93 \\ 
+leiden&  0.1 & 273420 & 23.98 & 7.35 \\ 
+leiden & 0.01 & 275641 & 76.52 & 24.39 \\   
+leiden& 0.001 & 65771 & 84.45 & 39.01 \\ 
    \hline
 \end{tabular}
+\caption{Properties of Leiden clusters on the CEN. We show empirical statistics  (cluster count, percentage of vertices in non-singleton clusters (or is this clusters of size at least 11?), and percentage of edges in these clusters) for for Leiden clusterings on the Curated Exosome Network (CEN), using the Constant Potts Model (CPM) as quality function and with different resolution values.
+\label{table1}
+ }
 \end{table} 
 
 % latex table generated in R 4.2.2 by xtable 1.8-4 package
 % Sun Jan 15 17:37:03 2023
 \begin{table}[ht]
 \centering
-\begin{tabular}{rllrrr}
+\begin{tabular}{lrllrrr}
   \hline
- gp & type & min & med & max \\ 
+ Clustering & Resolution & type & min & med & max \\ 
   \hline
-leiden 0.5 & non\_tree &  11 & 14 &  68 \\ 
-leiden 0.5 & tree &  NA & NA &  NA \\ 
-leiden 0.1 & tree &  11 & 11 &  11 \\ 
-leiden 0.1 & non\_tree &  11 & 20 & 319 \\ 
-leiden 0.01 & tree &  11 & 27 & 101 \\ 
-leiden 0.01 & non\_tree &  11 & 34 & 3186 \\ 
-leiden 0.001 & tree &  11 & 65 & 1001 \\ 
-leiden 0.001 & non\_tree &  12 & 112 & 16481 \\ 
+leiden & 0.5 & non\_tree &  11 & 14 &  68 \\ 
+leiden & 0.5 & tree &  NA & NA &  NA \\ 
+leiden & 0.1 & tree &  11 & 11 &  11 \\ 
+leiden  & 0.1 & non\_tree &  11 & 20 & 319 \\ 
+leiden  & 0.01 & tree &  11 & 27 & 101 \\ 
+leiden & 0.01 & non\_tree &  11 & 34 & 3186 \\ 
+leiden & 0.001 & tree &  11 & 65 & 1001 \\ 
+leiden & 0.001 & non\_tree &  12 & 112 & 16481 \\ 
 
    \hline
 \end{tabular}
+\caption{Cluster sizes for Leiden clusters on the CEN. We show empirical statistics (minimum, median, and maximum) of Leiden clusters, after removing all clusters of size at most 10,  for trees and non-trees, for of the Curated Exosome Network (CEN),  using the Constant Potts Model (CPM) as quality function and with different resolution values.  }
 \end{table}
 
 
@@ -195,12 +220,12 @@ leiden 0.001 & non\_tree &  12 & 112 & 16481 \\
 \centering
 \begin{subfigure}[t]{0.48\textwidth}
 \centering
-\includegraphics[width=\linewidth]{node_cov.pdf}
+%\includegraphics[width=\linewidth]{node_cov.pdf}
 \end{subfigure}
 \hfill
 \begin{subfigure}[t]{0.48\textwidth}
 \centering
-\includegraphics[width=\linewidth]{clus_count.pdf} 
+%\includegraphics[width=\linewidth]{clus_count.pdf} 
 \end{subfigure}
 \captionsetup{width=0.9\textwidth}
 \caption{Draft Comments: As res\_val decreases, node coverage increases although the number of N$>$10 clusters first goes up then falls. Thus cluster size must be increasing. See Table 1 Maybe this should first be done with CEN clusters?
@@ -212,16 +237,16 @@ leiden 0.001 & non\_tree &  12 & 112 & 16481 \\
 % Fri Jan 13 18:03:02 2023
 \begin{table}[ht]
 \centering
-\begin{tabular}{rrrrrr}
+\begin{tabular}{lrrrrrr}
   \hline
- res\_value & clus\_count & node\_cov & min & med & max \\ 
+ clustering & res\_value & clus\_count & node\_cov & min & med & max \\ 
   \hline
-0.5 & 297038 & 5.98 &  11 & 13.00 & 183 \\ 
-0.1 & 1313856 & 43.78 &  11 & 17.00 & 882 \\ 
-0.01 & 1361168 & 88.93 &  11 & 19.00 & 3530 \\ 
-0.01 & 232288 & 90.56 &  11 & 64.00 & 23470 \\ 
-0.0005 & 133147 & 90.97 &  11 & 90.00 & 39049 \\  
-0.0001 & 39069 & 91.81 &  11 & 177.00 & 176557 \\ 
+Leiden & 0.5 & 297038 & 5.98 &  11 & 13.00 & 183 \\ 
+Leiden & 0.1 & 1313856 & 43.78 &  11 & 17.00 & 882 \\ 
+Leiden & 0.01 & 1361168 & 88.93 &  11 & 19.00 & 3530 \\ 
+Leiden & 0.01 & 232288 & 90.56 &  11 & 64.00 & 23470 \\ 
+Leiden & 0.0005 & 133147 & 90.97 &  11 & 90.00 & 39049 \\  
+Leiden & 0.0001 & 39069 & 91.81 &  11 & 177.00 & 176557 \\ 
    \hline
 \end{tabular}
 \caption{Clustering the Open Citations Network. The open citations network (Materials and Methods) consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered with the Leiden algorithm, using the Constant Potts Model (CPM) as quality function, and using various resolution values (column 1). Node coverage is expressed as the the percent of nodes in these clusters of size $>$ 10 relative to the total number of nodes in the network. Minimum, median, and max cluster sizes are shown in the last three columns.  }
