@@ -158,6 +158,46 @@ In addition, four more real world networks from the Stanford Network Analysis Pr
 \paragraph{LFR (random) networks}
 As a comparison group, synthetic networks were generated using the LFR `benchmark' methodology \citep{Lancichinetti2008}. [Ask Yasamin to write this section up].
 
+To do (for Yasamin):
+
+\begin{itemize}
+\item For each of  the CEN and the Open Citations networks, produce one LFR network  that has a mixing parameter and other
+parameters set so as to produce something that resembles the given Leiden clustering of the given real-world network. (However, keep the LFR network
+on the moderate size, so at most 1,000,000 vertices.) This requires that George specify the Leiden clustering for these two networks.
+\item 
+For each LFR network: 
+\begin{itemize}
+\item Report empirical statistics of the network
+\item Report empirical statistics of the true clustering 
+\item 
+Recluster using Leiden (same resolution value) and then run CM.
+Record all the usual statistics
+\item Run CM on the true clustering.
+Report all the usual statistics
+\end{itemize}
+\end{itemize}
+
+\noindent
+The usual statistics are things like:
+\begin{itemize}
+\item Statistics before running the CM pipeline, including distribution of cluster sizes, node and edge coverage 
+\item Statistics at each stage of the CM pipeline (percentage of clusters that are deleted due to being trees,
+then due to being too small, then the percentage of remaining clusters  that have small edge cuts).
+Also show total node and edge coverage at the end of each stage of the CM pipeline. 
+\end{itemize}
+
+\section{Experimental study}
+We plan five experiments:
+
+\begin{itemize}
+\item Experiment 1: Analyses  for the CEN using Leiden+CM
+\item Experiment 2: Analyses of Open Citations using Leiden+CM
+\item Experiment 3: Analyses of LFR using Leiden+CM
+\item Experiment 4: Analyses of SNAP benchmarks using Leiden+CM
+\item Experiment 5: Focused analysis of convergence of Leiden+CM clusters in CEN, looking at IKC as well
+\end{itemize}
+
+
 \section{Results and Discussion}
 
 \emph{Overview editorial for consideration by authors. We need to agree on a vision to integrate the Leiden and IKC results into an overarching hypothesis-driven framework. What is it that we're looking for or trying to say? To me, the answer is in an improved understanding of how the the properties of networks affect clustering and the converse- how clustering methods influence interpretation of the networks that are fed to them. Are we asking too much of ourselves? Should the IKC effort be in its own paper? My sense is that IKC is a valuable comparison method because of the way in which it is so different from Leiden and perhaps less valuable because it's so different from Leiden.}
