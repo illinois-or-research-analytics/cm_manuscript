@@ -114,23 +114,96 @@ We expect this to be a large fraction for small clusters but it may continue int
 Will be good to note.
 \item Look at how much of the network is in the *union* of the output (post-pipeline) clusterings, across the Leiden resolution parameter values.
 \item Compute the overlap between clusterings both pre-pipeline and post-pipeline
-\item  Evaluate accuracy of Leiden clusterings on LFR networks 
+\item  Maybe? Evaluate accuracy of Leiden clusterings on LFR networks 
 \end{itemize}
 }
 
 \section{Materials and Methods}
 
 \subsection{Methods} 
-\emph{Pipeline Design} A modular pipeline was developed that (i) generated a clustering from an input network (ii) filtered the resultant clusters to remove small clusters and trees (the case where the sum of internal edges in a cluster is one less than the number of nodes in the same cluster) (iii) applied \emph{Connectivity Modifier} (CM), a recursive minimum cut to each filtered cluster to ensure well-connectedness.
+\emph{Pipeline Design} A modular pipeline was developed that (i) generated a clustering from an input network using one of three methods,  (ii) filtered the resultant clusters to remove small clusters and trees,  (iii) applied \emph{Connectivity Modifier} (CM), a recursive  method that modifies the clustering to ensure that all output clusters are well-connected, and (iv) remove all clusters below size $B$ (where $B=11$ by default).
+
+The three clustering methods we enabled are Leiden for CPM with resolution parameter $r$, Leiden for modularity optimization, and Iterative k-core (with parameter $k$ set by default to $10$).
+For  a cluster $C$ to be considered``well-connected", we require that the size of the minimum edge cut for $C$ be greater than $\log_{10}(||C||)$ (where $||C||$ denotes the number of vertices in $C$), but this
+is a parameter that can be modified by the user.  
+These steps are described below in greater detail. 
 
 \vspace{5 mm}
 \textbf{[Insert flow chart of workflow/pipeline]}
 
 \subsubsection{Clustering} We used either the Python implementation of the Leiden algorithm [add Github reference] or the Iterative K-core Clustering (IKC) algorithm [add Github reference].
 
-\subsubsection{Filters} Three different approaches were used to filter out trees and restrictt output clusterings by size. All three returned the same output on test cases. (i) Belinda, a Python package [insert Github reference to https://github.com/illinois-or-research-analytics/belinda] for clustering analysis (ii) a Python script that uses the Networkit library \citep{Staudt2016} to compute edge and node counts for each cluster, and (iii) an R script that computed edge and node counts for clusters (see Supplementary Materials). 
+\subsubsection{Filters} Three different approaches were used to take as input a clustering and a minimum size requirement $B$, and then filter out trees and any cluster of size less than $B$:  (i) Belinda, a Python package [insert Github reference to https://github.com/illinois-or-research-analytics/belinda] for clustering analysis, (ii) a Python script that uses the Networkit library \citep{Staudt2016} to compute edge and node counts for each cluster, and (iii) an R script that computed edge and node counts for clusters (see Supplementary Materials). 
+All three returned the same output on test cases. 
 
-\subsubsection{Connectivity Modifier} To recursively compute and apply minimum cuts to individual clusters, we used [insert Github reference to Connectivity Modifier], which uses Viecut \citep{Henzinger2018,Henzinger2019} as a dependency, and takes, as input a clustering from either the Leiden algorithm or IKC, and returns a set of clusters. We filtered the input clustering as above before passing it as input to Connectivity Modifier. [insert references https://pypi.org/project/connectivity-modifier/].
+\subsubsection{Connectivity Modifier} To recursively compute and apply minimum cuts to individual clusters, we used the Connectivity Modifier (CM) code at [insert Github reference to Connectivity Modifier], which uses Viecut \citep{Henzinger2018,Henzinger2019} as a dependency, and takes as input a clustering from either the Leiden algorithm or IKC, and returns a set of clusters that is guaranteed to be
+well-connected. 
+We filtered the input clustering as above before passing it as input to Connectivity Modifier. [insert references https://pypi.org/project/connectivity-modifier/].
+
+Here we describe the CM code when passed an input  Leiden clustering $\mathcal{C}$  with resolution parameter $r$; modifying this description to work with 
+Leiden for modularity or IKC is then straightforward.
+CM used with Leiden and parameter $r$ has the following structure.
+
+
+First, the set $Bin$ is initialized to the empty set  ($\emptyset$).
+CM  then orders the clusters in the input clustering into a queue,  marks them as ``clustered", and processes each cluster in the queue in turn.
+Given a cluster $C$ in the queue, if it is marked as ``clustered" then CM uses VieCut to find a small cut in $C$;  if the cut is at most $\log_{10}(||C||)$ (where $||C||$ denotes the number of 
+vertices in the cluster), then it removes the cut from the network, splitting the cluster $C$ into two  subsets $A$ and $B$.
+Both $A$ and $B$ are then added into  queue for subsequent processing, and marked as ``new". 
+If the cut size for $C$ was above $\log_{10}(||C||)$, then $C$ is added to $Bin$.
+Given a cluster $C$ in the queue that is marked as ``new", it uses Leiden with resolution parameter $r$ on the cluster, thus reclustering $C$
+and potentially breaking it up into many subsets; each of these subsets is then added to the queue and marked as ``clustered".
+When the queue is empty, the clusters in $Bin$ are returned as the output.
+
+Note that the structure of the CM algorithm ensures that every cluster $C$ in the output is well-connected, since it is 
+placed in $Bin$ only if the cut found by VieCut is above $\log_{10}(||C||)$.
+However, the CM code as described does not enforce a size constraint.
+
+\textcolor{blue}{For Minhyuk: provide latex for pseudo-code that we can put in the supplement. Make sure it reflects how the algorithm is implemented. On the other hand, and very importantly, the README for the github site says the CM code is a DFS, so this uses a stack and not a queue.  If this is in fact how the algorithm is implemented, then what I wrote is wrong. This needs clarification.}
+
+\subsection{The CM pipeline}
+The entire CM pipeline operates in three stages, taking as input (a) the
+network $N$,  (b) a clustering method (either Leiden for CPM, Leiden for modularity, or Iterative k-core) with the required
+parameter values (e.g., resolution value for Leiden with CPM and value for $k$ for IKC),
+(c)  the initial clustering $\mathcal{C}$ of $N$ using the selected clustering method, 
+(d) the required minimum size $B$ for the output clusters (default $B=11$)
+and (e) the bound on the minimum cut size as a function of the number of vertices in the cluster $C$
+(default $\log_{10}(||C||))$).
+
+\begin{itemize}
+\item Stage 1: We perform the filtering, which removes all clusters that are trees or that are below size $B$ from $\mathcal{C}$
+\item Stage 2: We run CM on the remaining clusters, returning a set of clusters that are all well-connected
+\item Stage 3: We remove all clusters that are below size $B$ or that are trees
+\end{itemize}
+
+
+
+
+%\begin{itemize} %(2)
+%\item $Bin = \mathcal{C}$
+%\item While $Bin \neq \emptyset, DO$
+%\begin{itemize}  %(3)
+%\item 
+%For $C \in Bin$ DO
+%\begin{itemize}
+%\item If VieCut finds a cut $E$ for cluster $C$ of size at most $\log_{10}(||C||)$, then
+%\begin{itemize} %(4)
+%\item 
+%(a)  delete $E$ from the network, thus splitting the cluster $C$ into two components $A$ and $B$, 
+%(b)  Add $A$ and $B$ to $Bin'$, and (c) Delete $C$ from $Bin$
+%\end{itemize} %4
+%\end{itemize} %3
+%\item 
+%If $Bin' \neq \emptyset$ then for each cluster $C \in Bin'$:
+%\begin{itemize} %5
+%\item Remove $C$ from $Bin'$
+%\item Apply Leiden with parameter $r$ to recluster  $C \in Bin'$, and add the resulting 
+%clusters to $Bin'$
+%\end{itemize} %5
+%\end{itemize} %2
+%\end{itemize}
+
+
 
 \subsection{Data} Several networks were used for testing and analysis and were selected to provide a range of sizes and edge density. In all cases, below the counts of nodes and edges are reported after removing duplicate records, 
 self-citations, and parallel edges from the source data. 
@@ -158,19 +231,21 @@ In addition, four more real world networks from the Stanford Network Analysis Pr
 \paragraph{LFR (random) networks}
 As a comparison group, synthetic networks were generated using the LFR `benchmark' methodology \citep{Lancichinetti2008}. [Ask Yasamin to write this section up].
 
-To do (for Yasamin):
+\textcolor{blue}{
+To do (for Yasamin):}
 
 \begin{itemize}
-\item For each of  the CEN and the Open Citations networks, produce one LFR network  that has a mixing parameter and other
+\item For  the CEN and  for the Open Citations networks, produce one LFR network  that has a mixing parameter and other
 parameters set so as to produce something that resembles the given Leiden clustering of the given real-world network. (However, keep the LFR network
-on the moderate size, so at most 1,000,000 vertices.) This requires that George specify the Leiden clustering for these two networks.
+on the moderate size, so at most 3,000,000 vertices.) 
+\textcolor{blue}{This requires that George specify the Leiden clustering for these two networks.}
 \item 
 For each LFR network: 
 \begin{itemize}
 \item Report empirical statistics of the network
 \item Report empirical statistics of the true clustering 
 \item 
-Recluster using Leiden (same resolution value) and then run CM.
+Recluster using Leiden (same resolution value) and then run the CM pipeline.
 Record all the usual statistics
 \item Run CM on the true clustering.
 Report all the usual statistics
@@ -182,8 +257,13 @@ The usual statistics are things like:
 \begin{itemize}
 \item Statistics before running the CM pipeline, including distribution of cluster sizes, node and edge coverage 
 \item Statistics at each stage of the CM pipeline (percentage of clusters that are deleted due to being trees,
-then due to being too small, then the percentage of remaining clusters  that have small edge cuts).
+then deleted due to being too small, then the percentage of remaining clusters  that have small edge cuts).
+But at the end of the pipeline we also remove small clusters.  
 Also show total node and edge coverage at the end of each stage of the CM pipeline. 
+\item 
+In essence we want to know which clusters in the input survive the entire process, which ones are modified. 
+We'll want their sizes as well, so we can say things like ``20\% of the input clusters above size 100 have small edge cuts" and
+``10\% of the input clusters above size 50 are trees".
 \end{itemize}
 
 \section{Experimental study}
