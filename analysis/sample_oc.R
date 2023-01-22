@@ -27,17 +27,13 @@ rm(list=ls())
 
 args = commandArgs(trailingOnly=TRUE)
 
-if (length(args)==0) {
-  stop("At least one argument must be supplied (input file).n", call.=FALSE)
-} else if (length(args)==2) {
-  # default output file
-  args[3] = "default.tsv"
-}
+if (length(args)< 2) {
+  stop("At least two arguments must be supplied (input file).n", call.=FALSE)
+} 
 
 print(getwd())
 print(args[1])
 print(args[2])
-print(args[3])
 
 x <- fread(args[2])
 
@@ -49,14 +45,14 @@ set.seed(12345)
 
 # construct quantiles
 q3 <- quantile(x$node_count,probs=0.75)
-print(paste("Q3= ",q3)
+print(paste("Q3= ",q3))
 
-s1 <- x[node_count >= q3][,sample(cluster_id,ceiling(2*length(x$cluster_id)/100))]
-s2 <- x[node_count < q3][,sample(cluster_id,ceiling(4*length(x$cluster_id)/100))]
+s1 <- x[node_count >= q3][,sample(cluster_id,ceiling(1*(dim(x)[1])/100))]
+s2 <- x[node_count  < q3][,sample(cluster_id,ceiling(3*(dim(x)[1])/100))]
 print(length(s1))
 print(length(s2))
 sample <- union(s1,s2)
-print(paste("Sample Size Is ", length(sample))
+print(paste("Sample Size Is ", length(sample)))
 
 print("***")
 print(length(sample))
