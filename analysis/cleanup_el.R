@@ -1,8 +1,8 @@
 # script to remove duplicate rows, parallel edges, and self-loops from
 # an edge list that is read in using fread into a dataframe
 # usage Rscript cleanup_el.R <input filename> <optional_outputfilename>
-# output defaults to default.csv
-# Input format should be two columns csv, tscv, or whitespace separated
+# output defaults to default.tsv
+# Input format should be two columns csv, tsv, or whitespace separated
 # George Chacko 12/20/2022
 
 rm(list=ls())
@@ -13,7 +13,7 @@ if (length(args)==0) {
   stop("At least one argument must be supplied (input file).n", call.=FALSE)
 } else if (length(args)==1) {
   # default output file
-  args[2] = "default.csv"
+  args[2] = "default.tsv"
 }
 
 df <- fread(args[1])

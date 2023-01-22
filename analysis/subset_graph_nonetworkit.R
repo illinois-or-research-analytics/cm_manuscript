@@ -28,7 +28,7 @@ sized_clusters <- c[V2 %in% c_10$V2]
 # clusters in sized_clusters
 g1 <- g[(V1 %in% sized_clusters$V1) & (V2 %in% sized_clusters$V1)]
 
-# add cluster infor to each node in g1
+# add cluster info to each node in g1
 temp <- merge(g1,sized_clusters,by.x='V1',by.y='V1')
 colnames(temp) <- c('V1','V2','V1_clus')
 
@@ -50,7 +50,7 @@ temp[node_count!=edge_count+1,type:='non_tree']
 temp[node_count==edge_count+1,type:='tree']
 
 #write to tsv
-write.table(temp,file=paste0(args[3],'_treecounts.tsv'),sep='\t',row.names=F)
+write.table(temp,file=paste0(args[3],'_treestarcounts.tsv'),sep='\t',row.names=F)
 # write trimmed graph
 write_feather(trimmed_g,paste0(args[3],'_g.feather'))
 # write trimmed clustering

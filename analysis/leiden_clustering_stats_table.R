@@ -16,6 +16,35 @@ for(i in 1:length(fl)) {
 names(file_list) <- fl
 
 
-
 xtable(rbindlist(lapply(file_list,FUN=function(x) x[,.(clus_count=length(node_count),node_cov=round(100*sum(node_count)/nc_denom,2),min=min(node_count),med=median(node_count),max=max(node_count))])))
 
+my_colors1 <- RColorBrewer::brewer.pal(4, "Dark2")[1]
+my_colors2 <- RColorBrewer::brewer.pal(4, "Dark2")[2]
+
+res_val <- c('r0.0001', 'r0.0005', 'r0.001', 'r.01', 'r0.1','r0.5')
+x <- cbind(res_val,rbindlist(lapply(file_list,FUN=function(x) x[,.(clus_count=length(node_count),node_cov=round(100*sum(node_count)/nc_denom,2))]
+		)
+	)
+)
+x$res_val <- factor(x$res_val,levels=c(c('r0.5', 'r0.1', 'r.01', 'r0.001', 'r0.0005', 'r0.0001' )))
+
+
+p1 <- ggplot(data=x,aes(x=res_val,y=clus_count,group=1)) + geom_point(aes(color="black",size=1)) + geom_line() +
+scale_colour_manual(values=my_colors1)  + theme_bw() + ylab("clus_count") + theme(legend.position="none")
+p1 <- p1 + theme(text = element_text(size = 20))
+
+pdf('clus_count.pdf')
+print(p1)
+dev.off()
+
+p2 <- ggplot(data=x,aes(x=res_val,y=node_cov, group=1)) + geom_point(aes(color="black",size=1)) + geom_line() +
+scale_colour_manual(values=my_colors2)  + theme_bw() + ylab("node_cov_pct") + theme(legend.position="none")
+p2 <- p2 + theme(text = element_text(size = 20))
+
+
+pdf('node_cov.pdf')
+print(p2)
+dev.off()
+
+system('cp ~/Desktop/SNAP/node_cov.pdf ~/repos/cm_manuscript/latex')
+system('cp ~/Desktop/SNAP/clus_count.pdf ~/repos/cm_manuscript/latex')

@@ -51,8 +51,8 @@ set.seed(12345)
 q3 <- quantile(x$node_count,probs=0.75)
 print(paste("Q3= ",q3)
 
-s1 <- x[node_count >= q3][,sample(cluster_id,ceiling(1*length(cluster_id)/100))]
-s2 <- x[node_count < q3][,sample(cluster_id,ceiling(3*length(cluster_id)/100))]
+s1 <- x[node_count >= q3][,sample(cluster_id,ceiling(2*length(cluster_id)/100))]
+s2 <- x[node_count < q3][,sample(cluster_id,ceiling(4*length(cluster_id)/100))]
 print(length(s1))
 print(length(s2))
 sample <- union(s1,s2)
