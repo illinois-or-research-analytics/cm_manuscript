@@ -133,8 +133,7 @@ These steps are described below in greater detail.
 
 \subsubsection{Clustering} We used either the Python implementation of the Leiden algorithm [add Github reference] or the Iterative K-core Clustering (IKC) algorithm [add Github reference].
 
-\subsubsection{Filters} Three different approaches were used to take as input a clustering and a minimum size requirement $B$, and then filter out trees and any cluster of size less than $B$:  (i) Belinda, a Python package [insert Github reference to https://github.com/illinois-or-research-analytics/belinda] for clustering analysis, (ii) a Python script that uses the Networkit library \citep{Staudt2016} to compute edge and node counts for each cluster, and (iii) an R script that computed edge and node counts for clusters (see Supplementary Materials). 
-All three returned the same output on test cases. 
+\subsubsection{Filters} Clusters were filtered to remove trees and any cluster of size $<=$10 using any of a custom R script, a Python script using the Networkit library \citep{Staudt2016}, or Belinda, a Python package [insert Github reference to https://github.com/illinois-or-research-analytics/belinda] for clustering analysis.
 
 \subsubsection{Connectivity Modifier} To recursively compute and apply minimum cuts to individual clusters, we used the Connectivity Modifier (CM) code at [insert Github reference to Connectivity Modifier], which uses Viecut \citep{Henzinger2018,Henzinger2019} as a dependency, and takes as input a clustering from either the Leiden algorithm or IKC, and returns a set of clusters that is guaranteed to be
 well-connected. 
