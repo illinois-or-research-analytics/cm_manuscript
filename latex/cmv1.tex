@@ -133,8 +133,7 @@ These steps are described below in greater detail.
 
 \subsubsection{Clustering} We used either the Python implementation of the Leiden algorithm [add Github reference] or the Iterative K-core Clustering (IKC) algorithm [add Github reference].
 
-\subsubsection{Filters} Three different approaches were used to take as input a clustering and a minimum size requirement $B$, and then filter out trees and any cluster of size less than $B$:  (i) Belinda, a Python package [insert Github reference to https://github.com/illinois-or-research-analytics/belinda] for clustering analysis, (ii) a Python script that uses the Networkit library \citep{Staudt2016} to compute edge and node counts for each cluster, and (iii) an R script that computed edge and node counts for clusters (see Supplementary Materials). 
-All three returned the same output on test cases. 
+\subsubsection{Filters} Clusters were filtered to remove trees and any cluster of size $<=$10 using any of a custom R script, a Python script using the Networkit library \citep{Staudt2016}, or Belinda, a Python package [insert Github reference to https://github.com/illinois-or-research-analytics/belinda] for clustering analysis.
 
 \subsubsection{Connectivity Modifier} To recursively compute and apply minimum cuts to individual clusters, we used the Connectivity Modifier (CM) code at [insert Github reference to Connectivity Modifier], which uses Viecut \citep{Henzinger2018,Henzinger2019} as a dependency, and takes as input a clustering from either the Leiden algorithm or IKC, and returns a set of clusters that is guaranteed to be
 well-connected. 
@@ -215,6 +214,58 @@ The CEN is centered around the exosome research literature. and it consists of 1
 \paragraph{Open Citations}
 A custom-implemented ETL process was designed to process the publicly available OpenCitations dataset \citep{Peroni2020} and load it into a PostgreSQL table. Citation data (CSV) was downloaded in Aug 2022. A custom ETL script, written in Bash and SQL, was used to find and pipe uncompressed CSV files, in 20 parallel jobs using the GNU Parallel command-line utility, to a custom function which loaded individual CSV files into a staging view. DOIs were also checked for case differences to remove duplicates.  The resultant network contained 75,025,194 nodes and 1,363,605,603 edges.  
 The Open Citations dataset was large enough that evaluating every cluster was not feasible. Thus, samples were used for analysis by connectivity modifier. Briefly, non-tree samples of size at least 11 were divided into deciles based on cluster sizes and 5\% of each decile was randomly sampled. Where decile values were similar, multiple samples were taken. For example, when the Open Citations data was clustered with the Leiden algorithm at resolution value of 0.5, the first, second, and third deciles were equal to 11. Thus three 5\% samples were taken from the class $x=11$ with replacement and de-duplicated after collection. 
+
+% latex table generated in R 4.1.3 by xtable 1.8-4 package
+% Sun Jan 22 19:56:56 2023
+\begin{table}[ht]
+\centering
+\resizebox{.5\textwidth}{!}{
+\begin{tabular}{rrrrrll}
+  \hline
+ & clus\_count & min & med & max & type & gp \\ 
+  \hline
+1 & 20648920 &   2 &   2 &  10 & size 2-10 & leiden.5 \\ 
+  2 & 297038 &  11 &  13 & 183 & size $>$10 & leiden.5 \\ 
+  3 & 297038 &  11 &  13 & 183 & non\_tree & leiden.5 \\ 
+  4 & 10349 &  11 &  13 &  85 & pre-cm & leiden.5 \\ 
+  5 & 10349 &  11 &  13 &  85 & post-cm & leiden.5 \\ 
+  \hline
+  6 & 7324830 &   2 &   5 &  10 & size 2-10 & leiden.1 \\ 
+  7 & 1313856 &  11 &  17 & 882 & size $>$10 & leiden.1 \\ 
+  8 & 1299838 &  11 &  17 & 882 & non\_tree & leiden.1 \\ 
+  9 & 14016 &  11 &  11 &  11 & star & leiden.1 \\ 
+  10 &   2 &  11 &  11 &  11 & tree & leiden.1 \\ 
+  11 & 45252 &  11 &  15 & 306 & pre-cm & leiden.1 \\ 
+  12 & 39954 &  11 &  16 & 306 & post-cm & leiden.1 \\ 
+  \hline
+  13 & 772769 &   2 &   2 &  10 &  size 2-10 & leiden.01 \\ 
+  14 & 1361168 &  11 &  19 & 3530 & size $>$10 & leiden.01 \\ 
+  15 & 1034558 &  11 &  24 & 3530 & non\_tree & leiden.01 \\ 
+  16 & 8669 &  11 &  18 & 101 & star & leiden.01 \\ 
+  17 & 317941 &  11 &  15 &  58 & tree & leiden.01 \\ 
+  18 & 36171 &  11 &  21 & 1561 & pre-cm & leiden.01 \\ 
+  19 & 29793 &  11 &  16 & 1561 & post-cm & leiden.01 \\ 
+  \hline
+  20 & 606966 &   2 &   2 &  10 & size 2-10 & leiden.001 \\ 
+  21 & 232288 &  11 &  64 & 23470 & size $>$10  & leiden.001 \\ 
+  22 & 208543 &  11 &  73 & 23470 & non\_tree & leiden.001 \\ 
+  23 & 1476 &  11 &  15 & 1001 & star & leiden.001 \\ 
+  24 & 22269 &  11 &  43 & 500 & tree & leiden.001 \\ 
+  25 & 7299 &  11 &  63 & 12707 & pre-cm & leiden.001 \\ 
+  26 & 11766 &  11 &  43 & 12707 & post-cm & leiden.001 \\ 
+  \hline
+  27 & 522696 &   2 &   2 &  10 & size 2-10 & leiden.0001 \\ 
+  28 & 39069 &  11 & 177 & 176557 & size $>$10 & leiden.0001 \\ 
+  29 & 34031 &  11 & 206 & 176557 & non\_tree & leiden.0001 \\ 
+  30 & 3525 &  11 &  14 & 267 & tree & leiden.0001 \\ 
+  31 & 1513 &  11 &  14 & 251 & star & leiden.0001 \\ 
+  32 & 1192 &  11 & 172 & 53195 & pre-cm & leiden.0001 \\ 
+  33 & 1971 &  11 & 118 & 51053 & post-cm & leiden.0001 \\ 
+   \hline
+\end{tabular}}
+\caption{test- data being revised to use larger samples}
+\end{table}
+
 
 \paragraph{SNAP benchmarks}
 In addition, four more real world networks from the Stanford Network Analysis Project (SNAP) collection \citep{leskovec2016snap} were downloaded in Dec 2022:
