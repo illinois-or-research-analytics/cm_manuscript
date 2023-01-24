@@ -1,3 +1,8 @@
+rm(list=ls())
+setwd('/data2/oc_sampling')
+library(data.table)
+
+# define function to process Leiden clusterings
 oc_analysis <- function(label) {
 	x_vec <- Sys.glob(paste0('*',label,'*'))
 	x_vec <- sort(x_vec)
@@ -14,7 +19,7 @@ oc_analysis <- function(label) {
 	x_size_filtered <-  x_orig[,.N,by='V2'][N > 10][,length(N)]
 	x_size_filtered_dist <-  x_orig[,.N,by='V2'][N > 10][,.(length(N),min(N),as.integer(round(median(N))),max(N))]
 # Annotate for trees
-	x_annotated <- fread(x_vec[3])
+	x_annotated <- fread(x_vec[4])
 	x_annotated_dist <- x_annotated[,.(length(node_count),min(node_count),as.integer(round(median(node_count))),max(node_count)),by=type]
 	x_annotated_dist <- x_annotated_dist[,.(V1, V2, V3, V4, type)]
 # Sample
@@ -22,7 +27,7 @@ oc_analysis <- function(label) {
 	x_sample_dist <- x_sample[,.N,by='V2'][,.(length(N),min(N),as.integer(round(median(N))),max(N))]
 	# print(x_sample_dist)
 # Post CM	
-	x_post_cm <- fread(x_vec[4])
+	x_post_cm <- fread(x_vec[7])
 	x_post_cm_dist <- x_post_cm[,.N,by='V2'][N > 10][,.(length(N),min(N),as.integer(round(median(N))),max(N))]
 # stack 
 	stack <- rbind(x_2_10_dist,x_size_filtered_dist,x_annotated_dist,x_sample_dist,x_post_cm_dist,fill=TRUE)
@@ -38,4 +43,5 @@ for (i in 1:length(leiden_vec)) {
 	df[,gp:=leiden_vec[i]]
 	oc_df <- rbind(oc_df,df)
 }
-oc_df[is.na(type),type:='-']
+ oc_df[is.na(type),type:='-']
+print(oc_df)
