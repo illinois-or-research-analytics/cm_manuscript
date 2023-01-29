@@ -68,5 +68,7 @@ union_node_coverage <- round(100*(uni/nc),2)
 print(paste("Node_Coverage as Intersection across clusterings of nodes in clusters of size > 10 relative to the total number of nodes in the cleaned network ", intersection_node_coverage))
 print(paste("Node_Coverage as Union across clusterings of nodes in clusters of size > 10 relative to the total number of\
  nodes in the cleaned network", union_node_coverage))
+print(paste("Total nodes ", nc))
+print(paste("Total edges ", ec))
 
 
