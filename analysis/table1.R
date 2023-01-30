@@ -38,7 +38,7 @@ df <- data.frame(df)
 df <- cbind(col1,df)
 colnames(df) <- c('clustering','n=1','n>1','n>10','min','med','max','node_cov')
 print(df)
-fwrite(df,file='/data1/chackoge/repos/cm_manuscript/latex/table1.csv')
+fwrite(df,file='/data1/chackoge/repos/cm_manuscript/analysis/table1.csv')
 print(xtable(df))
 
 
