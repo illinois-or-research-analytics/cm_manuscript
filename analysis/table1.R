@@ -1,13 +1,21 @@
 # On odesa
+# Should be run as "Rscript table1.R"
+# from /data1/snap_leiden_venv/cen
 
 table1_fun <- function(network,clustering,directory) {
 setwd(directory)
 library(data.table)
 library(xtable)
 
-parent <- fread(network) 
-nc_denom <- length(union(parent$V1,parent$V2))
+parent_network <- fread(network)
+real_nodes <- union(parent_network$V1,parent_network$V2)
+
+nc_denom <- length(union(parent_network$V1,parent_network$V2))
+
 x <- fread(clustering)
+# removes dummy nodes inserted by Leiden
+x <- x[V1 %in% real_nodes]
+
 x_singleton_count <- x[,.N,by='V2'][N==1][,length(N)]
 x_non_singleton_count <- x[,.N,by='V2'][N>1][,length(N)]
 x_11_plus <- x[,.N,by='V2'][N>10]
