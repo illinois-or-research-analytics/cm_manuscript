@@ -165,7 +165,7 @@ The CEN is a citation network focused on the exosome research literature consist
 \paragraph{Open Citations}
 A custom-implemented ETL process was designed to process the publicly available OpenCitations dataset \citep{Peroni2020} and load it into a PostgreSQL table. Citation data was downloaded in Aug 2022. A custom ETL script, written in Bash and SQL, was used to find and pipe uncompressed CSV files, in 20 parallel jobs using the GNU Parallel command-line utility, to a custom function which loaded individual CSV files into a staging view. DOIs were also checked for case differences to remove duplicates.  The resultant network contained 75,025,194 nodes and 1,363,605,603 edges.  [INSERT SECTION ON non-sample based analysis].
 
-\paragraph{SNAP Networks}The following networks were downloaded from the Stanford Network Analysis Project (SNAP) website: (i) cit\_patents \citep{Leskovec2005}, a citation network among US patents (ii) orkut \citep{Yang2013}, the Orkut online social network (iii) cit\_hepph \citep{Leskovec2005}, the Arxiv High Energy Physics paper citation network  (iv) wiki\_talk \citep{Leskovec2010}, a network containing users and discussion from the inception of Wikipedia till January 2008 (v) wiki\_topcats \citep{Yin2017}, a web graph of Wikimedia hyperlinks Each network was processed to remove duplicate edges, parallel edges, and self-loops, the numbers of nodes and edges reported below reflect this processing. 
+\paragraph{SNAP Networks}The following networks were downloaded from the Stanford Network Analysis Project (SNAP) website: (i) cit\_patents \citep{Leskovec2005}, a citation network among US patents (ii) orkut \citep{Yang2013}, data from the Orkut online social network (iii) cit\_hepph \citep{Leskovec2005}, the Arxiv High Energy Physics paper citation network  (iv) wiki\_talk \citep{Leskovec2010}, a network containing users and discussion from the inception of Wikipedia till January 2008 (v) wiki\_topcats \citep{Yin2017}, a web graph of Wikimedia hyperlinks Each network was processed to remove duplicate edges, parallel edges, and self-loops, the numbers of nodes and edges reported below reflect this processing. 
 
 \begin{table}[ht]
 \centering
@@ -180,6 +180,7 @@ A custom-implemented ETL process was designed to process the publicly available 
   5 & wiki\_topcats & 25,444,207 & 1,791,489 & 28.41 \\ 
    \hline
 \end{tabular}
+% Counts manually verified on Jan 31. 2023 by gc
 \caption{Network statistics for cleaned versions of 5 networks downloaded from SNAP and used as benchmarks}
 \end{table}
 
@@ -254,8 +255,7 @@ Predictably, node coverage increased as resolution values was decreased. Of inte
 \caption{The Curated Exosome Network (CEN) consists of 13,989,436 nodes and 92,051,051 edges. The average degree of its nodes is 13.16. The CEN was clustered at four resolution values (0.5, 0.1, 0.01, 0.001) using the Leiden algorithm with Constant Potts Model as quality function. The figure shows the count of edges in each cluster of size $>$  10 plotted against the count of nodes in each cluster (cluster size). As resolution value decreases, node coverage (the fraction of nodes that are found in clusters of size $>$  10) increases. The number of such clusters does not, however, monotonically increase (Table 1). As the resolution value decreases, tree clusters (dark blue) are detected, with tree size inversely related to resolution value. However, the number of trees decreases as the resolution factor is decreased with the exception of clustering at 0.5 for which no trees are detected. (Table 2).}
 \end{figure}
 
-To follow up, on the presence of sparse clusters in the form of trees is
-Resultant clusters were filtered to exclude clusters of size $<=$ 10, after which the number of clusters that were \emph{trees} (the case where \emph{n}, the number of nodes in a cluster, is greater by one than \emph{m}, the number of intra-cluster edges) were counted. Trees were then filtered, after which the remaining clusters were processed with connectivity modifier (CM) using log10(n) as threshold, then filtered again to remove small clusters (Table 2).
+To follow up on the presence of sparse clusters in the form of trees, Leiden clusters were filtered to exclude clusters of size $<=$ 10, after which the number of clusters that were \emph{trees} (the case where \emph{n}, the number of nodes in a cluster, is greater by one than \emph{m}, the number of intra-cluster edges) were counted. Trees were then filtered, after which the remaining clusters were processed with connectivity modifier (CM) using log10(n) as threshold, then filtered again to remove small clusters (Table 2).
 
 % latex table generated in R 4.1.3 by xtable 1.8-4 package
 % Sun Jan 29 23:08:57 2023
