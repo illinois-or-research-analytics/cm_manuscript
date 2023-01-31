@@ -102,10 +102,6 @@ We find that for both Leiden and IKC, the pipeline results in reduced node cover
 \subsection{Methods} 
 \emph{Pipeline Design} A modular pipeline was developed that (i) generated a clustering from an input network, (ii) filtered the resultant clusters to remove small clusters below size $B$ (where $B=11$ by default), and any trees, (iii) applied \emph{Connectivity Modifier} (CM), a recursive  method that modifies the clustering to ensure that all output clusters are well-connected, and (iv) remove any resultant small clusters.
 
-The three clustering methods we enabled are (i) Leiden algorithm optimizing its default quality function, the Constant Potts Model (CPM) (ii) IKC, and (iii) Leiden optimizing modularity. In this study, we report data only from the first two. We used the Python implementation of the Leiden algorithm [add Github reference]. 
-
-For  a cluster $C$ to be considered``well-connected", we require that the size of the minimum edge cut for $C$ be greater than $\log_{10}(||C||)$ (where $||C||$ denotes the number of vertices in $C$), but this is a parameter that can be modified by the user.  In this study, we set the minimum cluster size to be 11. 
-
 \vspace{2 mm}
 
 \begin{figure}[H]
@@ -114,9 +110,12 @@ For  a cluster $C$ to be considered``well-connected", we require that the size o
 \caption{Pipeline Schematic.}
 \end{figure}
 
+The three clustering methods we enabled are (i) Leiden algorithm optimizing its default quality function, the Constant Potts Model (CPM) (ii) IKC, and (iii) Leiden optimizing modularity. In this study, we report data only from the first two. 
+For  a cluster $C$ to be considered``well-connected", we require that the size of the minimum edge cut for $C$ be greater than $\log_{10}(||C||)$ (where $||C||$ denotes the number of vertices in $C$), but this is a parameter that can be modified by the user.  In this study, we also set the minimum cluster size to be 11. 
 
 
-\subsubsection{Filters} Clusters were filtered to remove trees and any cluster of size $<=$10 using any of a custom R script, sequential or parallelized Python scripts using the Networkit library \citep{Staudt2016}, or Belinda, a Python package [insert Github reference to https://github.com/illinois-or-research-analytics/belinda] for clustering analysis.
+
+\subsubsection{Filters} Clusters were filtered to remove trees and any cluster of size $<=$10 using any of a custom R script, sequential or parallelized Python scripts using the Networkit library \citep{Staudt2016}, or Belinda, a Python package [cite supplementary information and insert Github reference to https://github.com/illinois-or-research-analytics/belinda] for clustering analysis.
 
 \subsubsection{Connectivity Modifier} To recursively compute and apply minimum cuts to individual clusters, we used the Connectivity Modifier (CM) code at [insert Github reference to Connectivity Modifier], which uses Viecut \citep{Henzinger2018,Henzinger2019} as a dependency, and takes as input a clustering from either the Leiden algorithm or IKC, and returns a set of clusters that is guaranteed to be
 well-connected. 
@@ -143,7 +142,7 @@ However, the CM code as described does not enforce a size constraint.
 
 \textcolor{blue}{For Minhyuk: provide latex for pseudo-code that we can put in the supplement. Make sure it reflects how the algorithm is implemented. On the other hand, and very importantly, the README for the github site says the CM code is a DFS, so this uses a stack and not a queue.  If this is in fact how the algorithm is implemented, then what I wrote is wrong. This needs clarification.} \textcolor{red}{Needs rewrite}.
 
-\subsection{The CM pipeline}
+\subsection{The CM pipeline} \textcolor{blue}{I'm sensing some redundancy between the text above and this section.}
 The entire CM pipeline operates in three stages, taking as input (a) the network $N$,  (b) a clustering method with required parameter values,  resolution value for Leiden with CPM ,and $k$ for IKC,
 (c)  the initial clustering $\mathcal{C}$ of $N$ using the selected clustering method, 
 (d) the required minimum size $B$ for the output clusters ($B=11$ in this study)
@@ -165,6 +164,24 @@ The CEN is a citation network focused on the exosome research literature consist
 
 \paragraph{Open Citations}
 A custom-implemented ETL process was designed to process the publicly available OpenCitations dataset \citep{Peroni2020} and load it into a PostgreSQL table. Citation data was downloaded in Aug 2022. A custom ETL script, written in Bash and SQL, was used to find and pipe uncompressed CSV files, in 20 parallel jobs using the GNU Parallel command-line utility, to a custom function which loaded individual CSV files into a staging view. DOIs were also checked for case differences to remove duplicates.  The resultant network contained 75,025,194 nodes and 1,363,605,603 edges.  [INSERT SECTION ON non-sample based analysis].
+
+\paragraph{SNAP Networks}The following networks were downloaded from the Stanford Network Analysis Project (SNAP) website: (i) cit\_patents \citep{Leskovec2005}, a citation network among US patents (ii) orkut \citep{Yang2013}, the Orkut online social network (iii) cit\_hepph \citep{Leskovec2005}, the Arxiv High Energy Physics paper citation network  (iv) wiki\_talk \citep{Leskovec2010}, a network containing users and discussion from the inception of Wikipedia till January 2008 (v) wiki\_topcats \citep{Yin2017}, a web graph of Wikimedia hyperlinks Each network was processed to remove duplicate edges, parallel edges, and self-loops, the numbers of nodes and edges reported below reflect this processing. 
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlllr}
+  \hline
+ & network & edges & nodes & avg\_deg \\ 
+  \hline
+  1 & cit\_hepph & 420,877 & 34,546 & 24.37 \\ 
+  2 & cit\_patents & 16,518,947 & 3,774,768 & 8.75 \\ 
+  3 & orkut & 117,185,083 & 3,072,441 & 76.28 \\ 
+  4 & wiki\_talk & 4,659,565 & 2,394,385 & 3.89 \\ 
+  5 & wiki\_topcats & 25,444,207 & 1,791,489 & 28.41 \\ 
+   \hline
+\end{tabular}
+\caption{Network statistics for cleaned versions of 5 networks downloaded from SNAP and used as benchmarks}
+\end{table}
 
 \paragraph{LFR (random) networks}
 As a comparison group, synthetic networks were generated using the LFR `benchmark' methodology \citep{Lancichinetti2008}. [Ask Yasamin to write this section up].
