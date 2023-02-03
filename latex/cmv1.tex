@@ -136,6 +136,16 @@ Given a cluster $C$ in the queue that is marked as ``new", it uses Leiden with r
 and potentially breaking it up into many subsets; each of these subsets is then added to the queue and marked as ``clustered".
 When the queue is empty, the clusters in $Bin$ are returned as the output.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{tandys_figure_2.pdf}
+\caption{Tandy's Figure}
+\end{figure}
+
+The three clustering methods we enabled are (i) Leiden algorithm optimizing its default quality function, the Constant Potts Model (CPM) (ii) IKC, and (iii) Leiden optimizing modularity. In this study, we report data only from the first two. 
+For  a cluster $C$ to be considered``well-connected", we require that the size of the minimum edge cut for $C$ be greater than $\log_{10}(||C||)$ (where $||C||$ denotes the number of vertices in $C$), but this is a parameter that can be modified by the user.  In this study, we also set the minimum cluster size to be 11. 
+
+
 Note that the structure of the CM algorithm ensures that every cluster $C$ in the output is well-connected, since it is 
 placed in $Bin$ only if the cut found by VieCut is above $\log_{10}(||C||)$.
 However, the CM code as described does not enforce a size constraint.
