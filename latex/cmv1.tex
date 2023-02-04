@@ -139,7 +139,19 @@ When the queue is empty, the clusters in $Bin$ are returned as the output.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\linewidth]{tandys_figure_3.pdf}
-\caption{Tandy's Figure: ceiling(0.01*(x-1)) v  floor(1 + log10(x))}
+\caption{Comparison of the Leiden definition of well-connected and our definition; each depends on how large the 
+minimum edge cut can be for the cluster to be considered well-connected.  The figure shows two curves: the yellow one indicates the minimum size for a cut in a well-connected cluster,
+according to Leiden Theory (using $r=0.01$) and the blue curve shows the minimum size for a cut in a well-connected cluster according to
+our definition. 
+%The Leiden theory establishes that every cluster in a CPM-optimal clustering will be well-connected, which affirms that all edge cuts will be at least the size shown in the yellow curve.
+%Our definition of  a ``well-connected" cluster is that it not have any edge cut below the size indicated  by the blue curve.
+Accordingly, we see that a cluster with 200 nodes and a node of degree two (and so a cut of size two) is considered well-connected
+according to Leiden Theory, but not according to our standard of well-connected, which requires that the minimum cut be at least size
+3 for any cluster with 100 or more vertices. However, once the cluster exceeds size 300, the standard for being well-connected according to
+Leiden Theory is stronger than the standard according to our theory. Thus, the two definitions of ``well-connected"  are meaningful in different
+regions of cluster size, with Leiden's definition more informative on large clusters (here, above size 401) and our definition more informative on small to moderate-sized clusters (below 301).
+The definitions for these minima are: Leiden:  cut size  in a cluster with $x$ vertices must be at least $\lceil r \times (x-1) \rceil$, where $r$ is the resolution parameter (here, $r=0.01$)
+and our definition: cut size must be at least $\lfloor(1 + log_{10}x))\rfloor$.}
 \end{figure}
 
 The three clustering methods we enabled are (i) Leiden algorithm optimizing its default quality function, the Constant Potts Model (CPM) (ii) IKC, and (iii) Leiden optimizing modularity. In this study, we report data only from the first two. 
