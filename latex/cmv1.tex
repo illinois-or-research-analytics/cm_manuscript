@@ -95,7 +95,7 @@ following alternative definition.
 Specifically, we require that the size of an edge cut  $E_0$ be above some function that depends only on $||C||$.
 Under this definition, a cluster would be considered well-connected if every edge cut, independent of the sizes of the
 two sets it creates when deleted, is large enough.
-As a simple example, we consider the bound  $$||E_0|| > \lfloor \log_{10}(||C||) \rfloor,$$
+As a simple example, we consider the bound  $$||E_0|| \geq  \lfloor \log_{10}(||C||) \rfloor +1,$$
 where $||.||$ denotes the number of elements in the given set and
 $\lfloor . \rfloor$ is the floor (largest integer at most the size of the given value).
 For example, when $||C|| \leq 9$, this bound only enforces that the cluster be connected, when
@@ -111,7 +111,7 @@ Understanding the differences in these guarantees is important, and is part of t
 To explore well connectedness in community detection, we performed a study to evaluate  clusters produced by two different clustering methods:
 the Leiden algorithm  \citep{Traag_2019}, and Iterative K-core Clustering (IKC) \citep{,Wedell2022}.
 We designed a pipeline to work with both Leiden and IKC that would ensure that all output clusters satisfy two constraints for being valid communities: (1) each cluster meets a minimum user-specified size requirement
-and (2) each cluster is well-connected, using the second criterion provided above, i.e., that  every edge cut $E_0$ in a cluster $C$ satisfy $||E_0|| > \lfloor \log_{10}(||C||) \rfloor$.
+and (2) each cluster is well-connected, using the second criterion provided above, i.e., that  every edge cut $E_0$ in a cluster $C$ satisfy $||E_0|| \geq  \lfloor \log_{10}(||C||) \rfloor +1$.
 
 
 The pipeline takes a Leiden or IKC clustering as input and then modifies the clustering minimally to ensure that all returned clusters meet these two requirements.
@@ -224,7 +224,7 @@ according to Leiden Theory, but not according to our standard of well-connected,
 Leiden Theory is stronger than the standard according to our theory. Thus, the two definitions of ``well-connected"  are meaningful in different
 regions of cluster size, with Leiden's definition more informative on large clusters (here, above size 301) and our definition more informative on small to moderate-sized clusters (below 201).
 The definitions for these minima are: Leiden:  cut size  in a cluster with $x$ vertices must be at least $\lceil r \times (x-1) \rceil$, where $r$ is the resolution parameter (here, $r=0.01$)
-and our definition: cut size must be at least $\lfloor(1 + log_{10}x))\rfloor$.}
+and our definition: cut size must be at least $\lfloor(1 + log_{10}x))\rfloor +1$.}
 \end{figure}
 
  \subsection{Data} Several networks were used for testing and analysis and were selected to provide a range of origin, size and edge density. In all cases, below the counts of nodes and edges are reported after removing duplicate records,
