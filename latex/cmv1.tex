@@ -214,8 +214,8 @@ Finally, every cluster in the input that meets the user-specified criteria for s
 \includegraphics[width=0.7\linewidth]{well_connected_definition.pdf}
 \caption{Comparison of the Leiden definition of well-connected and our definition; each depends on how large the
 minimum edge cut can be for the cluster to be considered well-connected.
-The bound shown here for Leiden is what is guaranteed for an imbalanced cut of $1$ vertex separated from the remaining $x-1$ vertices
-for a cluster with $x$ vertices.
+The bound shown here for Leiden is what is guaranteed for an imbalanced cut of $1$ vertex separated from the remaining $n-1$ vertices
+for a cluster with $n$ vertices.
 The figure shows two curves: the red one indicates the minimum size for a cut in a well-connected cluster,
 according to Leiden Theory (using $r=0.01$) and the blue curve shows the minimum size for a cut in a well-connected cluster according to
 our definition.
@@ -224,8 +224,8 @@ according to Leiden Theory, but not according to our standard of well-connected,
 3 for any cluster with 200 vertices.  However, once the cluster exceeds size 300, the standard for being well-connected according to
 Leiden Theory is stronger than the standard according to our theory. Thus, the two definitions of ``well-connected"  are meaningful in different
 regions of cluster size, with Leiden's definition more informative on large clusters (here, above size 301) and our definition more informative on small to moderate-sized clusters (below 201).
-The definitions for these minima are: Leiden:  cut size  in a cluster with $x$ vertices must be at least $\lceil r \times (x-1) \rceil$, where $r$ is the resolution parameter (here, $r=0.01$)
-and our definition: cut size must be at least $\lfloor(1 + log_{10}x))\rfloor +1$.}
+The definitions for these minima are: Leiden:  cut size  in a cluster with $n$ vertices must be at least $\lceil r \times (n-1) \rceil$, where $r$ is the resolution parameter (here, $r=0.01$)
+and our definition: cut size must be at least $\lfloor(1 + log_{10}n)\rfloor +1$.}
 \end{figure}
 
  \subsection{Data} Several networks were used for testing and analysis and were selected to provide a range of origin, size and edge density. In all cases, below the counts of nodes and edges are reported after removing duplicate records,
