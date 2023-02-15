@@ -11,12 +11,12 @@ library(ggplot2)
 #dev.off()
 
 ggplot() + xlim(0,500) + ylim(0,5) +# scale_y_continuous(breaks=c(seq(0,500,by=50))) +
-  geom_function(aes(colour = "Tragg et al, 2019"), fun = function(x) ceiling(0.01*(x-1))) + 
-  geom_function(aes(colour = "Ours"), fun = function(x) floor(1 + log10(x))) +
+  geom_function(aes(colour = "Leiden theory (r=0.01)"), fun = function(x) ceiling(0.01*(x-1))) + 
+  geom_function(aes(colour = "Our default f(n)"), fun = function(x) floor(1 + log10(x))) +
   theme_bw()+
   theme(legend.position = "right")+
   scale_colour_manual(values = c("blue", "red"))+
-  xlab("Cluster size") + ylab("Minimum valid cut size")+
+  xlab("Cluster size (n)") + ylab("Minimum valid cut size")+
   guides(colour=guide_legend(title="Well-connected definition"))
   #annotate(geom="text",label=expression("f(x)"), x = 0.13, y = 4, parse = TRUE, color="red")
 
