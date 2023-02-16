@@ -2,13 +2,14 @@
 # Updated to add annotations for stars
 # George Chacko Jan 16, 2023
 
-# usage "Rscript subset_graph.R  <parent_network> <input clustering file> <output_edgelist_string>
+## usage "Rscript subset_graph.R  <parent_network> <input clustering file> <output_edgelist_string>
+
 # parent_network: edgelist as tsv without headers
 # input clustering file: node+id, cluster_id without headers
 # output_edgelist_string: a text tag such as oc_l5_trimmed
 
 
-## Example: Rscript subset_graph.R oc_integer_el.tsv oc_leiden.5.tsv oc_l5_trimmed
+## Example: Rscript subset_graph_nonetworkit_treestar.R oc_integer_el.tsv oc_leiden.5.tsv oc_l5_trimmed
 
 library(data.table)
 library(feather)
