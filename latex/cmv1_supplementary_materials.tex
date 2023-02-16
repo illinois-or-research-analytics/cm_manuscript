@@ -1,12 +1,14 @@
-\documentclass[12pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\documentclass[a4paper]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage[margin=1in]{geometry}
+%\documentclass[12pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
 \usepackage{textcomp}
 \usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
-\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ...
 %\geometry{landscape}                		% Activate for rotated page geometry
 %\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
 \usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
 \usepackage{caption}
-\usepackage{subcaption}								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{subcaption}								% TeX will automatically convert eps --> pdf in pdflatex
 \usepackage{color}
 \usepackage{amssymb}
 \usepackage{amsthm}
@@ -29,8 +31,10 @@
 \usepackage{changes}
 \definechangesauthor[name={George Chacko}, color=blue]{gc}
 
+\renewcommand{\thealgorithm}{S\arabic{algorithm}}
+
 \usepackage{authblk}
-\title{Supplementary Material For ``Finding Well-Connected Communities in Real-World Networks''}
+\title{Supplementary Materials for ``Finding Well-Connected Communities in Real-World Networks''}
 \author[1]{Minhyuk Park\thanks{author order to be determined later}}
 \author[1]{Yasamin Tabatabaee\thanks{author order to be determined later}}
 \author[1]{Baqiao Liu\thanks{author order to be determined later}}
@@ -49,93 +53,92 @@
 \maketitle
 
 
+\section{CM Pipeline}
 
-\section{CM Pipeline} 
-
-The input network $N$ is processed in a pipeline that has the following stages:
+The input network $\mathcal{G}$ is processed in a pipeline that has the following stages:
 \begin{itemize}
-\item Clustering $N$, using either the Leiden algorithm or Iterative K-core Clustering (IKC)
-\item Removing clusters of size $<$ 10 as well as trees (defined as connected clusters where the number $m$ of edges is one less than the number  $n$ of vertices). Depending on the user and the dataset being analyzed, one of the following
-options was used to perform this step:
+\item Clustering $\mathcal{G}$, using either the Leiden algorithm or Iterative K-core Clustering (IKC)
+\item Removing clusters of size less than 10 as well as trees (defined as connected clusters where the number $m$ of edges is one less than the number $n$ of vertices, i.e. $m=n-1$). Depending on the user and the dataset being analyzed, one of the following options was used to perform this step:
 \begin{enumerate}
-\item belinda \citep{belinda2022} expressions, e.g., $g1.filter(pl.col('n') > 10)$ and \\ $g1.filter(pl.col('n') != pl.col('m') + 1)$
-\item find\_trees.py: a slow script that relies on Networkit \citep{Staudt2016}
-\item cluster\_analyzer.py: a parallelized version of find\_trees.py
-\item subset\_graph\_nonnetworkit.R: a fast script without dependence on Networkit that also returns maxDegree for a cluster. 
+\item \texttt{belinda} \citep{belinda2022} expressions, e.g., \texttt{g1.filter(pl.col('n') > 10)} and \texttt{g1.filter(pl.col('n') != pl.col('m') + 1)}
+\item \texttt{find\_trees.py}: a slow script that relies on Networkit \citep{Staudt2016}
+\item \texttt{cluster\_analyzer.py}: a parallelized version of find\_trees.py
+\item \texttt{subset\_graph\_nonnetworkit.R}: a fast script without dependence on Networkit that also returns maxDegree for a cluster.
 \end{enumerate}
 
-\item Applying connectivity modifier 
+\item Applying connectivity modifier
 \item Removing clusters of size at most 10  (note: there will not be any trees left at this point)
-\end{itemize} 
+\end{itemize}
 
 
 
 \section{Pseudocode for the Connectivity Modifier}
 The input to the Connectivity Modifier (CM) is a network and a  clustering; the output will be a set of well-connected clusters (WCC), obtained
-by processing each cluster in the input. 
+by processing each cluster in the input.
 Thus, each cluster in the output WCC will be a subset of one of the input clusters.
 Here we describe CM, beginning  with the necessary definitions.
 
 \begin{itemize}
-    \item $\delta(G)$: the minimum degree of  any node in cluster $G$
+    \item $\delta(C)$: the minimum degree of  any node in cluster $C$
     \item $deg(u)$: the degree of node $u$
-    \item $t(G)$: minimum required edge cut size for  $G$
-    \item $\lambda(G)$: the minimum edge cut size of $G$
-    \item $mod(G, H)$: modularity of subgraph $H$ w.r.t.~$G$
-    \item $f$: clustering method: a clustering method takes as input a graph, and outputs non-singleton subgraphs of the input graph.  
+    \item $t(C)$: minimum required edge cut size for  $C$
+    \item $\lambda(C)$: the minimum edge cut size of $C$
+    \item $mod(C, H)$: modularity of subgraph $H$ w.r.t.~$C$
+    \item $f$: clustering method: a clustering method takes as input a graph, and outputs non-singleton subgraphs of the input graph.
 \end{itemize}
 
-Recall that  $t(G)$ is the {\em smallest} a cut can be and still be considered ``large enough".
-Furthermore, in our experiments, we set $t(G) = \lfloor \log_{10}(n) \rfloor +1$.  This means that any cut that is below $t(G)$ in number of vertices
+Recall that  $t(C)$ is the {\em smallest} cut that can still be considered ``large enough".
+Furthermore, in our experiments, we set $t(C) = \lfloor \log_{10}(n) \rfloor +1$.  This means that any cut that is below $t(C)$ in a number of vertices
 will be considered small, and so will be cut.
-Here we explore the effect of this definition of $t(G)$, where $G$ is a cluster with $n$ vertices.
+Here we explore the effect of this definition of $t(C)$, where $C$ is a cluster with $n$ vertices.
 \begin{itemize}
-\item 
-$1 \leq n \leq 9$. 
-For all values of $n$ in this range, we obtain $t(G) = \lfloor log_{10}(n) \rfloor +1$, and so $t(G) = 1$.  Hence, for $1 \leq n \leq 9$, we  only require that the
+\item
+$1 \leq n \leq 9$.
+For all values of $n$ in this range, we obtain $t(C) = \lfloor log_{10}(n) \rfloor +1$, and so $t(C) = 1$.  Hence, for $1 \leq n \leq 9$, we  only require that the
 cluster be connected.
-\item 
-$10 \leq n \leq 99$. For all values of $n$ in this range, we have 
- $t(G) = 2$, which means that if $G$ is a cluster of size $n$ and it has a cut of size $1$, that  cut will
+\item
+$10 \leq n \leq 99$. For all values of $n$ in this range, we have
+ $t(C) = 2$, which means that if $C$ is a cluster of size $n$ and it has a cut of size $1$, that  cut will
 be considered ``too small", and will be cut.  Effectively this only ensures that clusters of size between $10$ and $99$ do not have cut edges.
 If a cut edge is found, it will mean that in the CM code, that cut edge will be deleted, thus separating the cluster into two pieces.
 In contrast, a cut of size $2$ will be considered large enough, and will not be cut.
-\item 
+\item
 $100 \leq n \leq 999$.
-For all values of $n$ in this range, we have $t(G)=3$, which means that if $G$ has a cut of size  at most $2$ it will be considered
-too small, and any such cut will be deleted from $G$.
+For all values of $n$ in this range, we have $t(C)=3$, which means that if $C$ has a cut of size  at most $2$ it will be considered
+too small, and any such cut will be deleted from $C$.
 In contrast, a cut of size $3$  or larger will be considered large enough, and will not be cut.
-\item 
+\item
 $1000 \leq n \leq 9999$.
-For all values of $n$ in this range, we have $t(G)=4$, which means that if $G$ has a cut of size $3$ or smaller it will be considered
-too small, and any such cut will be deleted from $G$.
+For all values of $n$ in this range, we have $t(C)=4$, which means that if $C$ has a cut of size $3$ or smaller it will be considered
+too small, and any such cut will be deleted from $C$.
 In contrast, a cut of size $4$ or larger will be considered large enough, and will not be cut.
 \end{itemize}
 
+\clearpage
 \begin{algorithm}[h]
-\caption{The pseudocode for min-cut validity pipeline.}
+\caption{Pseudocode for min-cut validity pipeline. The input is a network $\mathcal{G}$ with $N$ vertices and a clustering method $f$ (e.g. Leiden, IKC), and the output is a set of well-connected clusters WCC.}
 \begin{algorithmic}[2]
 \State $f$: Clustering method (e.g., IKC, Leiden, etc.)
-\Function{$g$}{G}
+\Function{$g$}{$\mathcal{G}$}
 \State WCC $\gets []$ \Comment{This is an empty array}
 
-\State clusters $\gets f(G)$ \Comment{This is an array of clusters generated by $f$}
-\State stack $\gets$ clusters  
+\State clusters $\gets f(\mathcal{G})$ \Comment{This is an array of clusters generated by $f$}
+\State stack $\gets$ clusters
 \While{!stack.empty()} \Comment{While there is a cluster in the stack}
     \State $H$ = stack.pop()
-    \While{$\delta(H) < t(H)$} 
-    \State delete an arbitrary node $u$ from $H$ where $deg(u) = \delta(H)$ 
+    \While{$\delta(H) < t(H)$}
+    \State delete an arbitrary node $u$ from $H$ where $deg(u) = \delta(H)$
     \EndWhile
     \If{$\lambda(H) < t(H)$} \Comment{If the edge cut for H is smaller than $t$}
-        \State $H_a, H_b$ $\gets$ $H$ separated by a minimum cut   
+        \State $H_a, H_b$ $\gets$ $H$ separated by a minimum cut
         \State stack.extend($f(H_a)$) \Comment{Recluster $H_a$ and $H_b$}
         \State stack.extend($f(H_b)$)  \Comment{and add clusters to stack}
-    \Else 
+    \Else
        % \If{$f$ is not modified IKC $\lor$ $mod(G, H) \ge 0$}
             \State WCC $\gets$ WCC $+$ [$H$] \Comment{Add H to WCC}
         \EndIf
 \EndWhile
-%\If{$f = $ IKC} 
+%\If{$f = $ IKC}
 %    \State remove all clusters from ans that have modularity $\leq 0$
 %    \EndIf
 %\textcolor{blue}{}
@@ -146,17 +149,20 @@ In contrast, a cut of size $4$ or larger will be considered large enough, and wi
 \label{alg:full-pipeline}
 \end{algorithm}
 
-\clearpage
-Note: When 
-$f$ (the clustering method) is IKC, then we have made a small modification to the
-code for the sake of efficiency in the code.  
+\textbf{Note:} When
+$f$ (the clustering method) is IKC, we have made a small modification to the
+code for the sake of efficiency.
 Specifically, IKC requires that all the clusters have positive modularity.
  In our CM code, the recursive
 calls to the clustering method (IKC) in lines 13 and 14 do not check for positive modularity; instead, this check is delayed until the stack is empty (i.e., after line 18).
 At this point, it is possible that some of the clusters in WCC will not have positive modularity.
 Therefore, when we run CM with IKC for the clustering method $f$,  we add a processing step after line 18 that checks each cluster in WCC for positive modularity,
-and deletes any cluster that fails this test. 
-Only after pruning all such clusters from WCC will we return what is left. 
+and deletes any cluster that fails this test.
+Only after pruning all such clusters from WCC will we return what is left.
+
+\clearpage
+\section{Emulating Real Networks with LFR Graphs}
+
 \bibliographystyle{apalike}
 \bibliography{cmv1}
-\end{document}  
+\end{document}
