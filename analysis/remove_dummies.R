@@ -22,5 +22,5 @@ nl <- union(nw$V1,nw$V2)
 # Filter clustering output against nodelist to remove dummies
 no_dummies <- cl[V1 %in% nl]
 
-outputfile_name <- paste0('no_dummies_',args[2],'.tsv')
+output_file_name <- paste0('no_dummies_',args[2],'.tsv')
 write.table(no_dummies, file=output_file_name, sep="\t", col.names = F, row.names = F)
