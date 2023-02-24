@@ -55,24 +55,25 @@
 
 \section{CM Pipeline}
 
+\textcolor{red}{add information for cleaning the network (removing parallel/duplicate edges, etc)}
 The input network $\mathcal{G}$ is processed in a pipeline that has the following stages:
 \begin{itemize}
-\item Clustering $\mathcal{G}$, using either the Leiden algorithm or Iterative K-core Clustering (IKC)
-\item Removing clusters of size less than 10 as well as trees (defined as connected clusters where the number $m$ of edges is one less than the number $n$ of vertices, i.e. $m=n-1$). Depending on the user and the dataset being analyzed, one of the following options was used to perform this step:
+\item Clustering $\mathcal{G}$, using either the Leiden algorithm or Iterative K-core Clustering (IKC) \textcolor{red}{add command for running Leiden and IKC + links}
+\item Removing clusters of size less than 10 as well as trees (defined as connected clusters where the number $m$ of edges is one less than the number $n$ of vertices, i.e. $m=n-1$). Depending on the user and the dataset being analyzed, one of the following options was used to perform this step: \textcolor{red}{just write one option that should be used}
 \begin{enumerate}
 \item \texttt{belinda} \citep{belinda2022} expressions, e.g., \texttt{g1.filter(pl.col('n') > 10)} and \texttt{g1.filter(pl.col('n') != pl.col('m') + 1)}
 \item \texttt{find\_trees.py}: a slow script that relies on Networkit \citep{Staudt2016}
 \item \texttt{cluster\_analyzer.py}: a parallelized version of find\_trees.py
 \item \texttt{subset\_graph\_nonnetworkit.R}: a fast script without dependence on Networkit that also returns maxDegree for a cluster.
 \end{enumerate}
-
-\item Applying connectivity modifier
-\item Removing clusters of size at most 10  (note: there will not be any trees left at this point)
+\item Applying connectivity modifier  \textcolor{red}{add commands, scripts}
+\item Removing clusters of size at most 10  (note: there will not be any trees left at this point) \textcolor{red}{add commands, scripts}
 \end{itemize}
 
 
 
 \section{Pseudocode for the Connectivity Modifier}
+\textcolor{red}{this section can be merged with the previous one}
 The input to the Connectivity Modifier (CM) is a network and a  clustering; the output will be a set of well-connected clusters (WCC), obtained
 by processing each cluster in the input.
 Thus, each cluster in the output WCC will be a subset of one of the input clusters.
@@ -163,6 +164,8 @@ Only after pruning all such clusters from WCC will we return what is left.
 \clearpage
 \section{Emulating Real Networks with LFR Graphs}
 
+\textcolor{red}{write the math behind fitting power-law, table with network properties, plots comparing degree distribution and community size distribution of networks vs lFR graphs, commands for generating LFRs, runtime, that we had to change the range of cluster sizes to enable it to generate the network., LFR is not robust to changes in parameters}
+
 \bibliographystyle{apalike}
 \bibliography{cmv1}
-\end{document}
+\end{document}  
