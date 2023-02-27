@@ -24,6 +24,7 @@
 %\usepackage{changes}
 \usepackage{changes}
 \usepackage[colorlinks=false]{hyperref}
+\usepackage{wrapfig}
 \definechangesauthor[name={George Chacko}, color=blue]{gc}
 
 \usepackage{authblk}
@@ -90,6 +91,17 @@ Note also that this bound depends on the size of the cluster and on   the user-s
 As we show below, the guarantee for CPM-optimal clusters may be very weak for small to moderate clusters, especially for those that are close to being
 stars; it will even permit relatively large star-clusters (i.e., clusters containing a single node that is adjacent to all the remaining nodes).
 
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\textwidth]{figs/fig_clique.pdf}
+\caption{Demonstration of well-connected. We show a network with two 5-cliques connected by two possible edges (shown with dashes), labelled $A$ and $B$.
+%Each of the 5-cliques by itself constitutes a valid community according to our requirement for edge-connectivity.
+Consider the cluster formed by taking all the vertices in the graph (i.e., merging the two 5-cliques).  According to the minimum bound for edge connectivity, we require that the minimum edge cut size be at least 2 for a cluster with 10 nodes to be considered well-connected.  Therefore, unless both of the edges $A$ and $B$ are present in the graph, the merged cluster  would not  be considered well-connected. 
+However, if both of these edges is in the network, merging the two clusters into one would produce a cluster that passes our minimum connectivity test.}
+\label{fig:2cliques}
+\end{figure}
+
 Since the definition for well-connected provided in \cite{Traag_2019} is mainly relevant to large clusters, we consider the
 following alternative definition.
 Specifically, we require that the size of an edge cut  $E_0$ be above some function that depends only on $||C||$.
@@ -102,6 +114,11 @@ For example, when $||C|| \leq 9$, this bound only enforces that the cluster be c
 $10 \leq ||C|| < 100$ it requires that  the cluster not have any cut edges (single edges that disconnect the cluster), etc.
 This formulation offers a relatively weak bound for large clusters (i.e., when   $||C||$ is large), but does provide  a stronger constraint on small to moderate-sized clusters than the
 first definition.
+
+We demonstrate this concept in Figure \ref{fig:2cliques}, where we have two cliques, each of size 5, in a network; if both the dashed edges are present, then
+merging the two cliques into a single cluster meets the minimum edge connectivity requirement (which is that the minimum edge cut must be of size at least two); however,
+if only one edge is present, we cannot merge the two cliques and still have adequate edge connectivity.
+
 
 
 Thus, the two approaches provide guarantees about clusters being well-connected for different size clusters, with the first approach a stronger
@@ -282,7 +299,7 @@ For each LFR network:
 \begin{itemize}
 \item Report empirical statistics of the network
 \item Report empirical statistics of the true clustering
-\item capture accuracy relative to `ground' truth
+\item Capture accuracy relative to `ground' truth
 \item
 Recluster using Leiden (same resolution value) and then run the CM pipeline.
 Record all the usual statistics
@@ -312,7 +329,12 @@ We'll want their sizes as well, so we can say things like ``20\% of the input cl
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\linewidth]{figs/fig1_kn.pdf}
-\caption{Connectivity modifier (CM)-processed Leiden clusterings of the Open Citations network exhibit a resolution-dependent reduction in clusters and cluster sizes. The Open Citations network consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered using the Leiden algorithm, with CPM as quality function, with resolution values set to 0.5, 0.01, and 0.0001 (left column). The effect of filtering out tree clusters and clusters of size 10 or less and trees is shown in the middle column. The effect of subsequent treatment with CM and re-filtering is shown in the the right column. Descriptive statistics are shown for Leiden clustering of this network at 5 different resolution values in Table 1.}
+\caption{Connectivity modifier (CM)-processed Leiden clusterings of the Open Citations network exhibit a resolution-dependent reduction in clusters and cluster sizes. 
+The Open Citations network consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered using the Leiden algorithm, with CPM as quality function; each row shows results for a particular resolution value (top: r=0.5, middle: r=0.01, bottom: r=0.0001).  
+The first column shows the cluster size distribution for the Leiden clustering; the middle column shows the cluster size distribution after filtering out trees and clusters of size at most 10; the right column shows the cluster size distribution after the complete CM pipeline (which includes a final filtering step to remove trees and clusters at most size 11). 
+The impact on Leiden clustering is largest for the two smaller resolution values. 
+%The effect of filtering out tree clusters and clusters of size 10 or less and trees is shown in the middle column. The effect of subsequent treatment with CM and re-filtering is shown in the the right column. 
+Descriptive statistics are shown for Leiden clustering of this network at 5 different resolution values in Table 1.}
 \label{fig:oc_size_count_plots}
 \end{figure}
 
@@ -371,7 +393,7 @@ We first evaluated a citation network, the CEN (Materials and Methods) consistin
 \label{tab: table1}
 \end{table}
 
-Predictably, node coverage increased as resolution values was decreased. Of interest, however, was whether trees, which are excellent examples of poorly connected clusters, were being generated. Accordingly, we searched for trees in clusterings generated by either Leiden or IKC. In both cases, we filtered out clusters of size $10$ or less before evaluating clusters for the presence of trees. Strikingly, we observed trees in Leiden clusterings from resolution values of 0.1, 0.01, and 0.001 but not a 0.5. At resolution value of 0.1, 273,420 clusters were generated of which 254,734 (93.2\%) were trees of size 11. At a resolution value of 0.001, 65,771 clusters were generated were found of which 22,750 (34.6\%) were trees (Figure 1 and Table 2). Interestingly, as resolution values were decreased further, the number of trees decreased but the average tree size increased (Figure 1, Table 3).
+Predictably, node coverage increased as resolution values was decreased. Of interest, however, was whether trees, which are excellent examples of poorly connected clusters, were being generated. Accordingly, we searched for trees in clusterings generated by either Leiden or IKC. In both cases, we filtered out clusters of size $10$ or less before evaluating clusters for the presence of trees. Strikingly, we observed trees in Leiden clusterings from resolution values of 0.1, 0.01, and 0.001 but not at 0.5. At resolution value of 0.1, 273,420 clusters were generated of which 254,734 (93.2\%) were trees of size 11. At a resolution value of 0.001, 65,771 clusters were generated were found of which 22,750 (34.6\%) were trees (Figure 1 and Table 2). Interestingly, as resolution values were decreased further, the number of trees decreased but the average tree size increased (Figure 1, Table 3).
 
 \begin{figure}[H]
 \centering
