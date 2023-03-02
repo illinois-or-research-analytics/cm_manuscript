@@ -202,22 +202,86 @@ Only after pruning all such clusters from WCC will we return what is left.
 \caption[Cluster size distribution for Wikipedia hyperlink networks.]{\textbf{Cluster size distribution for Wikipedia hyperlink networks.} The LFR ground-truth communities (shown in green) are generated according to the parameters estimated from the Leiden clustering of the empirical network (in black), and then the LFR network is re-clustered using Leiden with the same resolution value. }
 \end{figure}
 
-\section{Additional Figures}
+\section{Additional Results for the CM pipeline}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.62\textwidth]{figs/oc_cm_steps_lfr0001.pdf}
+\includegraphics[width=0.37\textwidth]{figs/oc_0001_cm_size.pdf}
+\caption[CM pipeline on the empirical Open Citations network and its model LFR graph for r=0.0001]{\textbf{CM pipeline on the empirical Open Citations network and its model LFR graph for r=0.0001.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\label{fig:oc-cm-lfr-0001}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.62\textwidth]{figs/oc_cm_steps_lfr001.pdf}
+\includegraphics[width=0.37\textwidth]{figs/oc_001_cm_size.pdf}
+\caption[CM pipeline on the empirical Open Citations network and its model LFR graph for r=0.001]{\textbf{CM pipeline on the empirical Open Citations network and its model LFR graph for r=0.001.} The number of nodes in the empirical network is 75,025,194 and in the LFR network is 3,000,000, but they have very close average degrees (36.34 and 36.63 respectively). The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\label{fig:oc-cm-lfr-001}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.62\textwidth]{figs/oc_cm_steps_lfr01.pdf}
+\includegraphics[width=0.37\textwidth]{figs/oc_01_cm_size.pdf}
+\caption[CM pipeline on the empirical Open Citations network and its model LFR graph for r=0.01]{\textbf{CM pipeline on the empirical Open Citations network and its model LFR graph for r=0.01.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\label{fig:oc-cm-lfr-01}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.62\textwidth]{figs/oc_cm_steps_lfr1.pdf}
+\includegraphics[width=0.37\textwidth]{figs/oc_1_cm_size.pdf}
+\caption[CM pipeline on the empirical Open Citations network and its model LFR graph for r=0.1]{\textbf{CM pipeline on the empirical Open Citations network and its model LFR graph for r=0.1.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\label{fig:oc-cm-lfr-1}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.62\textwidth]{figs/oc_cm_steps_lfr5.pdf}
+\includegraphics[width=0.37\textwidth]{figs/oc_5_cm_size.pdf}
+\caption[CM pipeline on the empirical Open Citations network and its model LFR graph for r=0.5]{\textbf{CM pipeline on the empirical Open Citations network and its model LFR graph for r=0.5.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\label{fig:oc-cm-lfr-5}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.62\textwidth]{figs/cen_cm_steps_lfr001.pdf}
+\includegraphics[width=0.37\textwidth]{figs/cen_001_cm_size.pdf}
+\caption[CM pipeline on the empirical CEN network and its model LFR graph for r=0.001]{\textbf{CM pipeline on the empirical CEN network and its model LFR graph for r=0.001.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\label{fig:cen-cm-lfr-001}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.62\textwidth]{figs/cen_cm_steps_lfr01.pdf}
+\includegraphics[width=0.37\textwidth]{figs/cen_01_cm_size.pdf}
+\caption[CM pipeline on the empirical CEN network and its model LFR graph for r=0.01]{\textbf{CM pipeline on the empirical CEN network and its model LFR graph for r=0.01.} The number of nodes in the empirical CEN network is 13,989,436 nodes and in the LFR graph is 3,000,000, but they have very close average degrees (3.16 and 3.84 respectively). The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\label{fig:cen-cm-lfr-01}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.62\textwidth]{figs/cen_cm_steps_lfr1.pdf}
+\includegraphics[width=0.37\textwidth]{figs/cen_1_cm_size.pdf}
+\caption[CM pipeline on the empirical CEN network and its model LFR graph for r=0.1]{\textbf{CM pipeline on the empirical CEN network and its model LFR graph for r=0.1.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\label{fig:cen-cm-lfr-1}
+\end{figure}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.62\textwidth]{figs/cit_patents_cm_steps_lfr001.pdf}
 \includegraphics[width=0.37\textwidth]{figs/cit_patents_001_cm_size.pdf}
-\caption[CM pipeline on the empirical citation patents network and its model LFR graph for r=0.001]{Comparison between the effect of the CM pipeline on the empirical citation patents network and its corresponding LFR graph. The resolution parameter used for running Leiden and generating the LFR is 0.001. The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
-\label{fig:2cliques}
+\caption[CM pipeline on the empirical citation patents network and its model LFR graph for r=0.001]{\textbf{CM pipeline on the empirical citation patents network and its model LFR graph for r=0.001.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\label{fig:patents-cm-lfr-001}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.62\textwidth]{figs/cit_patents_cm_steps_lfr01.pdf}
 \includegraphics[width=0.37\textwidth]{figs/cit_patents_01_cm_size.pdf}
-\caption[CM pipeline on the empirical citation patents network and its model LFR graph for r=0.01]{Comparison between the effect of the CM pipeline on the empirical citation patents network and its corresponding LFR graph. The resolution parameter used for running Leiden and generating the LFR is 0.01. The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
-\label{fig:2cliques}
+\caption[CM pipeline on the empirical citation patents network and its model LFR graph for r=0.01]{\textbf{CM pipeline on the empirical citation patents network and its model LFR graph for r=0.01} Both networks have 3,774,768 nodes, with an average degree of 8.75 for the empirical network and 8.29 for the LFR graph. The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\label{fig:patents-cm-lfr-01}
 \end{figure}
 
 
@@ -225,18 +289,19 @@ Only after pruning all such clusters from WCC will we return what is left.
 \centering
 \includegraphics[width=0.62\textwidth]{figs/cit_patents_cm_steps_lfr1.pdf}
 \includegraphics[width=0.37\textwidth]{figs/cit_patents_1_cm_size.pdf}
-\caption[CM pipeline on the empirical citation patents network and its model LFR graph for r=0.1]{Comparison between the effect of the CM pipeline on the empirical citation patents network and its corresponding LFR graph. The resolution parameter used for running Leiden and generating the LFR is 0.1. The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
-\label{fig:2cliques}
+\caption[CM pipeline on the empirical citation patents network and its model LFR graph for r=0.1]{\textbf{CM pipeline on the empirical citation patents network and its model LFR graph for r=0.1.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\label{fig:patents-cm-lfr-1}
 \end{figure}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.62\textwidth]{figs/cit_patents_cm_steps_lfr5.pdf}
 \includegraphics[width=0.37\textwidth]{figs/cit_patents_5_cm_size.pdf}
-\caption[CM pipeline on the empirical citation patents network and its model LFR graph for r=0.5]{Comparison between the effect of the CM pipeline on the empirical citation patents network and its corresponding LFR graph. The resolution parameter used for running Leiden and generating the LFR is 0.5. The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
-\label{fig:2cliques}
+\caption[CM pipeline on the empirical citation patents network and its model LFR graph for r=0.5]{\textbf{CM pipeline on the empirical citation patents network and its model LFR graph for r=0.5.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\label{fig:patents-cm-lfr-5}
 \end{figure}
 
+\clearpage
 \bibliographystyle{apalike}
 \bibliography{cmv1}
 \end{document}
