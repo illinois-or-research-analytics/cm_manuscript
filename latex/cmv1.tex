@@ -388,16 +388,16 @@ Descriptive statistics are shown for Leiden clustering of the Open Citations Net
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\linewidth]{figs/oc_istouched.pdf}
-\caption{\textbf{OC Istouched by CM}}
+\caption{\textbf{Open Citations and the CM pipeline: Clusters Impacted}. For Leiden followed by CM processing, each bar shows results for one of five different resolution values, and each bar shows 
+the total number of clusters of size at least 11. Those clusters that are affected by the CM processing (because the size of their min-cut is below the Equation \ref{eqn:our-bound} limit)
+are colored in blue, and the red ones are those that are not affected by the CM processing (because their min cut size is at least that large).
+Note that for resolution parameter 0.5, no clusters are affected by CM processing, but that as the resolution parameter reduces, the frequency of impact increases,
+so that for the two smallest resolution parameters show, nearly all clusters are affected by the CM processing (because their min-cuts are too small)).}
 \label{fig:ocistouched}
 \end{figure}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\linewidth]{figs/cen_istouched.pdf}
-\caption{\textbf{CEN Istouched by CM. Colors are reversed will fix with new palette for these two figures to relieve the monotony}}
-\label{fig:ocistouched}
-\end{figure}
+As seen in Figure \ref{fig:ocistouched}, except when the resolution parameter is very large, Leiden clusters tend to have small edge cuts (meaning that they are below the bound provided in
+Equation \ref{eqn:ourbound}) and so are impacted by the CM pipeline
 
 
 \begin{figure}[H]
@@ -471,6 +471,20 @@ Node coverage is the percentage of nodes in the network found in clusters of siz
 \subsubsection{Leiden Analyses of the CEN}
 
 We then evaluated a citation network, the CEN (Materials and Methods) consisting of 13,989,436 nodes and 92,051,051 edges, which captures the relatively recent literature relevant to exosomes and extracellular vesicles. We clustered the CEN using Leiden optimizing CPM with resolution values ranging from 0.5 to 0.001 (Table \ref{tab:CEN-table1}). This range of resolution values brackets the resolution values used by us on this network in   \cite{Jakatdar_2022}.
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{figs/cen_istouched.pdf}
+\caption{\textbf{The Curated Exosome Network (CEN) and the CM pipeline: Clusters Impacted}. For Leiden followed by CM processing, each bar shows results for one of five different resolution values, and each bar shows 
+the total number of clusters of size at least 11. Those clusters that are affected by the CM processing (because the size of their min-cut is below the Equation \ref{eqn:our-bound} limit)
+are colored in blue, and the red ones are those that are not affected by the CM processing (because their min cut size is at least that large).
+Note that for resolution parameter 0.5, no clusters are affected by CM processing, but that as the resolution parameter reduces, the frequency of impact increases,
+so that for the two smallest resolution parameters show, nearly all clusters are affected by the CM processing (because their min-cuts are too small)).}
+\label{fig:censtouched}
+\end{figure}
+As seen in Figure \ref{fig:cenistouched}, except when the resolution parameter is very large, Leiden clusters tend to have small edge cuts (meaning that they are below the bound provided in
+Equation \ref{eqn:ourbound}) and so are impacted by the CM pipeline, 
 
 % latex table generated in R 4.1.3 by xtable 1.8-4 package
 % Mon Jan 30 22:29:28 2023
