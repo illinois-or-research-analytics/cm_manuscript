@@ -166,13 +166,13 @@ The result of this multi-stage process is a set of clusters that meet all three 
 Note also that we never modify an input cluster that is sufficiently large
 and meets our edge-connectivity requirement, and that every cluster that is produced is a sub-cluster of the original clustering.
 
-Using this pipeline, we evaluate clusterings produced by Leiden and IKC for a number of different networks, including two large citation networks: the Open Citations Network with 75 million vertices and 1.36 billion edges, and the Curated Exosome Network studied 
+Using this pipeline, we evaluate clusterings produced by Leiden and IKC for a number of different networks, including two large citation networks: the Open Citations Network with 75 million vertices and 1.36 billion edges, and the Curated Exosome Network studied
 in \cite{Jakatdar_2022} with 14 million nodes and 92 million edges.
-We find that both clusterings produce  some clusters that  fail our minimal requirements for community structure, although the extent to which these violations occur depends on the network and (in the case of Leiden) the resolution parameter. 
+We find that both clusterings produce  some clusters that  fail our minimal requirements for community structure, although the extent to which these violations occur depends on the network and (in the case of Leiden) the resolution parameter.
 We also find that Leiden clusterings can reduce substantially  in node coverage (i.e., percentage of the network vertices that are found in non-singleton
 clusters)  after being run through this pipeline.
 We also report trends that suggest the intriguing possibility that for some  real world networks, only a reduced subset may exhibit valid community structure,
-thus calling into question the assumption that  clustering methods should place all nodes in communities. 
+thus calling into question the assumption that  clustering methods should place all nodes in communities.
 
 
 %In sum, the pipeline we provide enables
@@ -283,11 +283,11 @@ The CEN is a citation network focused on the exosome research literature consist
 
 
 \paragraph{SNAP Networks}The following networks were downloaded from the Stanford Network Analysis Project (SNAP) website:
- (i) cit\_patents \citep{Leskovec2005}, a citation network among US patents, 
-%(ii) orkut \citep{Yang2013}, data from the Orkut online social network, 
-(ii) cit\_hepph \citep{Leskovec2005}, the Arxiv High Energy Physics paper citation network,  
+ (i) cit\_patents \citep{Leskovec2005}, a citation network among US patents,
+%(ii) orkut \citep{Yang2013}, data from the Orkut online social network,
+(ii) cit\_hepph \citep{Leskovec2005}, the Arxiv High Energy Physics paper citation network,
 (iii) wiki\_talk \citep{Leskovec2010}, a network containing users and discussion from the inception of Wikipedia till January 2008,  and
-(iv) wiki\_topcats \citep{Yin2017}, a web graph of Wikimedia hyperlinks. 
+(iv) wiki\_topcats \citep{Yin2017}, a web graph of Wikimedia hyperlinks.
 Each network was processed to remove duplicate edges, parallel edges, and self-loops.
 The numbers of nodes and edges reported in Table \ref{tab:empirical-stats-SNAP} reflect this processing.
 
@@ -348,8 +348,8 @@ To estimate $\tau_1$ and $\tau_2$, we fit a power-law distribution to the node d
 \label{tab:empirical-stats-LFR}
 \end{table}
 
-\paragraph{Generating LFRs.} 
-After computing these parameters based on the Leiden clusterings of the empirical networks using selected resolution parameters (see text), we simulated LFR networks using the software from \cite{lancichinetti2008benchmark}, producing empirical statistics reported in Table \ref{tab:empirical-stats-LFR} (for a resolution parameter of 0.01). For networks with more than 10 million nodes (i.e., the OpenCitations and the CEN), we limited the number of vertices to 3 million, due to scalability limitations of  the LFR benchmark graph generator \citep{slota2019scalable}, while preserving the edge density (reflected by average degree) and the mixing parameter.  The number of nodes of the LFR graphs exactly matches the number of nodes in the corresponding empirical network. In some cases, due to the inherent limitations of the LFR graph generator, we had to modify the ranges of the community sizes (i.e., increase $c_{min}$ and decrease $c_{max}$) to generate the network. 
+\paragraph{Generating LFRs.}
+After computing these parameters based on the Leiden clusterings of the empirical networks using selected resolution parameters (see text), we simulated LFR networks using the software from \cite{lancichinetti2008benchmark}, producing empirical statistics reported in Table \ref{tab:empirical-stats-LFR} (for a resolution parameter of 0.01). For networks with more than 10 million nodes (i.e., the OpenCitations and the CEN), we limited the number of vertices to 3 million, due to scalability limitations of  the LFR benchmark graph generator \citep{slota2019scalable}, while preserving the edge density (reflected by average degree) and the mixing parameter.  The number of nodes of the LFR graphs exactly matches the number of nodes in the corresponding empirical network. In some cases, due to the inherent limitations of the LFR graph generator, we had to modify the ranges of the community sizes (i.e., increase $c_{min}$ and decrease $c_{max}$) to generate the network.
 
 As shown from the statistics reported in Table \ref{tab:empirical-stats-LFR} and the supplement \textcolor{blue}{add table number}, the average node degree, the mixing parameter and the exponents for the degree and community size distributions are in all cases very well-preserved. Further details about the pipeline for producing LFR graphs and the statistics of the graphs are provided in Supplementary Materials Section 2.
 
@@ -376,7 +376,7 @@ For each experiment, we report empirical statistics, such as the distribution of
 \centering
 \includegraphics[width=0.8\linewidth]{figs/fig1_kn.pdf}
 \caption{\textbf{CM-processed Leiden clusterings of the Open Citations network exhibit a resolution-dependent reduction in clusters and cluster sizes.}
-The Open Citations network consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered using the Leiden algorithm, 
+The Open Citations network consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered using the Leiden algorithm,
 with CPM as quality function; each row shows results for a particular resolution value (top: r=0.5, middle: r=0.01, bottom: r=0.0001).
 The first column shows the cluster size distribution for the Leiden clustering; the middle column shows the cluster size distribution after filtering out trees and clusters of size at most 10; the right column shows the cluster size distribution after the complete CM pipeline (which includes a final filtering step to remove trees and clusters at most size 10).
 The impact on Leiden clustering is largest for the two smaller resolution values.
@@ -388,16 +388,16 @@ Descriptive statistics are shown for Leiden clustering of the Open Citations Net
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\linewidth]{figs/oc_istouched.pdf}
-\caption{\textbf{OC Istouched by CM}}
+\caption{\textbf{Open Citations and the CM pipeline: Clusters Impacted}. For Leiden followed by CM processing, each bar shows results for one of five different resolution values, and each bar shows 
+the total number of clusters of size at least 11. Those clusters that are affected by the CM processing (because the size of their min-cut is below the Equation \ref{eqn:our-bound} limit)
+are colored in blue, and the red ones are those that are not affected by the CM processing (because their min cut size is at least that large).
+Note that for resolution parameter 0.5, no clusters are affected by CM processing, but that as the resolution parameter reduces, the frequency of impact increases,
+so that for the two smallest resolution parameters show, nearly all clusters are affected by the CM processing (because their min-cuts are too small)).}
 \label{fig:ocistouched}
 \end{figure}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\linewidth]{figs/cen_istouched.pdf}
-\caption{\textbf{CEN Istouched by CM. Colors are reversed will fix with new palette for these two figures to relieve the monotony}}
-\label{fig:ocistouched}
-\end{figure}
+As seen in Figure \ref{fig:ocistouched}, except when the resolution parameter is very large, Leiden clusters tend to have small edge cuts (meaning that they are below the bound provided in
+Equation \ref{eqn:ourbound}) and so are impacted by the CM pipeline
 
 
 \begin{figure}[H]
@@ -449,16 +449,16 @@ Descriptive statistics are shown for Leiden clustering of the CEN at 5 different
 \centering
 \begin{tabular}{lrrrrrr}
   \hline
- res value & clus count & node cov & min & med & max \\ 
+ res value & clus count & node cov & min & med & max \\
   \hline
-0.50 & 297755 & 6.00 &  11 & 13.00 & 172 \\ 
-0.10 & 1311109 & 43.76 &  11 & 17.00 & 882 \\ 
-0.01 & 1361399 & 88.93 &  11 & 19.00 & 3678 \\ 
-0.00 & 232052 & 90.55 &  11 & 64.00 & 22808 \\ 
-0.00 & 38712 & 91.89 &  11 & 177.00 & 149287 \\ 
+0.50 & 297755 & 6.00 &  11 & 13.00 & 172 \\
+0.10 & 1311109 & 43.76 &  11 & 17.00 & 882 \\
+0.01 & 1361399 & 88.93 &  11 & 19.00 & 3678 \\
+0.00 & 232052 & 90.55 &  11 & 64.00 & 22808 \\
+0.00 & 38712 & 91.89 &  11 & 177.00 & 149287 \\
    \hline
 \end{tabular}
-\caption{\textbf{Leiden clusters of size at least 11 for the Open Citations Network.} The Open Citations Network (Materials and Methods) consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered with the Leiden algorithm, using the Constant Potts Model (CPM) as quality function, and using various resolution values (column 1). 
+\caption{\textbf{Leiden clusters of size at least 11 for the Open Citations Network.} The Open Citations Network (Materials and Methods) consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered with the Leiden algorithm, using the Constant Potts Model (CPM) as quality function, and using various resolution values (column 1).
 Node coverage is the percentage of nodes in the network found in clusters of size at least 11. Minimum, median, and max cluster sizes, restricted to clusters of size at least 11, are shown in the last three columns.  }
 \label{tab:Leiden-11-OC-basicstats}
 \end{table}
@@ -471,6 +471,20 @@ Node coverage is the percentage of nodes in the network found in clusters of siz
 \subsubsection{Leiden Analyses of the CEN}
 
 We then evaluated a citation network, the CEN (Materials and Methods) consisting of 13,989,436 nodes and 92,051,051 edges, which captures the relatively recent literature relevant to exosomes and extracellular vesicles. We clustered the CEN using Leiden optimizing CPM with resolution values ranging from 0.5 to 0.001 (Table \ref{tab:CEN-table1}). This range of resolution values brackets the resolution values used by us on this network in   \cite{Jakatdar_2022}.
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{figs/cen_istouched.pdf}
+\caption{\textbf{The Curated Exosome Network (CEN) and the CM pipeline: Clusters Impacted}. For Leiden followed by CM processing, each bar shows results for one of five different resolution values, and each bar shows 
+the total number of clusters of size at least 11. Those clusters that are affected by the CM processing (because the size of their min-cut is below the Equation \ref{eqn:our-bound} limit)
+are colored in blue, and the red ones are those that are not affected by the CM processing (because their min cut size is at least that large).
+Note that for resolution parameter 0.5, no clusters are affected by CM processing, but that as the resolution parameter reduces, the frequency of impact increases,
+so that for the two smallest resolution parameters show, nearly all clusters are affected by the CM processing (because their min-cuts are too small)).}
+\label{fig:censtouched}
+\end{figure}
+As seen in Figure \ref{fig:cenistouched}, except when the resolution parameter is very large, Leiden clusters tend to have small edge cuts (meaning that they are below the bound provided in
+Equation \ref{eqn:ourbound}) and so are impacted by the CM pipeline, 
 
 % latex table generated in R 4.1.3 by xtable 1.8-4 package
 % Mon Jan 30 22:29:28 2023
@@ -494,7 +508,7 @@ Node coverage and cluster size increase as resolution value is decreased.}
 \label{tab:CEN-table1}
 \end{table}
 
-Predictably, node coverage and cluster size increased as resolution values  decreased (Table \ref{tab:CEN-table1}). 
+Predictably, node coverage and cluster size increased as resolution values  decreased (Table \ref{tab:CEN-table1}).
 Interestingly, the number of clusters increased and then decreased, with the smallest number of clusters for the largest
 resolution value.
 
@@ -585,7 +599,31 @@ leiden & 0.001 & non\_tree &  12 & 112 & 16481 \\
 
 \subsection{Experiment 3: Analyses of LFR networks based on the Open Citations and CEN networks}
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.62\textwidth]{figs/oc_cm_steps_lfr001.pdf}
+\includegraphics[width=0.37\textwidth]{figs/oc_001_cm_size.pdf}
+\caption[CM pipeline on the empirical Open Citations network and its model LFR graph for r=0.001]{\textbf{CM pipeline on the empirical Open Citations network and its model LFR graph for r=0.001.} The number of nodes in the empirical network is 75,025,194 and in the LFR network is 3,000,000, but they have very close average degrees (36.34 and 36.63 respectively) and mixing parameters (0.500 and 0.501 respectively). The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\label{fig:oc-cm-lfr-001}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.62\textwidth]{figs/cen_cm_steps_lfr01.pdf}
+\includegraphics[width=0.37\textwidth]{figs/cen_01_cm_size.pdf}
+\caption[CM pipeline on the empirical CEN network and its model LFR graph for r=0.01]{\textbf{CM pipeline on the empirical CEN network and its model LFR graph for r=0.01.} The number of nodes in the empirical CEN network is 13,989,436 nodes and in the LFR graph is 3,000,000, but they have very close average degrees (3.16 and 3.84 respectively) and mixing parameters (0.645 and 0.646 respectively). The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\label{fig:cen-cm-lfr-01}
+\end{figure}
+
 \subsection{Experiment 4: Analyses of SNAP networks and their LFR model networks}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.62\textwidth]{figs/cit_patents_cm_steps_lfr01.pdf}
+\includegraphics[width=0.37\textwidth]{figs/cit_patents_01_cm_size.pdf}
+\caption[CM pipeline on the empirical citation patents network and its model LFR graph for r=0.01]{\textbf{CM pipeline on the empirical citation patents network and its model LFR graph for r=0.01.} Both networks have 3,774,768 nodes, with an average degree of 8.75 for the empirical network and 8.29 for the LFR graph and both have mixing parameters of 0.382. The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\label{fig:patents-cm-lfr-01}
+\end{figure}s
 
 
 
@@ -715,7 +753,7 @@ In addition, five more real world networks from the Stanford Network Analysis Pr
   4 & leiden 0.001 & 2,172,927 & 66,326 & 65,771 & 11 & 98 & 16,481 & 84.45 \\
    \hline
 \end{tabular}
-\caption{Statistics on Leiden clusters of the Curated Exosome Network (CEN). 
+\caption{Statistics on Leiden clusters of the Curated Exosome Network (CEN).
 We show number of non-singleton clusters ($n >1$) and number of clusters of size at least 11, as well as minimum, median, and
 maximum cluster size when restricted to clusters of size at least $11$. The node coverage refers to percentage of nodes in the CEN found in clusters of size at least 11.
 Node coverage and cluster size increase as resolution values is decreased. The first column (clustering) shows the resolution value passed as a parameter to Leiden. The next three columns show cluster counts for singleton clusters, non-singleton clusters, and clusters of size at least 11. Minimum, median, and max cluster sizes are shown for clusters of size at least 11. The last column indicates node coverage expressed as a percentage; the count of nodes in clusters of size at least 11, relative to the total number of nodes in the network.}
