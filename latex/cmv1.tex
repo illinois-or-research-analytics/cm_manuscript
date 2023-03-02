@@ -376,6 +376,28 @@ For each experiment, we report empirical statistics, such as the distribution of
 
 \subsubsection{Leiden analyses of the Open Citations Network}
 
+We analyzed the Open Citations Network using Leiden under five different resolution values; after discarding clusters below size 11, we obtain cluster statistics as shown in Table \ref{tab:Leiden-11-OC-basicstats}.
+\begin{table}[H]
+\centering
+\begin{tabular}{lrrrrrr}
+  \hline
+ res value & clus count & node cov & min & med & max \\
+  \hline
+0.5000 & 297755 & 6.00 &  11 & 13.00 & 172 \\
+0.1000 & 1311109 & 43.76 &  11 & 17.00 & 882 \\
+0.0100 & 1361399 & 88.93 &  11 & 19.00 & 3678 \\
+0.0010 & 232052 & 90.55 &  11 & 64.00 & 22808 \\
+0.0001 & 38712 & 91.89 &  11 & 177.00 & 149287 \\
+   \hline
+\end{tabular}
+\caption{\textbf{Leiden clusters of size at least 11 for the Open Citations Network.} The Open Citations Network (Materials and Methods) consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered with the Leiden algorithm, using the Constant Potts Model (CPM) as quality function, and using various resolution values (column 1).
+Node coverage is the percentage of nodes in the network found in clusters of size at least 11. Minimum, median, and max cluster sizes, restricted to clusters of size at least 11, are shown in the last three columns.  \textcolor{blue}{Tandy asks: should this table on statistics for Leiden clusters of Open Citations go into Materials and Methods?} }
+\label{tab:Leiden-11-OC-basicstats}
+\end{table}
+
+For each of three resolution values (the largest at $r=0.5$, the smallest at $r=0.0001$, and an intermediate value of $r=0.01$), Figure \ref{fig:oc_size_count_plots_leiden} shows the distribution of cluster sizes during the pipeline:  the input Leiden clusters (left-most column), after filtering to remove  trees and clusters below size 11 (middle column), and after the entire pipeline completed  (right-most column). For each of these resolution values, clusters of size at most 10 appeared in the input clustering, and filtering removes these clusters.
+The subsequent steps in CM-processing (removing small edge cuts from poorly-connected clusters and reclustering)  has no impact for the largest resolution value ($r=0.5$), but does impact the two smaller values. This is most noticeable for the smaller cluster sizes, where post-CM processed distribution is smoother than the pre-CM processed distribution.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\linewidth]{figs/fig1_kn.pdf}
@@ -385,26 +407,35 @@ with CPM as quality function; each row shows results for a particular resolution
 The first column shows the cluster size distribution for the Leiden clustering; the middle column shows the cluster size distribution after filtering out trees and clusters of size at most 10; the right column shows the cluster size distribution after the complete CM pipeline (which includes a final filtering step to remove trees and clusters at most size 10).
 The impact on Leiden clustering is largest for the two smaller resolution values.
 %The effect of filtering out tree clusters and clusters of size 10 or less and trees is shown in the middle column. The effect of subsequent treatment with CM and re-filtering is shown in the the right column.
-Descriptive statistics are shown for Leiden clustering of the Open Citations Network at 5 different resolution values in Table \ref{tab:something}.}
+See also   Table \ref{tab:something} and Figure \ref{fig:ocistouched}.}
 \label{fig:oc_size_count_plots_leiden}
 \end{figure}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\linewidth]{figs/oc_istouched.pdf}
-\caption{\textbf{Leiden Clusters of Open Citations Impacted by CM}. For Leiden followed by CM processing, each bar shows results for one of five different resolution values, and each bar shows 
-the total number of clusters of size at least 11. 
-The fraction of the clusters that are affected by the CM processing (because the size of their min-cut is below the Equation \ref{eqn:our-bound} limit)
-is colored in red and the fraction in blue are for those that are not affected by the CM processing (because their min cut size is at least that large).
-Note that for resolution parameter 0.5, no clusters are affected by CM processing, but that as the resolution parameter reduces, the frequency of impact increases,
+\caption{\textbf{Leiden Clusters of Open Citations Impacted by CM}. Each bar shows the total number of clusters as well as the distribution into well-connected (blue) or not well-connected (red) for  one of five different resolution values, restricted to clusters of size at least 11. 
+%``Yes" (shown in red) indicates clusters that have min cuts that are below the size given by Equation \ref{eqn:our-bound}, and so are not considered  to be well-connected; 
+%``No" (shown in blue) indicates clusters whose min cuts are at least the size specified by Equation \ref{eqn:our-bound}, and so are considered well-connected.  
+%Thus, the fraction of the clusters that are affected by the CM processing (because the size of their min-cut is below the Equation \ref{eqn:our-bound} limit)
+%is colored in red and the fraction in blue are for those that are not affected by the CM processing (because their min cut size is at least that large).
+At the largest examined resolution parameter 0.5, all clusters are well-connected (and so no clusters are affected by CM processing), but that as the resolution parameter reduces, the frequency of impact increases,
 so that for the two smallest resolution parameters show, nearly all clusters are affected by the CM processing (because their min-cuts are too small).}
 \label{fig:ocistouched}
 \end{figure}
 
-As seen in Figure \ref{fig:ocistouched}, except when the resolution parameter is very large, Leiden clusters tend to have small edge cuts (meaning that they are below the bound provided in
-Equation \ref{eqn:our-bound}) and so are impacted by the CM pipeline. 
-Strikingly, for the smaller resolution parameter values of $0.01$ and $0.001$, the fraction that have small edge cuts and so would not be considered well-connected by Equation \ref{eqn:our-bound} is close to 100\%.
+We examine the frequency with which clusters produced by Leiden, at different resolution values, have edge cuts that fail to meet the required minimum size, according to Equation \ref{eqn:our-bound}, and so are not ``well-connected" by this definition.  We refer to such clusters as ``impacted by CM-processing".
+As seen in Figure \ref{fig:ocistouched}, except for the largest resolution parameter ($r=0.5$), most Leiden clusters are impacted by CM-processing, and so are not well-connected according to Equation \ref{eqn:our-bound}.
+Strikingly, for the three smaller resolution parameter values between $0.01$ and $0.0001$, the fraction that have small edge cuts and so would not be considered well-connected by Equation \ref{eqn:our-bound} is very large, even close to 100\% for the two largest.
 
+
+Having noted that CM-processing impacts most clusters (except for when the resolution factor is very large), we then examined how it impacted the total number of clusters, cluster size distribution, and node coverage, for each of the resolution values we explored. As seen in  the impact depends very much on the resolution value, but there is impact at all values.
+For all resolution values (Table \ref{tab:cm_stats_OC}), there is a large reduction in the number of clusters and in the node coverage, but this is due primarily to the filtering stage for the two largest resolution values and due to the second stage (where poorly-connected clusters are broken and then reclustered) for the three smaller resolution values.
+%For the largest resolution value ($r=0.5$), the initial clustering has nearly 21 million clusters, but after filtering (which removes clusters below size 11 and also removes tree clusters), the total number of clusters drops to 297,755. This filtering also reduces node coverage from 79.2\% to 6.0\%, showing that 73.2\% of the network nodes were contained in these discarded clusters.  After this filtering, however, there are no further changes, as every remaining cluster meets the minimal criterion for edge-cut size.
+%At the next largest resolution value ($r=0.1$), the impact is nearly the same, with most clusters being removed during filtering, and then a non-trivial number of clusters being impacted by CM-processing (due to having edge cuts below the size requirement given by Equation \ref{eqn:our-bound}). The node coverage drops from 92.3\% before filtering to 41.6\% after CM-processing.  
+%At the three smallest resolution values, we see somewhat different trends. We still see the majority of clusters being removed during the filtering step (with a corresponding reduction in node coverage), but  the impact of CM-processing continues after filtering, and leads to a further reduction in node coverage. 
+At all resolution values, the maximum cluster sizes do not change as a result of this CM-proessing, indicating that the very largest cluster in each analysis is well-connected (according to Equation \ref{eqn:our-bound}).
+We also note that the median cluster size does change, sometimes increasing,  and sometimes decreasing. 
 
 
 % latex table generated in R 4.1.3 by xtable 1.8-4 package
@@ -417,7 +448,7 @@ Strikingly, for the smaller resolution parameter values of $0.01$ and $0.001$, t
   \hline
   Leiden 0.5 & cluster & 20964020 & 79.2 &   2 & 2. & 172 \\
     Leiden 0.5 & filter & 297755 & 6.0 &  11 & 13 & 172 \\
-    Leiden 0.5 & cm & 297755 & 6.0 &  11 & 13. & 172 \\
+    Leiden 0.5 & cm & 297755 & 6.0 &  11 & 13 & 172 \\
   \hline
     Leiden 0.1 & cluster & 8642592 & 92.8 &   2 & 5 & 882 \\
     Leiden 0.1 & filter & 1296921 & 43.5 &  11 & 17 & 882 \\
@@ -437,26 +468,10 @@ Strikingly, for the smaller resolution parameter values of $0.01$ and $0.001$, t
    \hline
 \end{tabular}
 \caption{\textbf{Leiden clusters of size at least two for the Open Citations Network}. For each of five resolution values and stage of the pipeline, we show  the number of non-singleton clusters (clust\_count), node coverage (node\_cov, i.e., the percentage  of the nodes in the network found in non-singleton clusters), and the minimum, median, and maximum of the non-singleton cluster sizes.  The three stages shown include  \emph{cluster} (indicating the input clustering), \emph{filter} (the stage that removes  clusters of size at most 10 and tree clusters), and  \emph{cm}, indicating that the entire CM pipeline has completed (i.e.,  the recursive mincut and cluster connectivity modifier process was applied to the filtered clusters followed by refiltering to exclude clusters of size at most 10).}
-\label{tab: cm_stats}
+\label{tab:cm_stats_OC}
 \end{table}
 
-\begin{table}[H]
-\centering
-\begin{tabular}{lrrrrrr}
-  \hline
- res value & clus count & node cov & min & med & max \\
-  \hline
-0.50 & 297755 & 6.00 &  11 & 13.00 & 172 \\
-0.10 & 1311109 & 43.76 &  11 & 17.00 & 882 \\
-0.01 & 1361399 & 88.93 &  11 & 19.00 & 3678 \\
-0.00 & 232052 & 90.55 &  11 & 64.00 & 22808 \\
-0.00 & 38712 & 91.89 &  11 & 177.00 & 149287 \\
-   \hline
-\end{tabular}
-\caption{\textbf{Leiden clusters of size at least 11 for the Open Citations Network.} The Open Citations Network (Materials and Methods) consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered with the Leiden algorithm, using the Constant Potts Model (CPM) as quality function, and using various resolution values (column 1).
-Node coverage is the percentage of nodes in the network found in clusters of size at least 11. Minimum, median, and max cluster sizes, restricted to clusters of size at least 11, are shown in the last three columns.  }
-\label{tab:Leiden-11-OC-basicstats}
-\end{table}
+
 
 \subsubsection{IKC analyses of the Open Citations Network}
 
@@ -465,7 +480,49 @@ Node coverage is the percentage of nodes in the network found in clusters of siz
 
 \subsubsection{Leiden Analyses of the CEN}
 
-We then evaluated a citation network, the CEN (Materials and Methods) consisting of 13,989,436 nodes and 92,051,051 edges, which captures the relatively recent literature relevant to exosomes and extracellular vesicles. We clustered the CEN using Leiden optimizing CPM with resolution values ranging from 0.5 to 0.001 (Table \ref{tab:CEN-table1}). This range of resolution values brackets the resolution values used by us on this network in   \cite{Jakatdar_2022}.
+We then evaluated a citation network, the CEN (Materials and Methods) consisting of 13,989,436 nodes and 92,051,051 edges, which captures the relatively recent literature relevant to exosomes and extracellular vesicles. We clustered the CEN using Leiden optimizing CPM with  four resolution values ranging from 0.5 to 0.001 (Table \ref{tab:CEN-table1}). This range of resolution values brackets the resolution values used by us on this network in   \cite{Jakatdar_2022}.
+Predictably, node coverage and cluster size increased as resolution values  decreased (Table \ref{tab:CEN-table1}).
+Interestingly, the number of clusters increased and then decreased, with the smallest number of clusters for the largest
+resolution value.
+
+
+% latex table generated in R 4.1.3 by xtable 1.8-4 package
+% Mon Jan 30 22:29:28 2023
+% generated by singleton corrected script
+\begin{table}[ht]
+\centering
+\begin{tabular}{lrrrrrr}
+  \hline
+ clustering & $n \geq 11$ & min & med & max & node\_cov \\
+  \hline
+ leiden 0.5 &   8,503 & 11 & 14 & 68 & 0.97 \\
+ leiden 0.1 &   273,420 & 11 & 11 & 319 & 23.98 \\
+  leiden 0.01   & 275,641 & 11 & 28 & 3,186 & 76.52 \\
+  leiden 0.001   &65,771 & 11 & 98 & 16,481 & 84.45 \\
+   \hline
+\end{tabular}
+\caption{\textbf{Leiden clusters of size at least 11 of the Curated Exosome Network (CEN).}
+For Leiden clustering under four different resolution values (left column), we show  the number of clusters of size at least 11;  the minimum, median, and
+maximum cluster size when restricted to clusters of size at least $11$; and the node coverage (i.e., percentage of nodes in the CEN found in clusters of size at least 11).
+Node coverage and cluster size increase as resolution value is decreased.
+\textcolor{blue}{Tandy asks: should this go into Materials and Methods?}
+}
+\label{tab:CEN-table1}
+\end{table}
+
+
+We performed the corresponding analyses on the CEN as for the Open Citations Network for these four resolution values, and report results below.
+As seen in Figure \ref{fig:CEN_size_count_plots_leiden}, we see that  for each of the four resolution values, the Leiden clusters include some clusters that are below
+the minimum size (11), and so are removed during filtering. We also see that  the final part of the CM pipeline does not affect the distribution of cluster sizes for the
+largest resolution value ($r=0.5$), has a nearly invisible impact on the next largest ($r=0.1$), but has an obvious impact for the two smaller resolution values
+($r=0.01$ and $r=0.001$). 
+That is, before CM-processing, the distribution of cluster sizes for these two smaller resolution values shows a pattern where it starts small, increases (to a maximum somewhere
+below size $100$), and then decreases; after CM-processing, the curve is smoother, and the number of clusters  decreases with the size.
+These trends are similar to those seen for the Open Citations Network, but more pronounced.
+
+We then examined the frequency of poorly-connected clusters for each of these parameter values (Figure \ref{fig:cenistouched}). 
+For the largest resolution value, all clusters are well-connected, according to Equation \ref{eqn:our-bound}, but the proportion that are well-connected drops as we decrease the resolution value, so that at the two smallest resolution values nearly all clusters are poorly connected.
+This is also similar to what we observed for the Open Citations Network.
 
 \begin{figure}[H]
 \centering
@@ -490,38 +547,13 @@ Note that for resolution parameter 0.5, no clusters are affected by CM processin
 so that for the two smallest resolution parameters show, nearly all clusters are affected by the CM processing (because their min-cuts are too small)).}
 \label{fig:cenistouched}
 \end{figure}
-As seen in Figure \ref{fig:cenistouched}, except when the resolution parameter is very large, Leiden clusters (of size at least 11) tend to have small edge cuts (meaning that they are below the bound provided in
-Equation \ref{eqn:our-bound}) and so are impacted by the CM pipeline, 
-Strikingly, for the smaller resolution parameter values of $0.01$ and $0.001$, the fraction that have small edge cuts and so would not be considered well-connected by Equation \ref{eqn:our-bound} is close to 100\%.
-These trends are essentially the same as we observed for the Open Citations Network. 
 
-% latex table generated in R 4.1.3 by xtable 1.8-4 package
-% Mon Jan 30 22:29:28 2023
-% generated by singleton corrected script
-\begin{table}[ht]
-\centering
-\begin{tabular}{lrrrrrr}
-  \hline
- clustering & $n \geq 11$ & min & med & max & node\_cov \\
-  \hline
- leiden 0.5 &   8,503 & 11 & 14 & 68 & 0.97 \\
- leiden 0.1 &   273,420 & 11 & 11 & 319 & 23.98 \\
-  leiden 0.01   & 275,641 & 11 & 28 & 3,186 & 76.52 \\
-  leiden 0.001   &65,771 & 11 & 98 & 16,481 & 84.45 \\
-   \hline
-\end{tabular}
-\caption{\textbf{Leiden clusters of size at least 11 of the Curated Exosome Network (CEN).}
-For Leiden clustering under four different resolution values (left column), we show  the number of clusters of size at least 11;  the minimum, median, and
-maximum cluster size when restricted to clusters of size at least $11$; and the node coverage (i.e., percentage of nodes in the CEN found in clusters of size at least 11).
-Node coverage and cluster size increase as resolution value is decreased.}
-\label{tab:CEN-table1}
-\end{table}
+ 
 
-Predictably, node coverage and cluster size increased as resolution values  decreased (Table \ref{tab:CEN-table1}).
-Interestingly, the number of clusters increased and then decreased, with the smallest number of clusters for the largest
-resolution value.
-
-We also explored whether trees, which are extreme examples of poorly connected clusters, were being generated. Accordingly, we searched for trees in clusterings generated by either Leiden. We filtered out clusters of size at most 10 before evaluating clusters for the presence of trees. Strikingly, we observed trees in Leiden clusterings from resolution values of 0.1, 0.01, and 0.001 but not at 0.5. At resolution value of 0.1, 273,420 clusters were generated of which 254,734 (93.2\%) were trees of size 11. At a resolution value of 0.001, 65,771 clusters were generated were found, of which 22,750 (34.6\%) were
+\paragraph{Searching for Trees in the CEN}
+\textcolor{blue}{George, if we are going to do this for the CEN, shouldn't we be doing this for Open Citations? }
+We also explored whether trees, which are extreme examples of poorly connected clusters, were being generated. Accordingly, we searched for trees in clusterings generated by  Leiden. 
+We filtered out clusters of size at most 10 before evaluating clusters for the presence of trees. Strikingly, we observed trees in Leiden clusterings from resolution values of 0.1, 0.01, and 0.001 but not at 0.5. At resolution value of 0.1, 273,420 clusters were generated of which 254,734 (93.2\%) were trees of size 11. At a resolution value of 0.001, 65,771 clusters were generated were found, of which 22,750 (34.6\%) were
 trees (Figure \ref{fig:trees-in-networks} and Table \ref{tab:CEN-table2}.)
  Interestingly, as resolution values were decreased further, the number of trees decreased but the average tree size increased (Figure \ref{somefig}, Table \ref{tab:CEN-table3}).
 
