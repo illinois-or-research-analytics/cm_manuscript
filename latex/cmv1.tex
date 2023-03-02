@@ -376,13 +376,29 @@ For each experiment, we report empirical statistics, such as the distribution of
 \centering
 \includegraphics[width=0.8\linewidth]{figs/fig1_kn.pdf}
 \caption{\textbf{CM-processed Leiden clusterings of the Open Citations network exhibit a resolution-dependent reduction in clusters and cluster sizes.}
-The Open Citations network consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered using the Leiden algorithm, with CPM as quality function; each row shows results for a particular resolution value (top: r=0.5, middle: r=0.01, bottom: r=0.0001).
+The Open Citations network consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered using the Leiden algorithm, 
+with CPM as quality function; each row shows results for a particular resolution value (top: r=0.5, middle: r=0.01, bottom: r=0.0001).
 The first column shows the cluster size distribution for the Leiden clustering; the middle column shows the cluster size distribution after filtering out trees and clusters of size at most 10; the right column shows the cluster size distribution after the complete CM pipeline (which includes a final filtering step to remove trees and clusters at most size 10).
 The impact on Leiden clustering is largest for the two smaller resolution values.
 %The effect of filtering out tree clusters and clusters of size 10 or less and trees is shown in the middle column. The effect of subsequent treatment with CM and re-filtering is shown in the the right column.
 Descriptive statistics are shown for Leiden clustering of the Open Citations Network at 5 different resolution values in Table \ref{tab:something}.}
 \label{fig:oc_size_count_plots_leiden}
 \end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{figs/oc_istouched.pdf}
+\caption{\textbf{OC Istouched by CM}}
+\label{fig:ocistouched}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\linewidth]{figs/cen_istouched.pdf}
+\caption{\textbf{CEN Istouched by CM. Colors are reversed will fix with new palette for these two figures to relieve the monotony}}
+\label{fig:ocistouched}
+\end{figure}
+
 
 \begin{figure}[H]
 \centering
