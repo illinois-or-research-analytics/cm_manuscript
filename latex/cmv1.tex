@@ -406,7 +406,6 @@ The Open Citations network consisting of 75,025,194 nodes and 1,363,605,603 edge
 with CPM as quality function; each row shows results for a particular resolution value (top: r=0.5, middle: r=0.01, bottom: r=0.0001).
 The first column shows the cluster size distribution for the Leiden clustering; the middle column shows the cluster size distribution after filtering out trees and clusters of size at most 10; the right column shows the cluster size distribution after the complete CM pipeline (which includes a final filtering step to remove trees and clusters at most size 10).
 The impact on Leiden clustering is largest for the two smaller resolution values.
-%The effect of filtering out tree clusters and clusters of size 10 or less and trees is shown in the middle column. The effect of subsequent treatment with CM and re-filtering is shown in the the right column.
 See also   Table \ref{tab:something} and Figure \ref{fig:ocistouched}.}
 \label{fig:oc_size_count_plots_leiden}
 \end{figure}
@@ -414,15 +413,36 @@ See also   Table \ref{tab:something} and Figure \ref{fig:ocistouched}.}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.4\linewidth]{figs/oc_istouched.pdf}
-\caption{\textbf{Leiden Clusters of Open Citations Impacted by CM}. Each bar shows the total number of clusters as well as the distribution into well-connected (blue) or not well-connected (red) for  one of five different resolution values, restricted to clusters of size at least 11.
-%``Yes" (shown in red) indicates clusters that have min cuts that are below the size given by Equation \ref{eqn:our-bound}, and so are not considered  to be well-connected;
-%``No" (shown in blue) indicates clusters whose min cuts are at least the size specified by Equation \ref{eqn:our-bound}, and so are considered well-connected.
-%Thus, the fraction of the clusters that are affected by the CM processing (because the size of their min-cut is below the Equation \ref{eqn:our-bound} limit)
-%is colored in red and the fraction in blue are for those that are not affected by the CM processing (because their min cut size is at least that large).
-At the largest examined resolution parameter 0.5, all clusters are well-connected (and so no clusters are affected by CM processing), but that as the resolution parameter reduces, the frequency of impact increases,
+\caption{\textbf{Leiden Clusters of Open Citations Impacted by CM}. Each bar shows the total number of clusters as well as the distribution into well-connected (blue) or not well-connected (red) for  one of five different resolution values, restricted to clusters of size at least 11. At the largest examined resolution parameter 0.5, all clusters are well-connected (and so no clusters are affected by CM processing), but that as the resolution parameter reduces, the frequency of impact increases,
 so that for the two smallest resolution parameters show, nearly all clusters are affected by the CM processing (because their min-cuts are too small).}
 \label{fig:ocistouched}
 \end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\linewidth]{figs/oc_boxplot.pdf}
+\caption{\textbf{OC Boxplot}}
+\label{fig:ocistouched}
+\end{figure}
+
+% latex table generated in R 4.2.2 by xtable 1.8-4 package
+% Fri Mar  3 09:18:16 2023
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlrrc}
+  \hline
+ & tag & yes & no & percent log10\_mincut\\ 
+  \hline
+1 & leiden 0.5 & 0 & 297755 & 0 \\ 
+  2 & leiden 0.1 & 163174 & 1133747 & 12.6  \\ 
+  3 & leiden 0.01 & 976900 & 56388 & 94.5\\ 
+  4 & leiden 0.001 & 205608 & 2584 & 98.6 \\ 
+  5 & leiden 0.0001 & 33665 &  98 & 99.7 \\ 
+   \hline
+\end{tabular}
+\caption{cluster counts for oc\_istouched boxplot}
+\end{table}
+
 
 We examine the frequency with which clusters produced by Leiden, at different resolution values, have edge cuts that fail to meet the required minimum size, according to Equation \ref{eqn:our-bound}, and so are not ``well-connected" by this definition.  We refer to such clusters as ``impacted by CM-processing".
 As seen in Figure \ref{fig:ocistouched}, except for the largest resolution parameter ($r=0.5$), most Leiden clusters are impacted by CM-processing, and so are not well-connected according to Equation \ref{eqn:our-bound}.
@@ -555,6 +575,30 @@ Note that for resolution parameter 0.5, no clusters are affected by CM processin
 so that for the two smallest resolution parameters show, nearly all clusters are affected by the CM processing (because their min-cuts are too small)).}
 \label{fig:cenistouched}
 \end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\linewidth]{figs/cen_boxplot.pdf}
+\caption{\textbf{CEN boxplot}}
+\label{fig:cenistouched}
+\end{figure}
+
+% latex table generated in R 4.2.2 by xtable 1.8-4 package
+% Fri Mar  3 09:27:35 2023
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlrrc}
+  \hline
+ & tag & yes & no & percent log10\_mincut\\ 
+  \hline
+1 & leiden 0.5 & 0  & 8406  & 0\\ 
+  2 & leiden 0.1 & 4357 & 14348 & 23.3\\ 
+  3 & leiden 0.01 & 62859 & 1806 & 97.2\\ 
+  4 & leiden 0.001 & 42728 & 169 & 99.6 \\ 
+   \hline
+\end{tabular}
+\caption{cluster counts for CEN boxplot}
+\end{table}
 
 
 
