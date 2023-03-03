@@ -17,7 +17,7 @@ ggplot() + xlim(0,500) + ylim(0,5) +# scale_y_continuous(breaks=c(seq(0,500,by=5
   theme(legend.position = "right")+
   scale_colour_manual(values = c("blue", "red"))+
   xlab("Cluster size (n)") + ylab("Minimum valid cut size")+
-  guides(colour=guide_legend(title="Well-connected definition"))
+  guides(colour=guide_legend(title=""))
   #annotate(geom="text",label=expression("f(x)"), x = 0.13, y = 4, parse = TRUE, color="red")
 
-ggsave("well_connected_definition.pdf",width=5,height=3)
+ggsave("well_connected_definition.pdf",width=4.5,height=3)
