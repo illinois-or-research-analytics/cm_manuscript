@@ -413,7 +413,7 @@ See also   Table \ref{tab:something} and Figure \ref{fig:ocistouched}.}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.5\linewidth]{figs/oc_istouched.pdf}
+\includegraphics[width=0.4\linewidth]{figs/oc_istouched.pdf}
 \caption{\textbf{Leiden Clusters of Open Citations Impacted by CM}. Each bar shows the total number of clusters as well as the distribution into well-connected (blue) or not well-connected (red) for  one of five different resolution values, restricted to clusters of size at least 11. 
 %``Yes" (shown in red) indicates clusters that have min cuts that are below the size given by Equation \ref{eqn:our-bound}, and so are not considered  to be well-connected; 
 %``No" (shown in blue) indicates clusters whose min cuts are at least the size specified by Equation \ref{eqn:our-bound}, and so are considered well-connected.  
@@ -446,7 +446,7 @@ We also note that the median cluster size does change, sometimes increasing,  an
   \hline
   res & pipeline stage & clus\_count & node\_cov & min & median & max \\
   \hline
-  Leiden 0.5 & cluster & 20964020 & 79.2 &   2 & 2. & 172 \\
+  Leiden 0.5 & cluster & 20964020 & 79.2 &   2 & 2 & 172 \\
     Leiden 0.5 & filter & 297755 & 6.0 &  11 & 13 & 172 \\
     Leiden 0.5 & cm & 297755 & 6.0 &  11 & 13 & 172 \\
   \hline
@@ -467,7 +467,9 @@ We also note that the median cluster size does change, sometimes increasing,  an
    Leiden 0.0001 & cm & 27666 & 68.0 &  11 & 91 & 149287 \\
    \hline
 \end{tabular}
-\caption{\textbf{Leiden clusters of size at least two for the Open Citations Network}. For each of five resolution values and stage of the pipeline, we show  the number of non-singleton clusters (clust\_count), node coverage (node\_cov, i.e., the percentage  of the nodes in the network found in non-singleton clusters), and the minimum, median, and maximum of the non-singleton cluster sizes.  The three stages shown include  \emph{cluster} (indicating the input clustering), \emph{filter} (the stage that removes  clusters of size at most 10 and tree clusters), and  \emph{cm}, indicating that the entire CM pipeline has completed (i.e.,  the recursive mincut and cluster connectivity modifier process was applied to the filtered clusters followed by refiltering to exclude clusters of size at most 10).}
+\caption{\textbf{Leiden clusters of size at least two for the Open Citations Network}. For each of five resolution values and stage of the pipeline, we show  the number of non-singleton clusters (clust\_count), node coverage (node\_cov, i.e., the percentage  of the nodes in the network found in non-singleton clusters), and the minimum, median, and maximum of the non-singleton cluster sizes.  The three stages shown include  \emph{cluster} (indicating the input clustering), \emph{filter} (the stage that removes  clusters of size at most 10 and tree clusters), and  \emph{cm}, indicating that the entire CM pipeline has completed (i.e.,  the recursive mincut and cluster connectivity modifier process was applied to the filtered clusters followed by refiltering to exclude clusters of size at most 10).
+\textcolor{blue}{George, there is no table for the CEN that corresponds to this, in part because this one is for all clusters of size 2 or more, and in the CEN section we have tables for similar information restricted to clusters of size 11 or more.}
+}
 \label{tab:cm_stats_OC}
 \end{table}
 
@@ -505,7 +507,8 @@ resolution value.
 For Leiden clustering under four different resolution values (left column), we show  the number of clusters of size at least 11;  the minimum, median, and
 maximum cluster size when restricted to clusters of size at least $11$; and the node coverage (i.e., percentage of nodes in the CEN found in clusters of size at least 11).
 Node coverage and cluster size increase as resolution value is decreased.
-\textcolor{blue}{Tandy asks: should this go into Materials and Methods?}
+\textcolor{blue}{Tandy asks: should this go into Materials and Methods? Also, this table should correspond to a table for Open Citations. It sort of does, but the
+order of the columns is different. }
 }
 \label{tab:CEN-table1}
 \end{table}
@@ -539,7 +542,7 @@ Descriptive statistics are shown for Leiden clustering of the CEN at 5 different
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.5\linewidth]{figs/cen_istouched.pdf}
+\includegraphics[width=0.4\linewidth]{figs/cen_istouched.pdf}
 \caption{\textbf{Leiden Clusters of the Curated Exosome Network (CEN) Impacted by CM}. For Leiden followed by CM processing, each bar shows results for one of five different resolution values, and each bar shows 
 the total number of clusters of size at least 11. The fraction of the clusters that are affected by the CM processing (because the size of their min-cut is below the Equation \ref{eqn:our-bound} limit)
 is colored in red and the fraction in blue are for those that are not affected by the CM processing (because their min cut size is at least that large).
@@ -574,6 +577,8 @@ To follow up on the presence of sparse clusters in the form of trees, Leiden clu
 % generated by running table2.R on odesa in
 % /data1/snap_leiden_venv/cen
 
+\clearpage
+
 \begin{table}[H]
 \centering
 \begin{tabular}{lcrrrrr}
@@ -602,10 +607,21 @@ leiden .5 & filter & 8503 &  11 & 14.00 &  68 & 0.97 \\
    \hline
 \end{tabular}
 \caption{Identifying well-connected clusters from Leiden clustering of the CEN. For each of resolution values \{0.5, 0.1, 0.01, 0.001\}, clusters were limited to those of size 11 or greater, then depleted of trees, the processed by CM, and then filtered to remove any clusters of size 10 or less as well as trees. Cluster count, and min, med, and max, and node coverage refer to clusters of size at least 11.
-Trends shown here reveal that node coverage is least 0.5 and at most  0.01 (Table \ref{tab:CEN-table1}. However, removal of trees and CM treatment reduces node coverage by 20.4\%, 63.3\%, and 61.3\% of the original values for resolution values of 0.01, 0.01, and 0.001 respectively.  For example, at resolution value 0.001, node coverage drops from 84.45\% to 23.15\%. At a resolution value of 0.5, no change is observed.}
-\label{tab:CEN-table2}
+Trends shown here reveal that node coverage is least 0.5 and at most  0.01 (Table \ref{tab:CEN-table1}. However, removal of trees and CM treatment reduces node coverage by 20.4\%, 63.3\%, and 61.3\% of the original values for resolution values of 0.01, 0.01, and 0.001 respectively.  For example, at resolution value 0.001, node coverage drops from 84.45\% to 23.15\%. At a resolution value of 0.5, no change is observed.
+\textcolor{blue}{George, this table has no corresponding table for Open Citations, in part because this begins at clusters of size at least 11. There are also other differences.}
+}
+\label{tab:CEN-Leiden-11-CM}
 \end{table}
 
+We then examined the impact of the CM pipeline on Leiden clusters, but restricted to those of size at least 11 (Table \ref{tab:CEN-Leiden-11-CM}).
+In this case, the filtering stage only removes trees.
+For the largest resolution value ($r=0.5$), there are no changes in the clustering at any step of the CM-pipeline.
+However, for all the other resolution values we explore, filtering reduces the number of clusters by a substantial amount (e.g., from 273,420 clusters to 18,686 when using $r=0.1$), showing that the number of clusters that are trees is very large. 
+Node coverage also drops substantially after filtering and then again after the pipeline completes; for example,
+node coverage begins at 84\% for $r=0.001$, drops to 62\% as a result of filtering, and then drops to 23.15\% by the end of the 
+pipeline. 
+These trends are also similar to what was observed for the Open Citations network. 
+\textcolor{blue}{George, this table has no corresponding table for the Open Citations Network, and I think it's a good table. }
 
 % latex table generated in R 4.2.2 by xtable 1.8-4 package
 % Sun Jan 15 17:37:03 2023
@@ -629,6 +645,7 @@ leiden & 0.001 & non\_tree &  12 & 112 & 16481 \\
 \caption{Leiden clusters on the CEN, based on whether the cluster is a tree. We show empirical statistics (minimum, median, and maximum) of Leiden clusters generated using the Constant Potts Model (CPM) as quality function and with different resolution values. Clusters of of size at most 10 have been removed. Do we need this table?}
 \end{table}
 
+\clearpage
 % latex table generated in R 4.2.2 by xtable 1.8-4 package
 % Fri Jan 13 18:03:02 2023
 
