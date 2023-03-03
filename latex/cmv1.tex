@@ -376,25 +376,6 @@ For each experiment, we report empirical statistics, such as the distribution of
 
 \subsubsection{Leiden analyses of the Open Citations Network}
 
-We analyzed the Open Citations Network using Leiden under five different resolution values; after discarding clusters below size 11, we obtain cluster statistics as shown in Table \ref{tab:Leiden-11-OC-basicstats}.
-\begin{table}[H]
-\centering
-\begin{tabular}{lrrrrrr}
-  \hline
- res value & clus count & node cov & min & med & max \\
-  \hline
-0.5000 & 297755 & 6.00 &  11 & 13.00 & 172 \\
-0.1000 & 1311109 & 43.76 &  11 & 17.00 & 882 \\
-0.0100 & 1361399 & 88.93 &  11 & 19.00 & 3678 \\
-0.0010 & 232052 & 90.55 &  11 & 64.00 & 22808 \\
-0.0001 & 38712 & 91.89 &  11 & 177.00 & 149287 \\
-   \hline
-\end{tabular}
-\caption{\textbf{Leiden clusters of size at least 11 for the Open Citations Network.} The Open Citations Network (Materials and Methods) consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered with the Leiden algorithm, using the Constant Potts Model (CPM) as quality function, and using various resolution values (column 1).
-Node coverage is the percentage of nodes in the network found in clusters of size at least 11. Minimum, median, and max cluster sizes, restricted to clusters of size at least 11, are shown in the last three columns.  \textcolor{blue}{Tandy asks: should this table on statistics for Leiden clusters of Open Citations go into Materials and Methods?} }
-\label{tab:Leiden-11-OC-basicstats}
-\end{table}
-
 For each of three resolution values (the largest at $r=0.5$, the smallest at $r=0.0001$, and an intermediate value of $r=0.01$), Figure \ref{fig:oc_size_count_plots_leiden} shows the distribution of cluster sizes during the pipeline:  the input Leiden clusters (left-most column), after filtering to remove  trees and clusters below size 11 (middle column), and after the entire pipeline completed  (right-most column). For each of these resolution values, clusters of size at most 10 appeared in the input clustering, and filtering removes these clusters.
 The subsequent steps in CM-processing (removing small edge cuts from poorly-connected clusters and reclustering)  has no impact for the largest resolution value ($r=0.5$), but does impact the two smaller values. This is most noticeable for the smaller cluster sizes, where post-CM processed distribution is smoother than the pre-CM processed distribution.
 
@@ -463,41 +444,36 @@ Finally, we note that for all resolution values, the node coverage after CM-proc
 
 
 % latex table generated in R 4.1.3 by xtable 1.8-4 package
-% Sun Feb 26 21:54:10 2023
-\begin{table}[H]
+% Fri Mar  3 19:00:17 2023
+\begin{table}[ht]
 \centering
-\begin{tabular}{llrrrrr}
+\begin{tabular}{rlrrrrr}
   \hline
-  res & pipeline stage & clus\_count & node\_cov & min & median & max \\
+res\_value & pipeline\_stage & clus\_count & node\_cov & min & med & max \\ 
   \hline
-  Leiden 0.5 & cluster & 20964020 & 79.2 &   2 & 2 & 172 \\
-    Leiden 0.5 & filter & 297755 & 6.0 &  11 & 13 & 172 \\
-    Leiden 0.5 & cm & 297755 & 6.0 &  11 & 13 & 172 \\
-  \hline
-    Leiden 0.1 & cluster & 8642592 & 92.8 &   2 & 5 & 882 \\
-    Leiden 0.1 & filter & 1296921 & 43.5 &  11 & 17 & 882 \\
-    Leiden 0.1 & cm & 1167461 & 41.6 &  11 & 19 & 882 \\
-  \hline
-    Leiden 0.01 & cluster & 2135152 & 92.4 &   2 & 15 & 3678 \\
-   Leiden 0.01 & filter & 1033288 & 82.2 &  11 & 24 & 3678 \\
-    Leiden 0.01 & cm & 579753 & 64.0 &  11 & 30 & 3678 \\
-  \hline
-   Leiden 0.001 & cluster & 840081 & 92.7 &   2 & 3 & 22808 \\
-   Leiden 0.001 & filter & 208192 & 89.3 &  11 & 73 & 22808 \\
-    Leiden 0.001 & cm & 145954 & 68.7 &  11 & 64 & 22808 \\
-  \hline
-    Leiden 0.0001 & cluster & 560234 & 93.7 &   2 & 2 & 149287 \\
-    Leiden 0.0001 & filter & 33763 & 91.7 &  11 & 206 & 149287 \\
-   Leiden 0.0001 & cm & 27666 & 68.0 &  11 & 91 & 149287 \\
+0.5 & cluster & 297755 & 6.00 &    11 & 13 &   172 \\ 
+ 0.5 & filter & 297755 & 6.0 &    11 & 13 &   172 \\ 
+ 0.5 & cm+filter & 297755 & 6.00 &    11 & 13 &   172 \\ 
+ \hline
+ 0.1 & cluster & 1311109 & 43.76 &    11 & 17 &   882 \\ 
+ 0.1 & filter & 1296921 & 43.55 &    11 & 17 &   882 \\ 
+ 0.1 & cm+filter & 1167461 & 41.57 &    11 & 19 &   882 \\ 
+ \hline
+ 0.01 & cluster & 1361399 & 88.93 &    11 & 19 &  3678 \\ 
+ 0.01 & filter & 1033288 & 82.20 &    11 & 24 &  3678 \\ 
+ 0.01 & cm+filter & 579753 & 63.98 &    11 & 30 &  3678 \\ 
+ \hline
+ 0.001 & cluster & 232052 & 90.55 &    11 & 64 & 22808 \\ 
+ 0.001 & filter & 208192 & 89.32 &    11 & 73 & 22808 \\ 
+ 0.001 & cm+filter & 145954 & 68.70 &    11 & 64 & 22808 \\ 
+ \hline
+ 0.0001 & cluster & 38712 & 91.89 &    11 & 177 & 149287 \\ 
+ 0.0001 & filter & 33763 & 91.71 &    11 & 206 & 149287 \\ 
+ 0.0001 & cm+filter & 27666 & 68.04 &    11 & 91 & 149287 \\ 
    \hline
 \end{tabular}
-\caption{\textbf{Leiden clusters of size at least two for the Open Citations Network}. For each of five resolution values and stage of the pipeline, we show  the number of non-singleton clusters (clust\_count), node coverage (node\_cov, i.e., the percentage  of the nodes in the network found in non-singleton clusters), and the minimum, median, and maximum of the non-singleton cluster sizes.  The three stages shown include  \emph{cluster} (indicating the input clustering), \emph{filter} (the stage that removes  clusters of size at most 10 and tree clusters), and  \emph{cm}, indicating that the entire CM pipeline has completed (i.e.,  the recursive mincut and cluster connectivity modifier process was applied to the filtered clusters followed by refiltering to exclude clusters of size at most 10).
-\textcolor{blue}{George, there is no table for the CEN that corresponds to this, in part because this one is for all clusters of size 2 or more, and in the CEN section we have tables for similar information restricted to clusters of size 11 or more.
-It would probably be better to replace this with a table that is restricted to clusters of size 11 or more.}
-}
-\label{tab:cm_stats_OC}
+\caption{\textbf{Leiden clustering and CM processing of the Open Citations Network}. For each of five resolution values, we show  the number of clusters (clust\_count) of size at least 11, node coverage (node\_cov, i.e., the percentage  of the nodes in the network found in clusters of size at least 11), and the minimum, median, and maximum of these clusters. The three stages shown include  \emph{cluster} (indicating the input clustering), \emph{filter} (the stage that removes  clusters of size at most 10 and tree clusters), and  \emph{cm+filter}, indicating that the entire CM pipeline has completed and has been re-filtered to remove clusters of size $<=10$.}
 \end{table}
-
 
 
 \subsubsection{IKC analyses of the Open Citations Network}
