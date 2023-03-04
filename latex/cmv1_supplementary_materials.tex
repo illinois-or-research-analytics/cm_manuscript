@@ -96,7 +96,9 @@ The cleaned input network $\mathcal{G}$ is then processed in a pipeline that has
 leidenalg.find_partition(net, leidenalg.CPMVertexPartition, resolution_parameter=r)
 \end{lstlisting}
 
-\textcolor{red}{add command for IKC}
+\begin{lstlisting}[basicstyle=\ttfamily\small]
+IKC.py -e <cleaned_network.tsv> -k 10 -o <output file>
+\end{lstlisting}
 
 We used the Python version of Leiden (leidenalg v0.8.2) available at \href{https://github.com/vtraag/leidenalg}{https://github.com/vtraag/leidenalg} and IKC (v1.0.0) available at \href{https://github.com/chackoge/ERNIE_Plus/blob/master/Illinois/clustering/eleanor/code/IKC.py}{https://github.com/chackoge/ERNIE\_Plus/blob/master/Illinois/clustering/} \href{https://github.com/chackoge/ERNIE_Plus/blob/master/Illinois/clustering/eleanor/code/IKC.py}{eleanor/code/IKC.py}.
 
@@ -384,6 +386,64 @@ Only after pruning all such clusters from WCC will we return what is left.
 \label{fig:wikitopcats-cm-lfr-5}
 \end{figure}
 
+\clearpage
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrr}
+  \hline
+  k value & clus count & node cov & min & med & max       \\ \hline
+  10      & 2569       & 23.6     & 11  & 40  & 6,650,349 \\
+  \hline
+\end{tabular}
+\caption[IKC clusters of size at least 11 for the Open Citations Network]{\textbf{IKC clusters of size at least 11 for the Open Citations Network} The Open Citations Network (Materials and Methods) consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered with the IKC algorithm using a k value of 10.
+Node coverage is the percentage of nodes in the network found in clusters of size at least 11. Minimum, median, and max cluster sizes, restricted to clusters of size at least 11, are shown in the last three columns. }
+\label{tab:IKC-11-OC-basicstats}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{lrrrrrr}
+  \hline
+  clustering & k\_value & clus\_count & node\_cov & min & med & max \\ \hline
+  IKC        & 10       & 3999        & 19.5      & 11  & 45  & 6,650,087 \\
+  \hline
+\end{tabular}
+\caption[Identifying well connected clusters from IKC clustering of the OC]{\textbf{Identifying well connected clusters from IKC clustering of the OC} Following the same procedure as Leiden, the clusters were limited to those of size 11 or greater, then depleted of trees, then processed by CM, and then filtered to remove any clusters of size 10 or less as well as trees. However, this result excludes three large (size 100,000+) clusters of IKC for which CM could not run. In order to make CM scalable to the OpenCitations network, we processed all clusters above size 100,000 individually through CM and processed all clusters size 100,000 or below as one clustering through CM. There were 19 clusters that were greater than size 100,000, of which 3 clusters failed to run through CM. The CM results of the 16 clusters were combined with the CM result of the clusters size 100,000 or below to produce the final clustering whose cluster statistics are reported in the table.}
+\label{tab:CM-IKC-11-OC-basicstats}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrr}
+  \hline
+  k value & clus count & node cov & min & med & max       \\ \hline
+  10       & 128         & 3.8       & 14  & 79  & 214,877 \\
+  \hline
+\end{tabular}
+\caption[IKC clusters of size at least 11 for the CEN]{\textbf{IKC clusters of size at least 11 for the CEN} The Curated Exososome Network was clustered with the IKC algorithm using a k value of 10.
+Node coverage is the percentage of nodes in the network found in clusters of size at least 11. Minimum, median, and max cluster sizes, restricted to clusters of size at least 11, are shown in the last three columns.}
+\label{tab:IKC-11-CEN-basicstats}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{lrrrrrr}
+  \hline
+  clustering & k\_value & clus\_count & node\_cov & min & med & max \\ \hline
+  IKC        & 10       & 187         & 3.8       & 14  & 64  & 214,850 \\
+  \hline
+\end{tabular}
+\caption[Identifying well connected clusters from IKC clustering of the CEN]{\textbf{Identifying well connected clusters from IKC clustering of the CEN} Following the same procedure as Leiden, the clusters were limited to those of size 11 or greater, then depleted of trees, the processed by CM, and then filtered to remove any clusters of size 10 or less as well as trees.}
+\label{tab:CM-IKC-11-CEN-basicstats}
+\end{table}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.37\textwidth]{figs/oc_ikc_istouched.pdf}
+\caption[IKC Clusters of the Open Citations Network Impacted by CM]{\textbf{IKC Clusters of the Open Citations Network (OC) Impacted by CM}. For IKC followed by CM processing, each bar shows the total number of clusters of size at least 11. The fraction of the clusters that are affected by the CM processing (because the size of their min-cut is below the Equation \ref{eqn:our-bound} limit) is colored in red and the fraction in blue are for those that are not affected by the CM processing (because their min cut size is at least that large). Overall, 6.38\% of the input IKC clusters were modified by CM.}
+\label{fig:ocistouched-ikc}
+\end{figure}
 
 \clearpage
 \bibliographystyle{apalike}
