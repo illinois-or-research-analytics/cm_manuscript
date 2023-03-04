@@ -636,37 +636,33 @@ To follow up on the presence of sparse clusters in the form of trees, Leiden clu
 
 \clearpage
 
-\begin{table}[H]
+% latex table generated in R 4.1.2 by xtable 1.8-4 package
+% Sat Mar  4 06:26:47 2023
+\begin{table}[ht]
 \centering
-\begin{tabular}{lcrrrrr}
+\begin{tabular}{rlrrrrr}
   \hline
- clustering & stage & cluster\_count & min & median & max & node\_cov \\
+res\_value & pipeline\_stage & clus\_count & node\_cov & min & med & max \\ 
   \hline
- leiden .5 & cluster & 8503 &  11 & 14.00 &  68 & 0.97 \\
-  leiden .5 & filter & 8503 &  11 & 14.00 &  68 & 0.97 \\
-  leiden .5 & cm & 8503 &  11 & 14.00 &  68 & 0.97 \\
-leiden .5 & filter & 8503 &  11 & 14.00 &  68 & 0.97 \\
-\hline
-   leiden .1 & cluster  & 273420 &  11 & 11.00 & 319 & 23.98 \\
-  leiden .1 & filter & 18686 &  11 & 20.00 & 319 & 3.95 \\
-   leiden .1 & cm & 14681 &  11 & 20.00 & 319 & 3.63 \\
-  leiden .1 & filter & 14681 &  11 & 20.00 & 319 & 3.63 \\
+0.5 & cluster &  8406 & 0.96 &    11 & 14 &    69 \\ 
+  0.5 & filter &  8406 & 0.96 &    11 & 14 &    69 \\ 
+  0.5 & cm+filter &  8406 & 0.96 &    11 & 14 &    69 \\ 
   \hline
-   leiden .01 & -& 275641 &  11 & 28.00 & 3186 & 76.52 \\
-   leiden .01 & filter & 64320 &  11 & 34.00 & 3186 & 24.80 \\
-   leiden .01 & cm & 34071 &  11 & 24.00 & 3186 & 13.20 \\
-   leiden .01 & filter & 34071 &  11 & 24.00 & 3186 & 13.20 \\
-   \hline
-   leiden .001 & - & 65771 &  11 & 98.00 & 16481 & 84.45 \\
-   leiden .001 & filter & 43021 &  12 & 112.00 & 16481 & 62.31 \\
-  leiden .001 & cm & 27581 &  11 & 32.00 & 16480 & 23.15 \\
-   leiden .001 & filter & 27581 &  11 & 32.00 & 16480 & 23.15 \\
+  0.1 & cluster & 274600 & 24.05 &    11 & 11 &   319 \\ 
+  0.1 & filter & 18705 & 3.92 &    11 & 19 &   319 \\ 
+  0.1 & cm+filter & 14537 & 3.59 &    11 & 20 &   319 \\ 
+  \hline
+  0.01 & cluster & 275801 & 76.56 &    11 & 28 &  3217 \\ 
+  0.01 & filter & 64665 & 24.88 &    11 & 34 &  3217 \\ 
+  0.01 & cm+filter & 34322 & 13.22 &    11 & 24 &  3217 \\ 
+  \hline
+  0.001 & cluster & 65737 & 84.35 &    11 & 97 & 13736 \\ 
+  0.001 & filter & 42897 & 62.13 &    12 & 110 & 13736 \\ 
+  0.001 & cm+filter & 27363 & 23.19 &    11 & 33 & 13736 \\ 
    \hline
 \end{tabular}
 \caption{Identifying well-connected clusters from Leiden clustering of the CEN. For each of resolution values \{0.5, 0.1, 0.01, 0.001\}, clusters were limited to those of size 11 or greater, then depleted of trees, the processed by CM, and then filtered to remove any clusters of size 10 or less as well as trees. Cluster count, and min, med, and max, and node coverage refer to clusters of size at least 11.
-Trends shown here reveal that node coverage is least 0.5 and at most  0.01 (Table \ref{tab:CEN-table1}. However, removal of trees and CM treatment reduces node coverage by 20.4\%, 63.3\%, and 61.3\% of the original values for resolution values of 0.01, 0.01, and 0.001 respectively.  For example, at resolution value 0.001, node coverage drops from 84.45\% to 23.15\%. At a resolution value of 0.5, no change is observed.
-\textcolor{blue}{George, this table has no corresponding table for Open Citations, in part because this begins at clusters of size at least 11. There are also other differences.}
-}
+Trends shown here reveal that node coverage is least 0.5 and at most  0.01 (Table \ref{tab:CEN-table1}. However, removal of trees and CM treatment reduces node coverage by 20.4\%, 63.3\%, and 61.3\% of the original values for resolution values of 0.01, 0.01, and 0.001 respectively.  For example, at resolution value 0.001, node coverage drops from 84.45\% to 23.15\%. At a resolution value of 0.5, no change is observed.}
 \label{tab:CEN-Leiden-11-CM}
 \end{table}
 
