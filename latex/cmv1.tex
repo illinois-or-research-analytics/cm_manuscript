@@ -503,7 +503,48 @@ res\_value & pipeline\_stage & clus\_count & node\_cov & min & med & max \\
 
 \subsubsection{IKC analyses of the Open Citations Network}
 
-\textcolor{blue}{Need table that looks like Table \ref{tab:Leiden-11-OC-basicstats} but for IKC. Also need whatever we can put in here about running CM on the IKC clusterings. This needs Minhyuk.}
+We used Iterative k-core (IKC) clustering with $k=10$ (thus, all nodes in all  IKC clusters are adjacent to at least $10$ other nodes in the cluster). 
+After running IKC on the Open Citations Network, we had 2569 clusters covering 23.6\% of the network nodes, with a minimum cluster size of 11, median of 40, and maximum of about 6.65 million (Table \ref{tab:IKC-11-OC-basicstats}). 
+Only 6.38\% of the input IKC clusters had small edge cuts, but generally the clusters that had small edge cuts tended to be larger
+than the clusters that did not have small edge cuts (Figure \ref{fig:ocistouched-ikc}).
+After running these clusters through CM-processing, the number of clusters increased to 3999, covering 19.5\% of the network nodes. The  median cluster size increased from 40 to 45, but the minimum and maximum did not change.
+
+It is interesting to consider IKC clustering of the Open Citations  network presents in comparison to the Leiden clusterings of the Open Citations network.
+With respect to node coverage and percentage of clusters with small edge cuts, IKC falls between Leiden with $r=0.5$ and Leiden with $r=0.1$.  
+Just as Leiden at $r=0.5$ was completely unaffected by CM-processing and Leiden at $r=0.1$ was slightly affected, 
+we see IKC (with $k=10$) only somewhat affected by CM-processing. 
+
+
+
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{lccccc}
+  \hline
+  IKC10 Clustering & clus count & node cov & min & med & max       \\ \hline
+  pre-CM     & 2569       & 23.6     & 11  & 40  & 6,650,349 \\
+  post-CM & 3999 & 19.5 & 11 & 45 & 6,650,067\\
+  \hline
+\end{tabular}
+\caption[IKC clusters pre- and post-CM for the Open Citations Network]{\textbf{IKC clusters pre- and post-CM for the Open Citations Network} The Open Citations Network (Materials and Methods) consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered with the IKC algorithm, with $k=10$. The node coverage pre-CM  is relatively modest at 23.6\%, and drops to 19.5\% after CM-processing.  The minimum and maximum cluster sizes do not change with CM-processing, but the median increases from 40 to 45.   Only 6.38\% of the input IKC clusters had small edge cuts.}
+%Node coverage is the percentage of nodes in the network found in clusters of size at least 11. Minimum, median, and max cluster sizes, restricted to clusters of size at least 11, are shown in the last three columns. }
+\label{tab:IKC-11-OC-basicstats}
+\end{table}
+
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.37\textwidth]{figs/oc_ikc_istouched.pdf}
+\caption[IKC Clusters of the Open Citations Network Impacted by CM]{\textbf{Sizes of IKC Clusters of the Open Citations Network (OC)}. For IKC clustering with $k=10$, each bar shows the distribution of cluster sizes:  red indicates those clusters that have small edge cuts and blue indicates those hat do not have small edge cuts. Only 6.38\% of the input IKC clusters had small edge cuts.
+\textcolor{blue}{Minhyuk, please make the y-axis start at 0, use ylim}
+.}
+\label{fig:ocistouched-ikc}
+\end{figure}
+
+
+
+\clearpage
 \subsection{Experiment 2: Analyses of the Curated Exosome Network (CEN)}
 
 \subsubsection{Leiden Analyses of the CEN}
@@ -668,8 +709,41 @@ much larger  for the CEN than for Open Citations.
 
 
 \subsubsection{IKC analyses of the CEN}
+ 
+ 
 
-\textcolor{blue}{Insert Minhyuk's IKC data for CEN. We need similar tables as shown above. }
+We used Iterative k-core (IKC) clustering with $k=10$ (thus, all nodes in all  IKC clusters are adjacent to at least $10$ other nodes in the cluster). 
+After running IKC on the CEN we had 128 clusters covering 3.8\% of the network nodes, with a minimum cluster size of 14, median of 79, and maximum of about 214,877 (Table \ref{tab:IKC-11-CEN-basicstats}). 
+\textcolor{blue}{Only X\% of the input IKC clusters had small edge cuts. 
+ A comparison of cluster sizes with or without small edge cuts is shown in BLAH- BLAH BLAH.}
+ After running these clusters through CM-processing, the number of clusters increased to 187 but node coverage is unchanged at 3.8\%.   The  minimum cluster size does not change, the median drops from 79 to 64, and the maximum cluster size drops from 214,877 to 214,850. 
+ %median cluster size increased from 40 to 45, but the minimum and maximum did not change.
+
+It is interesting to consider IKC and Leiden clustering of the CEN. 
+\textcolor{blue}{Check this next text for correctness.}
+With respect to node coverage and percentage of clusters with small edge cuts, IKC falls between Leiden with $r=0.5$ and Leiden with $r=0.1$.  
+Just as Leiden at $r=0.5$ was completely unaffected by CM-processing and Leiden at $r=0.1$ was slightly affected, 
+we see IKC (with $k=10$) only somewhat affected by CM-processing. 
+
+
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrr}
+  \hline
+Clustering & clus count & node cov & min & med & max       \\ \hline
+pre-CM       & 128         & 3.8       & 14  & 79  & 214,877 \\
+post-CM & 187 & 3.8 & 14 & 64 & 214,850\\
+  \hline
+\end{tabular}
+\caption[IKC clusters pre- and post-CM processing for the CEN]{\textbf{IKC clusters  for the CEN}
+The Curated Exososome Network was clustered with the IKC algorithm using  $k=10$.
+%Results 
+%Node coverage is the percentage of nodes in the network found in clusters of size at least 11. Minimum, median, and max cluster sizes, restricted to clusters of size at least 11, are shown in the last three columns.}
+}
+\label{tab:IKC-11-CEN-basicstats}
+\end{table}
+
 
 
 \subsection{Experiment 3: Analyses of LFR networks based on the Open Citations and CEN networks}
@@ -683,8 +757,14 @@ empirical networks, but have very close mixing parameters and average degrees.
 \textcolor{blue}{Say where the tables are with this info.}
 
 
-We begin with some comparisons between LFR and empirical networks for Open Citations and CEN networks, as seen in
-Table \ref{tab:LFR-vs-empirical-OC-CEN}. \textcolor{blue}{Note that blah-blah-blah}
+We begin with a comparison  between LFR and empirical networks for Open Citations and CEN networks, with respect to percentage of  Leiden clusters (using $r=0.01$) that have small edge cuts and in
+the node coverage (both before and after CM-processing).   As seen in
+Table \ref{tab:LFR-vs-empirical-OC-CEN}, nearly all of the Leiden clusters of these empirical networks have small edge cuts (94.5\% for the Open Citations and 97.2\% for the CEN).
+\textcolor{blue}{In contrast, these percentages drop to XXX and YYY, respectively, on the LFR versions of the Open Citations and CEN networks.}
+Node coverage is also different between the empirical networks and their LFR variants: before CM-processing, the node coverage begins at 88.9\% for the Open Citations and 76.6\% for the CEN, and then drops to 63.98\% and 13.22\%, respectively, after CM-processing. 
+\textcolor{blue}{However, on the LFR networks, node coverage begins close to 100\% and drops only slightly.}
+Thus, there are very large differences between these LFR and empirical networks.
+
 \begin{table}[ht]
 \centering
 \begin{tabular}{lccc}
@@ -720,8 +800,7 @@ Moreover, the distributions of cluster sizes for the empirical networks are diff
 Thus, this experiment shows distinct differences between these synthetic LFR networks and the empirical networks on which they were based.
 These differences occur both in the distributions of cluster sizes of the Leiden clusters before CM as well as the impact of CM-processing, where CM-processing has a larger impact on the empirical networks than on the synthetic networks.
 
-Recall that when using resolution parameter $r=0.01$, the vast majority of the Leiden clusters of both the OC and CEN networks had small edge cuts (98.6\% for OC and 97.2\% for the CEN).
-\textcolor{blue}{In contrast, the percentage of clusters that have small edge cuts for these LFR networks is much smaller, only XX and YY. This is another difference between these synthetic and empirical networks.}.
+
 
 
 
@@ -762,17 +841,17 @@ XXX and YYY.}
   \hline
  network & \% with small cuts & node cov.~pre-CM (\%) & node cov.~post-CM (\%) \\
   \hline
-  cit\_hepph (Emp) &  & 91.54 & 83.10 \\
-  cit\_hepph (LFR) &  & 100 & 100 \\
+  cit\_hepph  &  & 91.54 & 83.10 \\
+  cit\_hepph (LFR) &  & 100.00 & 100.00 \\
   \hline
-  cit\_patents (Emp) & & 95.50 & 54.65\\
+  cit\_patents & & 95.50 & 54.65\\
     cit\_patents  (LFR) & & 97.88 & 95.39\\
   \hline
  % orkut & 117,185,083 & 3,072,441 & 76.28 \\
-  wiki\_talk (Emp) & & & \\
+  wiki\_talk & & & \\
     wiki\_talk (LFR) & & & \\
   \hline
-  wiki\_topcats  (Emp)& & 91.44 & 55.49 \\
+  wiki\_topcats & & 91.44 & 55.49 \\
    wiki\_topcats  (LFR)& & 99.75 & 88.58 \\
    \hline
 \end{tabular}
