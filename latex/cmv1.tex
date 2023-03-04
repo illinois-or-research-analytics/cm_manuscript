@@ -367,7 +367,12 @@ We ran a sequence of experiments, in each case clustering networks using Leiden 
 \item Experiment 4: We analyze networks from the SNAP collection and their LFR model networks, in each case using Leiden followed by the CM pipeline.
 \end{itemize}
 
-For each experiment, we report empirical statistics, such as the distribution of cluster sizes, node and edge coverage (both for clusters that are of size at least 2 and of size at least 10), and percentage of clusters that fail each of our ``valid community" tests (i.e., being at least size 11 and being well-connected according to Equation \ref{eqn:our-bound}).
+For each experiment, we report empirical statistics, such as the distribution of cluster sizes, node and edge coverage (both for clusters that are of size at least 2 and of size at least 10), and percentage of clusters that fail one  or both of our ``valid community" tests.
+\textcolor{blue}{Specifically, we will say that a cluster is ``well-connected" if its minimum edge cut is at least the size specified in
+ Equation \ref{eqn:our-bound}, and otherwise the cluster is ``poorly connected". 
+ Since a cluster that is found to have an edge cut below that threshold is then broken apart by CM-processing, we will refer
+ to the clusters that fail the valid community test for this reason as ``broken", ``touched", or ``cut" by CM.}
+
 
 \section{Results and Discussion}
 \label{sec:results-discussion}
@@ -375,9 +380,15 @@ For each experiment, we report empirical statistics, such as the distribution of
 \subsection{Experiment 1: Analyses of the Open Citations Network}
 
 \subsubsection{Leiden analyses of the Open Citations Network}
+For three different resolution values ($r=0.5, 0,1,$ and $0.01$) we computed Leiden clusterings. 
+The CM-pipeline steps include filtering (removing trees and clusters below size 11), followed by iteratively detecting and removing small edge cuts (ti.e., edge cuts that are below the threshold
+defined by Equation \ref{eqn:our-bound}) and reclustering using Leiden. 
+%For each of  these three three resolution values (the largest at $r=0.5$, the smallest at $r=0.0001$, and an intermediate value of $r=0.01$), 
 
-For each of three resolution values (the largest at $r=0.5$, the smallest at $r=0.0001$, and an intermediate value of $r=0.01$), Figure \ref{fig:oc_size_count_plots_leiden} shows the distribution of cluster sizes during the pipeline:  the input Leiden clusters (left-most column), after filtering to remove  trees and clusters below size 11 (middle column), and after the entire pipeline completed  (right-most column). For each of these resolution values, clusters of size at most 10 appeared in the input clustering, and filtering removes these clusters.
-The subsequent steps in CM-processing (removing small edge cuts from poorly-connected clusters and reclustering)  has no impact for the largest resolution value ($r=0.5$), but does impact the two smaller values. This is most noticeable for the smaller cluster sizes, where post-CM processed distribution is smoother than the pre-CM processed distribution.
+
+Figure \ref{fig:oc_size_count_plots_leiden} shows the distribution of cluster sizes during the pipeline for each of these resolution values:  the input Leiden clusters (left-most column), after filtering (middle column), and after the entire pipeline completed  (right-most column). 
+Note that clusters of size at most 10 appeared in each input clustering, and filtering removes these clusters.
+The subsequent steps in CM-processing  has no impact for the largest resolution value ($r=0.5$), but does impact the two smaller values. This is most noticeable for the smaller cluster sizes, where post-CM processed distribution is smoother than the pre-CM processed distribution.
 
 \begin{figure}[H]
 \centering
@@ -394,7 +405,7 @@ See also   Table \ref{tab:something} and Figure \ref{fig:ocistouched}.}
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.4\linewidth]{figs/oc_istouched.pdf}
-\caption{\textbf{Leiden Clusters of Open Citations Impacted by CM}. Each bar shows the total number of clusters as well as the distribution into well-connected (blue) or not well-connected (red) for  one of five different resolution values, restricted to clusters of size at least 11. At the largest examined resolution parameter 0.5, all clusters are well-connected (and so no clusters are affected by CM processing), but that as the resolution parameter reduces, the frequency of impact increases,
+\caption{\textbf{Most Leiden clusters of Open Citations have small edge cuts when using small resolution parameters.}   Each bar shows the total number of clusters as well as the distribution into well-connected (blue) or not well-connected (red) for  one of five different resolution values, restricted to clusters of size at least 11. At the largest examined resolution parameter 0.5, all clusters are well-connected (and so no clusters are affected by CM processing), but that as the resolution parameter reduces, the frequency of impact increases,
 so that for the two smallest resolution parameters show, nearly all clusters are affected by the CM processing (because their min-cuts are too small).}
 \label{fig:ocistouched-part1}
 \end{figure}
@@ -402,7 +413,7 @@ so that for the two smallest resolution parameters show, nearly all clusters are
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.4\linewidth]{figs/oc_boxplot.pdf}
-\caption{\textbf{Distribution of Leiden cluster sizes for Open Citations, based on whether they are impacted by CM-processing}. Here ``yes"  means they have a minimum cut below the threshold given in Equation \ref{eqn:our-bound} and ``no"  means otherwise. above the threshold.  Distributions of cluster sizes  are shown for five resolution values.}
+\caption{\textbf{Distribution of Leiden cluster sizes for Open Citations, based on whether they are impacted by CM-processing}. Here ``yes"  means they have a minimum cut below the threshold given in Equation \ref{eqn:our-bound} and ``no"  means otherwise.  Distributions of cluster sizes  are shown for five resolution values.}
 \label{fig:ocistouched-part2}
 \end{figure}
 
@@ -422,7 +433,7 @@ so that for the two smallest resolution parameters show, nearly all clusters are
    0.0001 & 33665 &  98 & 99.7 \\ 
    \hline
 \end{tabular}
-\caption{\textbf{Count of Leiden clusters of the Open Citations Network that are  impacted by CM-processing because of min-cuts below the thresold; thus``yes"  means below the threshold and ``no"  means at least the threshold).}   These values correspond to Figures \ref{fig:ocistouched-part1} and \ref{fig:ocistouched-part2}.} %min- each uster counts for oc\_istouched boxplot}
+\caption{\textbf{Count of Leiden clusters of the Open Citations Network that are  impacted by CM-processing.}     These values correspond to Figures \ref{fig:ocistouched-part1} and \ref{fig:ocistouched-part2}.} %min- each uster counts for oc\_istouched boxplot}
 \label{tab:ocistouched-part1}
 \end{table}
 
