@@ -370,13 +370,7 @@ We will say that a cluster has a {\bf small cut} if its minimum cut is found to 
 \subsection{Experiment 1: Analyses of the Open Citations Network}
 
 \subsubsection{Leiden analyses of the Open Citations Network}
-We computed Leiden clusterings of the Open Citations network at five different resolution values ($r=0.5, 0,1,$ $0.01$, $0.001$, and $0.0001$). Figure \ref{fig:oc_size_count_plots_leiden} shows the distribution of cluster sizes during the pipeline for each of these resolution values:  the input Leiden clusters (left-most column), after filtering (middle column), and after the entire pipeline completed  (right-most column).
-Note that clusters of size at most 10 appeared in each input clustering, and filtering removes these clusters.
-The subsequent steps in CM-processing  has no impact for the largest resolution value ($r=0.5$), but does impact the two smaller values. This is most noticeable for the smaller cluster sizes, where post-CM processed distribution is smoother than the pre-CM processed distribution.
-
-
-
-
+We computed Leiden clusterings of the Open Citations network at five different resolution values ($r=0.5$, $0.1$, $0.01$, $0.001$, and $0.0001$). Figure \ref{fig:oc_size_count_plots_leiden} shows the distribution of cluster sizes during the pipeline for the central and extreme values, $0.5$, $0.01$, and $0.0001$.CM-processing  has no impact for the largest resolution value ($r=0.5$), but exhibits a progressive impact as the choice of resolution value decreases.
 %%%%%%%%
 
 \begin{figure}[H]
