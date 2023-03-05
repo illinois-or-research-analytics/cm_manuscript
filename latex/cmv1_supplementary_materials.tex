@@ -78,6 +78,8 @@
 
 In this section, we bring the details of each step of the pipeline, in addition to commands.
 
+\subsection{Details about the pipeline}
+
 \begin{itemize}
 \item All scripts used for the analysis in this study are available at\\
  \href{https://github.com/illinois-or-research-analytics/cm_manuscript/tree/main/analysis}{https://github.com/illinois-or-research-analytics/cm\_manuscript/tree/main/analysis}.
@@ -113,14 +115,18 @@ IKC (v1.0.0) available at \cite{ikc-code}.
 
 
 \item  \textbf{Filtering}: Removing clusters of size less than or equal to 10 as well as trees (defined as connected clusters where the number $m$ of edges is one less than the number $n$ of vertices, so that $m=n-1$).
-%Depending on the user and the dataset being analyzed, one of the following options was used to perform this step: \textcolor{red}{just write one option that should be used}
-%\begin{enumerate}
-%\item \texttt{belinda} \citep{belinda2022} expressions, e.g., \texttt{g1.filter(pl.col('n') > 10)} and %\texttt{g1.filter(pl.col('n') != pl.col('m') + 1)}
-%\item \texttt{find\_trees.py}: a slow script that relies on Networkit \citep{Staudt2016}
-%\item \texttt{cluster\_analyzer.py}: a parallelized version of find\_trees.py
-%\item \texttt{subset\_graph\_nonnetworkit.R}: a fast script without dependence on Networkit that also returns maxDegree for a cluster.
-%\end{enumerate}
-\item  \textbf{CM}: Applying connectivity modifier, available at \cite{cm2022},
+
+\textcolor{red}{George, take a look at how this is written.}
+\textcolor{blue}{
+Each of the  following options can be used to perform this step: %\textcolor{red}{just write one option that should be used}
+\begin{enumerate}
+\item \texttt{belinda} \citep{belinda2022} expressions, e.g., \texttt{g1.filter(pl.col('n') > 10)} and \texttt{g1.filter(pl.col('n') != pl.col('m') + 1)}
+\item \texttt{find\_trees.py}: a slow script that relies on Networkit \citep{Staudt2016}
+\item \texttt{cluster\_analyzer.py}: a parallelized version of find\_trees.py
+\item \texttt{subset\_graph\_nonnetworkit.R}: a fast script without dependence on Networkit that also returns maxDegree for a cluster.
+\end{enumerate}
+}
+\item  \textbf{CM}: Applying connectivity modifier, available at \cite{cm2022} (however, also see Section \ref{sec:cm-codes} for additional software for CM)
  %\href{https://github.com/RuneBlaze/connectivity-modifier}{https://github.com/RuneBlaze/connectivity-modifier}
  with the following commands (assuming the clustering method used is Leiden), where the option \texttt{-g} specifies the resolution parameter:
 \begin{lstlisting}[basicstyle=\ttfamily\small]
@@ -227,6 +233,20 @@ and deletes any cluster that fails this test.
 Only after pruning all such clusters from WCC will we return what is left.
 \item If desired, the clustering method $f$ can be a modified version of a standard method, such as Leiden, where the clusters below size $B$ are deleted before being further processed in the pipeline.
 \end{itemize}
+
+\subsection{Different software packages for the CM pipeline}
+\label{sec:cm-codes}
+\textcolor{red}{George to write.}\\
+\textcolor{blue}{
+The first version of the CM pipeline was developed by Baqiao Liu and Minhyuk Park, as part of a final project for CS 598: Computational Scientometrics,
+taught by George Chacko.
+This code is available at \cite{cm2022}.}
+
+\textcolor{blue}{
+Subsequent improvements to the code for its use with Leiden clustering have been made by Vidya Kamath Pailodi, Vikram Ramavarapu, Rajiv Ramachandran, and Fabio Ayres.
+These new versions are significantly faster but are algorithmically identical, so that any changes in output are due only to randomness.
+These are available at \cite{new-code-locations}.
+We used the original CM code for all IKC-based pipelines, and the new codes for most of the Leiden-based pipelines.}
 
 \clearpage
 \section{Emulating Real Networks with LFR Graphs}
