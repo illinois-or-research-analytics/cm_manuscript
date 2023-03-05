@@ -224,7 +224,7 @@ In this study, we report results using default values for the algorithmic parame
 We report results using both Leiden optimizing CPM with different resolution parameter values and IKC, and we explore results on several networks.
 
 
-\subsubsection{Filters} Clusters were filtered to remove trees and any cluster of size at most 10. Several tools can achieve this objective (see Supplementary Mateials for details).
+\subsubsection{Filters} Clusters were filtered to remove trees and any cluster of size at most 10. Several tools can achieve this objective including \cite{belinda2022} (see Supplementary Materials for details).
 
 \subsubsection{Connectivity Modifier} To recursively compute and apply minimum cuts to individual clusters, we used the 
 Connectivity Modifier (CM) code  \citep{cm2022}, which uses VieCut \citep{Henzinger2018,Henzinger2019} as a dependency, and takes as input a clustering from either the Leiden algorithm or IKC; the pipeline then returns a set of clusters that is guaranteed to be well-connected (see also Supplementary Information). We filtered input clusterings as above before passing them as input to Connectivity Modifier. 

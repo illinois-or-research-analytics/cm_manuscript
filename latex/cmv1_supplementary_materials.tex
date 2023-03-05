@@ -81,10 +81,11 @@ In this section, we bring the details of each step of the pipeline, in addition 
 \subsection{Details about the pipeline}
 
 \begin{itemize}
-\item All scripts used for the analysis in this study are available at\\
+\item Scripts used for analysis in this study are available at\\
  \href{https://github.com/illinois-or-research-analytics/cm_manuscript/tree/main/analysis}{https://github.com/illinois-or-research-analytics/cm\_manuscript/tree/main/analysis}.
- \item The CM code is available at \\
- \href{https://github.com/RuneBlaze/connectivity-modifier}{https://github.com/RuneBlaze/connectivity-modifier}.
+ \item The CM code is available at\\
+ \href{https://github.com/RuneBlaze/connectivity-modifier}{https://github.com/RuneBlaze/connectivity-modifier}.\\
+ \href{https://pypi.org/project/connectivity-modifier/}{https://pypi.org/project/connectivity-modifier/}.
  \end{itemize}
 
 \subsubsection*{Preprocessing the network}
@@ -116,9 +117,7 @@ IKC (v1.0.0) available at \cite{ikc-code}.
 
 \item  \textbf{Filtering}: Removing clusters of size less than or equal to 10 as well as trees (defined as connected clusters where the number $m$ of edges is one less than the number $n$ of vertices, so that $m=n-1$).
 
-\textcolor{red}{George, take a look at how this is written.}
-\textcolor{blue}{
-Each of the  following options can be used to perform this step: %\textcolor{red}{just write one option that should be used}
+Each of the  following options can be used to perform this step: 
 \begin{enumerate}
 \item \texttt{belinda} \citep{belinda2022} expressions, e.g., \texttt{g1.filter(pl.col('n') > 10)} and \texttt{g1.filter(pl.col('n') != pl.col('m') + 1)}
 \item \texttt{find\_trees.py}: a slow script that relies on Networkit \citep{Staudt2016}
@@ -134,7 +133,11 @@ $ cm -i <cleaned_network.tsv> -c leiden -e <filtered_leiden_clustering.tsv> -g <
 -t 1log10 -o <cm_output.tsv>
 $ cm2universal -g <cleaned_network.tsv> -i <cm_output.tsv> -o <cm_output.tsv>
 \end{lstlisting}
-\item \textbf{Filtering}: Removing clusters of size at most 10  (note: there will not be any trees left at this point) using the same commands as the first filtering step.
+\item \textbf{Filtering}: Removing clusters of size at most 10. using the same commands as the first filtering step.
+\begin{enumerate}
+\item \texttt{belinda} \citep{belinda2022} expressions, e.g., \texttt{g1.filter(pl.col('n') > 10)} and \texttt{g1.filter(pl.col('n') != pl.col('m') + 1)}
+\item \texttt{post\_cm\_filter.R}: a simple script that removes all clusters of size 10 or less.
+\end{enumerate}
 \end{itemize}
 
 We note also that in some analyses reported in the paper, we first removed the clusters of size at most 10, before proceeding with filtering; this allows us
@@ -234,19 +237,18 @@ Only after pruning all such clusters from WCC will we return what is left.
 \item If desired, the clustering method $f$ can be a modified version of a standard method, such as Leiden, where the clusters below size $B$ are deleted before being further processed in the pipeline.
 \end{itemize}
 
-\subsection{Different software packages for the CM pipeline}
+\subsection{Evolution of the CM pipeline}
 \label{sec:cm-codes}
-\textcolor{red}{George to write.}\\
-\textcolor{blue}{
-The first version of the CM pipeline was developed by Baqiao Liu and Minhyuk Park, as part of a final project for CS 598: Computational Scientometrics,
-taught by George Chacko.
-This code is available at \cite{cm2022}.}
 
-\textcolor{blue}{
-Subsequent improvements to the code for its use with Leiden clustering have been made by Vidya Kamath Pailodi, Vikram Ramavarapu, Rajiv Ramachandran, and Fabio Ayres.
-These new versions are significantly faster but are algorithmically identical, so that any changes in output are due only to randomness.
-These are available at \cite{new-code-locations}.
-We used the original CM code for all IKC-based pipelines, and the new codes for most of the Leiden-based pipelines.}
+The first version of the CM pipeline was developed by Baqiao Liu and Minhyuk Park, as part of a project for a graduate course at the University of Illinois Urbana-Champaign. This work was also supported, 
+in part, by the partnership between the Insper Institute in Sao Paulo, Brazil and the University of Illinois Urbana-Champaign. Code from this effort is available at \cite{cm2022} and is fully functional. In this version, 
+preprocessing of existing clusterings and post-processing of CM output is handled by Belinda \citep{belinda2022}.
+
+Subsequent extensions to the original CM code for its use with Leiden clustering have been made by Vikram Ramavarapu, and Fabio Ayres. These new versions are more performant but are 
+algorithmically identical so that any changes in output are due only to randomness. Vidya Kamath Pailodi developed a modular pipeline that is being used to test and facilitate 
+continuous integration of these extensions. Both the pipeline and later versions of the CM code were used to generate data for this manuscript. We used the original  CM code for all IKC-based pipelines, 
+and the new codes for some of the Leiden-based analysis.}. Code for the pipeline and extended CM are available at \cite{cm_pipe2023}. Details of the extensions, the pipeline, and evaluation will be 
+made available in a manuscript that is presently under preparation.
 
 \clearpage
 \section{Emulating Real Networks with LFR Graphs}
