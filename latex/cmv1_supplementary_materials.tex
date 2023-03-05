@@ -112,7 +112,7 @@ IKC (v1.0.0) available at \cite{ikc-code}.
  %\href{https://github.com/chackoge/ERNIE_Plus/blob/master/Illinois/clustering/eleanor/code/IKC.py}{https://github.com/chackoge/ERNIE\_Plus/blob/master/Illinois/clustering/} \href{https://github.com/chackoge/ERNIE_Plus/blob/master/Illinois/clustering/eleanor/code/IKC.py}{eleanor/code/IKC.py}.
 
 
-\item  \textbf{Filtering}: Removing clusters of size less than or equal to 10 as well as trees (defined as connected clusters where the number $m$ of edges is one less than the number $n$ of vertices, i.e. $m=n-1$).
+\item  \textbf{Filtering}: Removing clusters of size less than or equal to 10 as well as trees (defined as connected clusters where the number $m$ of edges is one less than the number $n$ of vertices, so that $m=n-1$).
 %Depending on the user and the dataset being analyzed, one of the following options was used to perform this step: \textcolor{red}{just write one option that should be used}
 %\begin{enumerate}
 %\item \texttt{belinda} \citep{belinda2022} expressions, e.g., \texttt{g1.filter(pl.col('n') > 10)} and %\texttt{g1.filter(pl.col('n') != pl.col('m') + 1)}
@@ -153,7 +153,7 @@ Here we describe CM, beginning  with the necessary definitions.
 
 Recall that  $t(C)$ is the {\em smallest} cut that can still be considered ``large enough".
 Furthermore, in our experiments, we set $t(C) = \lfloor \log_{10}(n) \rfloor +1$.  This means that any edge cut that has fewer than $t(C)$ edges
-will be considered small, and so will be removed from the cluster.
+will be considered small, and so will be removed from the graph.
 Here we explore the effect of this definition of $t(C)$, where $C$ is a cluster with $n$ vertices.
 \begin{itemize}
 \item
@@ -162,20 +162,20 @@ For all values of $n$ in this range, we obtain $t(C) = \lfloor log_{10}(n) \rflo
 cluster be connected.
 \item
 $10 \leq n \leq 99$. For all values of $n$ in this range, we have
- $t(C) = 2$, which means that if $C$ is a cluster of size $n$ and it has a cut of size $1$, that  cut will
-be considered ``too small", and will be cut.  Effectively this only ensures that clusters of size between $10$ and $99$ do not have cut edges.
+ $t(C) = 2$, which means that if $C$ is a cluster of size $n$ and it has an edge cut of size $1$, that  cut will
+be considered ``too small", and will be removed from the graph.  Effectively this only ensures that clusters of size between $10$ and $99$ do not have cut edges.
 If a cut edge is found, it will mean that in the CM code, that cut edge will be deleted, thus separating the cluster into two pieces.
-In contrast, a cut of size $2$ will be considered large enough, and will not be cut.
+In contrast, a cut of size $2$ will be considered large enough, and will not be removed.
 \item
 $100 \leq n \leq 999$.
 For all values of $n$ in this range, we have $t(C)=3$, which means that if $C$ has a cut of size  at most $2$ it will be considered
 too small, and any such cut will be deleted from $C$.
-In contrast, a cut of size $3$  or larger will be considered large enough, and will not be cut.
+In contrast, a cut of size $3$  or larger will be considered large enough, and will not be removed.
 \item
 $1000 \leq n \leq 9999$.
 For all values of $n$ in this range, we have $t(C)=4$, which means that if $C$ has a cut of size $3$ or smaller it will be considered
 too small, and any such cut will be deleted from $C$.
-In contrast, a cut of size $4$ or larger will be considered large enough, and will not be cut.
+In contrast, a cut of size $4$ or larger will be considered large enough, and will not be removed.
 \end{itemize}
 
 \clearpage
@@ -213,7 +213,9 @@ In contrast, a cut of size $4$ or larger will be considered large enough, and wi
 \label{alg:full-pipeline}
 \end{algorithm}
 
-\textbf{Note:} When
+\textbf{Notes:} 
+\begin{itemize}
+\item When
 $f$ (the clustering method) is IKC, we have made a small modification to the
 code for the sake of efficiency.
 Specifically, IKC requires that all the clusters have positive modularity.
@@ -223,6 +225,8 @@ At this point, it is possible that some of the clusters in WCC will not have pos
 Therefore, when we run CM with IKC for the clustering method $f$,  we add a processing step after line 18 that checks each cluster in WCC for positive modularity,
 and deletes any cluster that fails this test.
 Only after pruning all such clusters from WCC will we return what is left.
+\item If desired, the clustering method $f$ can be a modified version of a standard method, such as Leiden, where the clusters below size $B$ are deleted before being further processed in the pipeline. 
+\end{itemize}
 
 \clearpage
 \section{Emulating Real Networks with LFR Graphs}
@@ -238,6 +242,7 @@ python3 gen_lfr.py -n <clustering_memberships.json> -lp <lfr-benchmark-software-
 -cm <cmin_value>
 \end{lstlisting}
 
+\noindent
 in which the LFR software \citep{lancichinetti2008benchmark} is used with the following command:
 
 \begin{lstlisting}[basicstyle=\ttfamily\small]
@@ -254,15 +259,15 @@ As suggested previously \citep{hagberg2008exploring}, a somewhat limited range o
 \begin{itemize}
     \item LFR software is not scalable to large networks, and therefore we emulated the two largest networks (Open Citations and CEN) with LFR graphs with 3,000,000 nodes, and adjusted the maximum degree and maximum community size accordingly.
     \item The Wikipedia talk network has a very small average degree of 3.89, a maximum degree of 100029, and an estimated power-law degree exponent of 1.90. Based on the assumptions of the LFR methodology, we had to reduce the input maximum degree (\texttt{maxk}) to 31, as for the given average degree, any value above this for \texttt{maxk} resulted in an error from the LFR software.
-    \item In all our real networks with all resolution parameters, the minimum community size was 1, as singletons were always present in the empirical networks. However, the LFR methodology assumes that all nodes are in a valid community. In most cases, by setting (\texttt{minc}) equal to 1, the LFR software either took very long to run (more than our time limit of 4 hours per network), or could not generate the community size distribution with the given properties at all. Therefore, with the exception of high energy physics citation network for which \texttt{minc} = 1 successfully generated the LFR, for other networks, we found the \textit{minimum} value of \texttt{minc} that generated the LFR graph in less than 4 hours with a brute-force search (exploring all values of \texttt{minc} starting from 1, to the point were the LFR was generated int he given time limit).
+    \item In all our real networks with all resolution parameters, the minimum community size was 1, as singletons were always present in the empirical networks. However, the LFR methodology assumes that all nodes are in a valid community. In most cases, by setting (\texttt{minc}) equal to 1, the LFR software either took very long to run (more than our time limit of 4 hours per network), or could not generate the community size distribution with the given properties at all. Therefore, with the exception of high energy physics citation network for which \texttt{minc} = 1 successfully generated the LFR, for other networks, we found the \textit{minimum} value of \texttt{minc} that generated the LFR graph in less than 4 hours with a brute-force search (exploring all values of \texttt{minc} starting from 1, to the point where the LFR was generated in the given time limit).
 \end{itemize}
 
 Figures \ref{fig:all-degrees} to \ref{fig:wiki_topcats_cm_size} show a comparison between the degree distribution and community size distributions of the six empirical networks and their corresponding LFR graphs for different resolution values. Table \ref{table:all-params} shows various parameters of the empirical networks and their corresponding LFR graphs.
 
 \begin{table}[h!]
-\caption[Properties of the empirical networks and their LFR model graphs.]{Properties of the empirical networks and their LFR model graphs. $r$ stands for resolution value used for generating the Leiden clustering, $\mu$ stands for the mixing parameter, and $\tau_1$ and $\tau_2$ are the \textit{estimated} power-law exponents for the degree and the community size distributions respectively.}
+\caption[Properties of the empirical networks and their LFR model graphs.]{Properties of the empirical networks and their LFR model graphs.  Parameters: $r$ stands for resolution value used for generating the Leiden clustering, $\mu$ stands for the mixing parameter, and $\tau_1$ and $\tau_2$ are the \textit{estimated} power-law exponents for the degree and the community size distributions respectively.}
 \centering
-\begin{tabular}{llllllll}
+\begin{tabular}{lrrrrrrr}
 \hline
 network              & $r$      & nodes      & edges         & average degree & $\mu$    & $\tau_1$  & $\tau_2$  \\ \hline \hline
 open\_citations      & 0.0001 & 75,025,194 & 1,363,303,678 & 36.34    & 0.407 & 2.974 & 4.025 \\
@@ -324,7 +329,7 @@ wiki\_talk      & 0.5   & 2,394,385 & 4,659,565 & 3.89     & 0.984 & 1.901 & 2.9
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\linewidth]{figs/all_degrees.pdf}
-\caption[Comparison between the degree distribution of empirical and LFR networks.]{\textbf{Comparison between the degree distribution of empirical and LFR networks.} The LFR networks are produced to emulate the characteristics of their corresponding real network. For the CEN and the OpenCitations network, the number of nodes of the LFR network is 3,000,000, and for the other networks it exactly matches the number of nodes in its corresponding empirical network. The resolution parameter used for generating the LFR graphs shown in this figure is 0.1. }
+\caption[Comparison between the degree distribution of empirical and LFR networks.]{\textbf{Comparison between the degree distribution of empirical and LFR networks.} The LFR networks are produced to emulate the characteristics of their corresponding real network. For the CEN and the OpenCitations network, the number of nodes of the LFR network is 3,000,000, and for the other networks it exactly matches the number of nodes in its corresponding empirical network. The resolution parameter used for generating the LFR graphs shown in this figure is 0.01. }
 \label{fig:all-degrees}
 \end{figure}
 
