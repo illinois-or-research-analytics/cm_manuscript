@@ -356,7 +356,8 @@ To estimate $\tau_1$ and $\tau_2$, we fit a power-law distribution to the node d
 \paragraph{Generating LFR networks.}
 After computing these parameters based on the Leiden clusterings of the empirical networks using selected resolution parameters (see text), we simulated LFR networks using the software from \cite{lancichinetti2008benchmark}, producing empirical statistics reported in Table \ref{tab:empirical-stats-LFR} (for a resolution parameter of 0.01). For networks with more than 10 million nodes (i.e., the OpenCitations and the CEN), we limited the number of vertices to 3 million, due to scalability limitations of  the LFR benchmark graph generator \citep{slota2019scalable}, while preserving the edge density (reflected by average degree) and the mixing parameter.  The number of nodes of the LFR graphs exactly matches the number of nodes in the corresponding empirical network. In some cases, due to the inherent limitations of the LFR graph generator, we had to modify the ranges of the community sizes (i.e., increase $c_{min}$ and decrease $c_{max}$) to generate the network.
 
-As shown from the statistics reported in Table \ref{tab:empirical-stats-LFR} and the supplement \textcolor{blue}{add table number}, the average node degree, the mixing parameter and the exponents for the degree and community size distributions are in all cases very well-preserved. Further details about the pipeline for producing LFR graphs and the statistics of the graphs are provided in Supplementary Materials Section 2.
+As shown from the statistics reported in Table \ref{tab:empirical-stats-LFR} and the supplement \textcolor{blue}{add table number}\footnote{\textcolor{blue}{Yasamin, the statistics you are talking about do not seem to be reported in the supplement yet.}},
+ the average node degree, the mixing parameter and the exponents for the degree and community size distributions are in all cases very well-preserved. Further details about the pipeline for producing LFR graphs and the statistics of the graphs are provided in Supplementary Materials Section 2.
 
 \section{Experimental Design}
 \label{sec:expt-design}
@@ -760,15 +761,15 @@ Only 1.41\% of the input IKC clusters have small edge cuts.
 In this experiment, we analyze synthetic networks simulated to reproduce the empirical statistics of the Open Citations and CEN networks, using the
 LFR software.
 However, due to limitations in network sizes that can be feasibly achieved using LFR, these synthetic networks are smaller than the corresponding
-empirical networks, but have very close mixing parameters and average degrees.
-\textcolor{blue}{Say where the tables are with this info.}
+empirical networks, but have very close mixing parameters and average degrees\footnote{\textcolor{blue}{Say where the tables are with this info}}.
 
 
 We begin with a comparison  between LFR and empirical networks for Open Citations and CEN networks, with respect to percentage of  Leiden clusters (using $r=0.01$) that have small edge cuts and in
 the node coverage (both before and after CM-processing).   As seen in
 Table \ref{tab:LFR-vs-empirical-OC-CEN}, nearly all of the Leiden clusters of these empirical networks have small edge cuts (94.5\% for the Open Citations and 97.2\% for the CEN).
-\textcolor{blue}{In contrast, these percentages drop to XXX and YYY, respectively, on the LFR versions of the Open Citations and CEN networks.}
-Node coverage is also different between the empirical networks and their LFR variants: before CM-processing, the node coverage begins at 88.9\% for the Open Citations and 76.6\% for the CEN, and then drops to 63.98\% and 13.22\%, respectively, after CM-processing. 
+In contrast,  the LFR version of the Open Citations has only 18.15\% clusters with small edge cuts, and the CEn has only 57.14\%.  
+Node coverage is also different between the empirical networks and their LFR variants.
+For example, before CM-processing, the node coverage begins at 88.9\% for the Open Citations and 76.6\% for the CEN, and then drops to 63.98\% and 13.22\%, respectively, after CM-processing. 
 \textcolor{blue}{However, on the LFR networks, node coverage begins close to 100\% and drops only slightly.}
 Thus, there are very large differences between these LFR and empirical networks.
 
