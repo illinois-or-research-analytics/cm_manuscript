@@ -213,7 +213,7 @@ In contrast, a cut of size $4$ or larger will be considered large enough, and wi
 \label{alg:full-pipeline}
 \end{algorithm}
 
-\textbf{Notes:} 
+\textbf{Notes:}
 \begin{itemize}
 \item When
 $f$ (the clustering method) is IKC, we have made a small modification to the
@@ -225,7 +225,7 @@ At this point, it is possible that some of the clusters in WCC will not have pos
 Therefore, when we run CM with IKC for the clustering method $f$,  we add a processing step after line 18 that checks each cluster in WCC for positive modularity,
 and deletes any cluster that fails this test.
 Only after pruning all such clusters from WCC will we return what is left.
-\item If desired, the clustering method $f$ can be a modified version of a standard method, such as Leiden, where the clusters below size $B$ are deleted before being further processed in the pipeline. 
+\item If desired, the clustering method $f$ can be a modified version of a standard method, such as Leiden, where the clusters below size $B$ are deleted before being further processed in the pipeline.
 \end{itemize}
 
 \clearpage
@@ -335,6 +335,13 @@ wiki\_talk      & 0.5   & 2,394,385 & 4,659,565 & 3.89     & 0.984 & 1.901 & 2.9
 
 \begin{figure}[H]
 \centering
+\includegraphics[width=0.85\linewidth]{figs/oc_cm_size.pdf}
+\caption[Cluster size distribution for Open Citations networks.]{\textbf{Cluster size distribution for Open Citations networks.} The LFR ground-truth communities (shown in green) are generated according to the parameters estimated from the Leiden clustering of the empirical network (in black), and then the LFR network is re-clustered using Leiden with the same resolution value. }
+\label{fig:oc_cm_size}
+\end{figure}
+
+\begin{figure}[H]
+\centering
 \includegraphics[width=0.85\linewidth]{figs/cen_cm_size.pdf}
 \caption[Cluster size distribution for CEN citation networks.]{\textbf{Cluster size distribution for CEN citation networks.} The LFR ground-truth communities (shown in green) are generated according to the parameters estimated from the Leiden clustering of the empirical network (in black), and then the LFR network is re-clustered using Leiden with the same resolution value. }
 \label{fig:cen_cm_size}
@@ -358,10 +365,18 @@ wiki\_talk      & 0.5   & 2,394,385 & 4,659,565 & 3.89     & 0.984 & 1.901 & 2.9
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\linewidth]{figs/wiki_topcats_cm_size.pdf}
-\caption[Cluster size distribution for Wikipedia hyperlink networks.]{\textbf{Cluster size distribution for wiki\_topcats   networks.} The LFR ground-truth communities (shown in green) are generated according to the parameters estimated from the Leiden clustering of the empirical network (in black), and then the LFR network is re-clustered using Leiden with the same resolution value. }
+\caption[Cluster size distribution for Wikipedia hyperlink networks.]{\textbf{Cluster size distribution for Wikipedia hyperlink (wiki\_topcats) networks.} The LFR ground-truth communities (shown in green) are generated according to the parameters estimated from the Leiden clustering of the empirical network (in black), and then the LFR network is re-clustered using Leiden with the same resolution value. }
 \label{fig:wiki_topcats_cm_size}
 \end{figure}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\linewidth]{figs/wiki_talk_cm_size.pdf}
+\caption[Cluster size distribution for Wikipedia talk networks.]{\textbf{Cluster size distribution for Wikipedia talk networks.} The LFR ground-truth communities (shown in green) are generated according to the parameters estimated from the Leiden clustering of the empirical network (in black), and then the LFR network is re-clustered using Leiden with the same resolution value. We were not able to generate an LFR graph for the highest resolution value ($r = 0.5$).}
+\label{fig:wiki_talk_cm_size}
+\end{figure}
+
+\clearpage
 
 \section{Additional Results for the CM pipeline}
 
@@ -411,6 +426,14 @@ wiki\_talk      & 0.5   & 2,394,385 & 4,659,565 & 3.89     & 0.984 & 1.901 & 2.9
 \includegraphics[width=0.37\textwidth]{figs/cen_1_cm_size.pdf}
 \caption[CM pipeline on the empirical CEN network and its model LFR graph for r=0.1]{\textbf{CM pipeline on the empirical CEN network and its model LFR graph for r=0.1.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
 \label{fig:cen-cm-lfr-1}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.62\textwidth]{figs/cen_cm_steps_lfr5.pdf}
+\includegraphics[width=0.37\textwidth]{figs/cen_5_cm_size.pdf}
+\caption[CM pipeline on the empirical CEN network and its model LFR graph for r=0.5]{\textbf{CM pipeline on the empirical CEN network and its model LFR graph for r=0.5.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\label{fig:cen-cm-lfr-5}
 \end{figure}
 
 \begin{figure}[h!]
@@ -530,7 +553,7 @@ wiki\_talk      & 0.5   & 2,394,385 & 4,659,565 & 3.89     & 0.984 & 1.901 & 2.9
 \centering
 \includegraphics[width=0.62\textwidth]{figs/wiki_talk_cm_steps_lfr5.pdf}
 \includegraphics[width=0.37\textwidth]{figs/wiki_talk_5_cm_size.pdf}
-\caption[CM pipeline on the Wikipedia talk network and its model LFR graph for r=0.5]{\textbf{CM pipeline on the empirical Wikipedia talk network and its model LFR graph for r=0.5.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\caption[CM pipeline on the Wikipedia talk network for r=0.5]{\textbf{CM pipeline on the empirical Wikipedia talk network for r=0.5.} The left panel shows the community size distribution in each step of running CM and the right panel shows the community size distribution of the original Leiden clustering. For this network, we were not able to generate a corresponding LFR graph, and therefore the second row is empty.}
 \label{fig:wikitalk-cm-lfr-5}
 \end{figure}
 \clearpage
