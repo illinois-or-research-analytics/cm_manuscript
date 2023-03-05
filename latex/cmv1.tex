@@ -222,9 +222,7 @@ By design, this pipeline is guaranteed to return a clustering where each cluster
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.8\linewidth]{figs/workflow.pdf}
-\caption{\textbf{Pipeline Schematic.} The four-stage pipeline depends on user-specified algorithmic parameters: minimum allowed size of a cluster, required minimum number of edges in an edge cut, and clustering method.  Stage 1 computes the clustering; Stage 2 removes any clusters that are too small or that are trees;  Stage 3 applies the  Connectivity Modifier to each cluster, removing small edge cuts if they are below the required size, reclustering, and recursing;  and Stage 4 then removes the clusters that are too small. All clusters that are returned are well-connected by definition and at least the minimum size, both algorithmic parameters specified by the user.
-\textcolor{blue}{Perhaps remove the text for "remove trees" at the end of the pipeline, since it won't be needed since trees are removed during the CM-processing..}
-}
+\caption{\textbf{Pipeline Schematic.} The four-stage pipeline depends on user-specified algorithmic parameters: minimum allowed size of a cluster, required minimum number of edges in an edge cut, and clustering method.  Stage 1 computes the clustering; Stage 2 removes any clusters that are too small or that are trees;  Stage 3 applies the  Connectivity Modifier to each cluster, removing small edge cuts if they are below the required size, reclustering, and recursing;  and Stage 4 then removes the clusters that are too small. All clusters that are returned are well-connected by definition and at least the minimum size, both algorithmic parameters specified by the user.}
 \end{figure}
 
 
@@ -365,7 +363,8 @@ To estimate $\tau_1$ and $\tau_2$, we fit a power-law distribution to the node d
 \paragraph{Generating LFR networks.}
 After computing these parameters based on the Leiden clusterings of the empirical networks using selected resolution parameters (see text), we simulated LFR networks using the software from \cite{lancichinetti2008benchmark}, producing empirical statistics reported in Table \ref{tab:empirical-stats-LFR} (for a resolution parameter of 0.01). For networks with more than 10 million nodes (i.e., the Open Citations and the CEN), we limited the number of vertices to 3 million, due to scalability limitations of  the LFR benchmark graph generator \citep{slota2019scalable}, while preserving the edge density (reflected by average degree) and the mixing parameter.  The number of nodes of the LFR graphs exactly matches the number of nodes in the corresponding empirical network. In some cases, due to the inherent limitations of the LFR graph generator, we had to modify the ranges of the community sizes (i.e., increase $c_{min}$ and decrease $c_{max}$) to generate the network.
 
-As shown from the statistics reported in Table \ref{tab:empirical-stats-LFR} and the supplement \textcolor{blue}{add table number}\footnote{\textcolor{blue}{Yasamin, the statistics you are talking about do not seem to be reported in the supplement yet.}},
+As shown in the statistics reported in Table \ref{tab:empirical-stats-LFR} and the supplement  Table S1,
+%\textcolor{blue}{add table number}\footnote{\textcolor{blue}{Yasamin, the statistics you are talking about do not seem to be reported in the supplement yet.}},
  the average node degree, the mixing parameter and the exponents for the degree and community size distributions are in all cases very well-preserved. Further details about the pipeline for producing LFR graphs and the statistics of the graphs are provided in Supplementary Materials Section 2.
 
 \section{Experimental Design}
@@ -523,7 +522,7 @@ res\_value & pipeline\_stage & clus\_count & node\_cov & min & med & max \\
 We used Iterative k-core (IKC) clustering with $k=10$ (thus, all nodes in all  IKC clusters are adjacent to at least $10$ other nodes in the cluster). 
 After running IKC on the Open Citations Network, we had 2569 clusters covering 23.6\% of the network nodes, with a minimum cluster size of 11, median of 40, and maximum of about 6.65 million (Table \ref{tab:IKC-11-OC-basicstats}). 
 Only 6.38\% of the input IKC clusters had small edge cuts, and the clusters that had small edge cuts tended to be larger
-than the clusters that did not have small edge cuts  (Table \ref{IKC-OC-sizes}).
+than the clusters that did not have small edge cuts  (Table \ref{tab:IKC-OC-sizes}).
 %(Figure \ref{fig:ocistouched-ikc}).
 After running these clusters through CM-processing, the number of clusters increased to 3999, covering 19.5\% of the network nodes. The  median cluster size increased from 40 to 45, but the minimum and maximum did not change.
 
@@ -581,35 +580,14 @@ do not have small cut & 11  & 38     & 22122  & 24     & 65         \\
 
 \subsubsection{Leiden Analyses of the CEN}
 
-We then evaluated the CEN (Materials and Methods), consisting of 13,989,436 nodes and 92,051,051 edges, which captures the relatively recent literature relevant to exosomes and extracellular vesicles. We clustered the CEN using Leiden optimizing CPM with  four resolution values ranging from 0.5 to 0.001 (Table \ref{tab:CEN-table1}). This range of resolution values brackets the resolution values used by us on this network in   \cite{Jakatdar_2022}.
+We then evaluated the CEN (Materials and Methods), consisting of 13,989,436 nodes and 92,051,051 edges, which captures the relatively recent literature relevant to exosomes and extracellular vesicles. We clustered the CEN using Leiden optimizing CPM with  four resolution values ranging from 0.5 to 0.001 (Table \ref{tab:CEN-Leiden-11-CM}).
+This range of resolution values brackets the resolution values used by us on this network in   \cite{Jakatdar_2022}.
 Predictably, node coverage and cluster size increased as resolution values  decreased.
 Interestingly, the number of clusters increased and then decreased, with the smallest number of clusters for the largest
 resolution value.
 
 
-% latex table generated in R 4.1.3 by xtable 1.8-4 package
-% Mon Jan 30 22:29:28 2023
-% generated by singleton corrected script
-\begin{table}[ht]
-\centering
-\begin{tabular}{lrrrrrr}
-  \hline
- res\_value & clus\_count & node\_cov & min & med & max  \\
-  \hline
-  0.5 &   8,503 & 0.97 & 11 & 14 & 68  \\
- 0.1 &   273,420 & 23.98 & 11 & 11 & 319  \\
-   0.01   & 275,641 &  76.52 & 11 & 28 & 3,186   \\
-  0.001   &65,771 &  84.45 & 11 & 98 & 16,481   \\
-   \hline
-\end{tabular}
-\caption{\textbf{Leiden clusters of size at least 11 of the Curated Exosome Network (CEN).}
-For Leiden clustering under four different resolution values (left column), we show  the number of clusters of size at least 11;  the minimum, median, and
-maximum cluster size when restricted to clusters of size at least $11$; and the node coverage (i.e., percentage of nodes in the CEN found in clusters of size at least $11$).
-Node coverage and cluster size increase as resolution value is decreased.
-%\textcolor{blue}{Tandy asks: should this go into Materials and Methods? }
-}
-\label{tab:CEN-table1}
-\end{table}
+
 
 
 We performed the corresponding analyses on the CEN as for the Open Citations Network for these four resolution values, and report results below.
@@ -677,6 +655,7 @@ res\_value  & yes & no & \% with small cuts\\
    \hline
 \end{tabular}
 \caption{Number of Leiden clusters of the CEN and whether they have small edge cuts}
+\label{tab:Leiden-CEN-num-smallcut}
 \end{table}
 
 
@@ -727,17 +706,6 @@ pipeline.
 Furthermore,
 across all resolution values we explored, the node coverage after CM-processing was never more than 23.15\%.
 
-\paragraph{Comparing Experiments 1 and 2}
-Overall, the  trends seen for Leiden clusterings on the CEN are  very similar to what we observed for the Open Citations network.
-Specifically, for both networks, we observe the following  trends: (1) when using small resolution values (i.e., $r \leq 0.01$),  nearly all Leiden clusters have small edge cuts and there is a large drop in node coverage produced by the CM-pipeline, and  (2) when using
-large resolution values (i.e., $r \geq 0.1$), there is less impact (or perhaps no impact) produced by the CM-pipeline, but the node coverage is small (and the clusters themselves tend to be small).
-The main difference between results on the CEN and Open Citations is that the reduction in node coverage produced by CM-processing is
-much larger  for the CEN than for Open Citations.
-% latex table generated in R 4.2.2 by xtable 1.8-4 package
-% Sun Jan 15 17:37:03 2023
-
-% latex table generated in R 4.2.2 by xtable 1.8-4 package
-% Fri Jan 13 18:03:02 2023
 
 
 \subsubsection{IKC analyses of the CEN}
@@ -747,19 +715,22 @@ much larger  for the CEN than for Open Citations.
 We used Iterative k-core (IKC) clustering with $k=10$ (thus, all nodes in all  IKC clusters are adjacent to at least $10$ other nodes in the cluster). 
 After running IKC on the CEN we had 128 clusters covering 3.8\% of the network nodes, with a minimum cluster size of 14, median of 79, and maximum of about 214,877 (Table \ref{tab:IKC-11-CEN-basicstats}). 
 We also note that  only 1.41\% of the input IKC clusters have small edge cuts.
-\textcolor{blue}{A comparison of cluster sizes with or without small edge cuts is shown in  Table \ref{tab:IKC-CEN-sizes}}.
+A comparison of cluster sizes with or without small edge cuts is shown in  Table \ref{tab:IKC-CEN-sizes}.
  After running these clusters through CM-processing, the number of clusters increased to 187 but node coverage remained at 3.8\%.   The  minimum cluster size did not change, the median dropped from 79 to 64, and the maximum cluster size dropped from 214,877 to 214,850. 
  Thus, CM-processing impacted the IKC clustering only slightly.  
 
 
-\textcolor{blue}{Check this next text for correctness. Also, maybe this is not needed in this paper. Or the discussion should involve both CEN and Open Citations?}
-It is interesting to compare IKC and Leiden clustering of the CEN. 
-With respect to node coverage and percentage of clusters with small edge cuts, IKC falls between Leiden clusterings on the two largest resolution values, but closer to Leiden with $r=0.5$ than to  Leiden with $r=0.1$.  
-That is,  Leiden at $r=0.5$ was completely unaffected by CM-processing but  Leiden at $r=0.1$ was more clearly  affected (e.g., node coverage dropped from 24\% to 3.59\%) , but
-IKC (with $k=10$) is only modestly affected by CM-processing (e.g., node coverage did not change). 
-The explanation here may be that IKC, using $k=10$, is a conservative clustering method, as is Leiden when using large resolution parameters ($r=0.5$ is very conservative, and $r=0.1$ is still conservative but less so), and IKC is in between these two in terms of how conservative it is on this network.
-Thus, the clusters  produced by IKC and by Leiden with very large resolution parameter values tend to be denser but consequently not cover as much of the network as Leiden with smaller resolution values. Hence, CM-processing has less impact on these conservative clustering methods (and especially IKC and Leiden with $r=0.5$) than on Leiden when used with small resolution values. 
-However, Leiden with $r=0.5$   is even more conservative than IKC, and consequently has an even smaller node coverage prior to CM-processing. 
+%\textcolor{blue}{Check this next text for correctness. Also, maybe this is not needed in this paper. Or the discussion should involve both CEN and Open Citations?}
+%It is interesting to compare IKC and Leiden clustering of the CEN. 
+%With respect to node coverage and percentage of clusters with small edge cuts, IKC falls between Leiden clusterings on the two largest resolution values, but closer to Leiden with $r=0.5$ than to  Leiden with $r=0.1$.  
+%That is,  Leiden at $r=0.5$ was completely unaffected by CM-processing but  Leiden at $r=0.1$ was more clearly  affected (e.g., node coverage dropped from 24\% to 3.59\%) , but
+%IKC (with $k=10$) is only modestly affected by CM-processing (e.g., node coverage did not change). 
+
+
+
+%The explanation here may be that IKC, using $k=10$, is a conservative clustering method, as is Leiden when using large resolution parameters ($r=0.5$ is very conservative, and $r=0.1$ is still conservative but less so), and IKC is in between these two in terms of how conservative it is on this network.
+%Thus, the clusters  produced by IKC and by Leiden with very large resolution parameter values tend to be denser but consequently not cover as much of the network as Leiden with smaller resolution values. Hence, CM-processing has less impact on these conservative clustering methods (and especially IKC and Leiden with $r=0.5$) than on Leiden when used with small resolution values. 
+%However, Leiden with $r=0.5$   is even more conservative than IKC, and consequently has an even smaller node coverage prior to CM-processing. 
 
 
 
@@ -795,6 +766,35 @@ do not have small cut & 14  & 55.5   & 170413 & 35      & 146.25 \\
 \label{tab:IKC-CEN-sizes}
 \end{table}
 
+
+\subsubsection{Comparing Experiments 1 and 2}
+Overall, the  trends seen for Leiden clusterings on the CEN are  very similar to what we observed for the Open Citations (OC) network.
+Specifically, for both networks, we observe the following  trends: (1) when using small resolution values (i.e., $r \leq 0.01$),  nearly all Leiden clusters have small edge cuts and there is a large drop in node coverage produced by the CM-pipeline, and  (2) when using
+large resolution values (i.e., $r \geq 0.1$), there is less impact (or perhaps no impact) produced by the CM-pipeline, but the node coverage is small (and the clusters themselves tend to be small).
+The main difference between results on the CEN and OC is that the reduction in node coverage produced by CM-processing is
+much larger  for the CEN than for OC.
+
+We also see similar trends for IKC on these two networks, but IKC has even lower node coverage on the CEN than it has on the OC, and is even less impacted by CM-processing on the CEN than on the OC.
+Thus, the different properties of the CEN and OC are clearly impacting both methods in somewhat similar ways.
+
+It is now worth examining differences between IKC and Leiden clusterings (with different resolution parameter settings) on these two networks.
+Results on IKC clustering on the CEN and OC show that only a small fraction of the clusters have small cuts, and correspondingly
+there is only a small reduction in node coverage and small changes in the cluster size distribution after CM-processing. 
+These trends  are intermediate between those of Leiden at the two highest resolution values we tested ($r=0.5$ and $r=0.1$).
+Moreover, all three of these methods (i.e., Leiden with the two largest resolution values and IKC) had overall low node coverage on these two networks, both before and after CM-processing.
+%Before CM-processing, but after restricting to clusters with at least 11 nodes, the node coverage did not exceed 43.76\% for Leiden with resolution values
+% on the CEN the coverage ranged from 0.96\% (Leiden with $r=0.5$) to 3.8\% (IKC), and on the OC the coverage ranged from 6\% (Leiden with $r=0.5$) to 41.57\% (Leiden with $r=0.1$), and with IKC intermediate at 19.5\%.
+Thus, IKC and Leiden with high resolution values are {\em conservative} clustering methods, and as a result are not as impacted by CM-processing, 
+while Leiden becomes increasingly expansive (i.e., covering more of the network nodes with clusters) as the resolution value decreases. 
+As a result, Leiden clustering using these smaller resolution values is more impacted by CM-processing.
+
+
+% latex table generated in R 4.2.2 by xtable 1.8-4 package
+% Sun Jan 15 17:37:03 2023
+
+% latex table generated in R 4.2.2 by xtable 1.8-4 package
+% Fri Jan 13 18:03:02 2023
+
 \subsection{Experiment 3: Analyses of LFR networks based on the Open Citations and CEN networks}
 
 
@@ -802,7 +802,7 @@ do not have small cut & 14  & 55.5   & 170413 & 35      & 146.25 \\
 In this experiment, we analyze synthetic networks simulated to reproduce the empirical statistics of the Open Citations and CEN networks, using the
 LFR software.
 However, due to limitations in network sizes that can be feasibly achieved using LFR, these synthetic networks are smaller than the corresponding
-empirical networks, but have very close mixing parameters and average degrees\footnote{\textcolor{blue}{Say where the tables are with this info}}.
+empirical networks, but have very close mixing parameters and average degrees (Table S1, Supplementary Materials). 
 
 
 We begin with a comparison  between LFR and empirical networks for Open Citations and CEN networks, with respect to percentage of  Leiden clusters (using $r=0.01$) that have small edge cuts and in
@@ -1003,16 +1003,40 @@ On the LFR version of this network, we also see big differences, but the final o
 \label{fig:wikitalk-cm-lfr-01}
 \end{figure}
 
-\section{Conclusions}
-\textcolor{blue}{Need to check all this, now that we have all the SNAP networks done.}
-This study considered the question of how well-connected clusters are when produced by either Leiden or IKC.
-When defining well-connected to require  that the smallest edge cut for a cluster with $n$ vertices  have more than $\log_{10}(n)$ edges, we observed that Leiden clusterings
-often had many clusters that had a small edge cut, and so were considered poorly-connected. Specifically, unless the resolution value was large (i.e., $r \geq 0.1$), in the six empirical networks we
-considered (two large citation networks and four SNAP networks), at least 94\% of the clusters with at least 11 nodes had small edge cuts. 
-We also saw that node coverage dropped as a result of CM-processing, and  except when the resolution parameter was very large (at least $0.1$ in our experiments), the reduction in node coverage was large. 
+\section{Conclusions} 
+This study considered the question of how well-connected clusters are when produced by either Leiden or IKC, and CM was designed to modify these clusterings so that  the clusters returned in the final clustering output satisfied a mild edge-connectivity requirement as well as  being above a minimum threshold.
+The impact of this CM pipeline  on Leiden clearly depended on the resolution parameter, with low (or no) impact for very high resolution values and increasingly high impact as the resolution parameter was reduced.  The impact on IKC was in between that seen for Leiden with the two highest resolution parameters.
+These trends show that CM-processing impacts different clustering methods differently.
 
-\textcolor{blue}{The discussion about LFR vs empirical networks to be reconsidered, discussion changed, because results are different now with the final SNAP network included.}
-We saw different patterns on the six LFR networks that we simulated based on properties from the corresponding empirical networks.
+To understand why these differences are see, we note that IKC is a very conservative clustering method, due to its requirement that all clusters have high minimum degree (at least 10). 
+This requirement results in generally low node coverage but ensures that every cluster has size at least 1); this means no clusters are removed due to being too small. 
+The minimum degree requirement also reduces the probability of having clusters with small edge cuts. However, even with this, we do see IKC exhibiting clusters that have
+small edge cuts, and these are impacted by CM-processing.
+
+Similarly, Leiden with a very high resolution value ($r=0.1$ or $r=0.5$) tends to make clusters that are very dense and often very small, and this also protects it from being susceptible to CM-processing.  Even with $r=0.1$, however, clusters are found that have small edge cuts, and so these are impacted by CM-processing.
+These clusterings, however, have low node coverage. 
+In other words, Leiden clustering using very large resolution values is conservative, with the consequence of having low node coverage and being relatively robust to CM-processing.
+
+In contrast, Leiden with lower resolution parameters is more ambitious, with higher node coverage as a result of producing generally larger  and sparser clusters.
+As we see, these clusters tend to have  small edge cuts.
+The interesting trend, then, is that after CM-processing, the node coverage drops, often down to much smaller values.
+In other words, when clustering using Leiden with a small resolution value, many clusters will be found that do not meet the minimal connectivity requirements we have set.
+As a result, CM-processing of these clusters splits them apart into smaller clusters, leading to substantially reduced node coverage and impacting the distribution of cluster sizes.
+These trends are not the same ones seen on more conservative methods, such as Leiden with very high resolution values, but the conservative methods do not have high node coverage!
+
+
+One of the findings in this study is that clustering methods that are very conservative, such as  IKC or Leiden with a large resolution value, are less likely to have clusters that have small edge cuts than clustering methods that are more expansive, such as Leiden with a small resolution value. However, some clustering methods that are conservative also tend to have low node coverage; this is true for  Leiden using the two largest resolution values (because it makes small clusters) and also for IKC (because of the requirement that the minimum degree in each cluster be at least 10).  Furthermore, for those  clusters that are below the minimum cluster size requirement (here, 11) are removed by CM-processing during the filtering stage, which makes Leiden with high resolution values somewhat susceptible to CM-processing.  Thus, even though conservative clustering methods are less impacted by CM-processing, they can still be impacted, with some clusters discarded due to size and others broken up because of having small edge cuts.
+
+All these trends were seen for specific settings for CM-processing: using $B=11$ as the lower bound on a valid cluster size, and using Equation \ref{eqn:our-bound} for the minimum size of an edge cut.
+These parameters can be changed to allow for more clusters (or fewer clusters) to be considered valid.
+For example, to reduce the impact of CM-clustering,  $B$ could be reduced to allow for very small clusters, of perhaps 5 or 6 nodes, to be considered valid communities. 
+Or, the requirement of edge cuts being above $\log_{10}n$ is considered too rigorous, the bound on the edge cut size could be reduced.  
+Similarly, increasing $B$ or the minimal size of the edge cut could also be explored. 
+ 
+
+It is also interesting to consider the different trends we observed on synthetic networks we studied, compared to the empirical networks on which they were simulated.
+Although not all six synthetic networks showed the same trends, most showed greater robustness to CM-processing, with fewer clusters having small edge cuts, and overall higher node coverage before and after CM-processing.
+% saw different patterns on the six LFR networks that we simulated based on properties from the corresponding empirical networks.
 %Although the LFR networks had some small clusters, they had fewer small clusters than those produced on the empirical networks.
 %The shape of the distributions were also different on the LFR networks than on the empirical networks There were fewer clusters with small edge cuts, with the result that CPM-processing had a smaller impact on LFR networks than on empirical networks.
 %In particular, node coverage dropped only slightly, and this drop was primarily due to the initial filtering, which removed  the small clusters.
@@ -1023,9 +1047,11 @@ Yet, as we have seen, the distribution of degrees in these six empirical network
 Hence, these assumptions about node degree and cluster size distribution that govern the LFR model may not  generally hold on real-world networks.
 Another assumption in the LFR methodology is that every node is in a community.  Yet, if we assume that a community should not be too small and should be well-connected, then
 our mild requirements for size (at least 11 vertices) and connectivity (every edge cut in a cluster with $n$ vertices should have more than $\log_{10}n$ edges), then our
-study suggests that for many real world networks, some nodes -- perhaps a sizeable fraction of the network -- do not belong to valid communities.
+study suggests that for many real world networks, some nodes -- perhaps a sizable fraction of the network -- do not belong to valid communities.
 Thus, this assumption that all nodes in the network should belong to communities may be unrealistic for many real world networks.
 Further work is needed to better characterize real world networks, and to better understand why clustering on LFR networks results in such different patterns than on real-world networks.
+
+
 
 \section*{Competing Interests} \vspace{3mm} The authors have no competing interests.
 
@@ -1212,3 +1238,27 @@ leiden & 0.001 & non\_tree &  12 & 112 & 16481 \\
 \end{table}
 
 \clearpage
+
+% latex table generated in R 4.1.3 by xtable 1.8-4 package
+% Mon Jan 30 22:29:28 2023
+% generated by singleton corrected script
+\begin{table}[ht]
+\centering
+\begin{tabular}{lrrrrrr}
+  \hline
+ res\_value & clus\_count & node\_cov & min & med & max  \\
+  \hline
+  0.5 &   8,503 & 0.97 & 11 & 14 & 68  \\
+ 0.1 &   273,420 & 23.98 & 11 & 11 & 319  \\
+   0.01   & 275,641 &  76.52 & 11 & 28 & 3,186   \\
+  0.001   &65,771 &  84.45 & 11 & 98 & 16,481   \\
+   \hline
+\end{tabular}
+\caption{\textbf{Leiden clusters of the CEN.}
+For Leiden clustering under four different resolution values (left column), we show  the number of clusters of size at least 11;  the minimum, median, and
+maximum cluster size when restricted to clusters of size at least $11$; and the node coverage (i.e., percentage of nodes in the CEN found in clusters of size at least $11$).
+Node coverage and cluster size increase as resolution value is decreased.
+\textcolor{blue}{Fix results to match later updated table. }
+}
+\label{tab:CEN-table1}
+\end{table}
