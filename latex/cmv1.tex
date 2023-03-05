@@ -97,7 +97,7 @@ when the edge cut is removed from a cluster. Specifically, the guarantee provide
  \end{equation}
 where $||.||$ denotes the number of elements in the set and $E_0$ splits the cluster into two sets, $A$ and $B$.
 Note that this is a {\em lower bound} on the size of an edge cut produced in an optimal CPM-clustering.
-As a trivial example, if $||A||=1$ and $||B||=n-1$ (i.e., when the edge cut separates one node in the cluster from the remaining nodes),
+As a simple example, if $||A||=1$ and $||B||=n-1$ (i.e., when the edge cut separates one node in the cluster from the remaining nodes),
  the bound indicates that the edge cut must have size at least $\gamma \times (n-1)$.
 The bound on the edge cut size  is strongest (meaning the lower bound is largest) when $A$ and $B$ are approximately the same size, and is weakest when the
 edge cut separates a single node from the remainder of the cluster. Note also that this bound depends on  the user-specified value for $\gamma$.
@@ -131,7 +131,7 @@ where $||.||$ denotes the number of elements in the given set and
 $\lfloor . \rfloor$ is the floor (largest integer at most the size of the given value).
 
 For example, when $||C|| \leq 9$, the bound in Equation \ref{eqn:our-bound} only enforces that the cluster be connected, when
-$10 \leq ||C|| < 100$ it requires that  the cluster not have any cut edges (single edges that disconnect the cluster), etc.
+$10 \leq ||C|| < 100$ it requires that  the cluster not have any cut edges (single edges whose removals disconnect the cluster), etc.
 This formulation offers a relatively weak bound for large clusters (i.e., when   $||C||$ is large), but does provide  a stronger constraint on small to moderate-sized clusters than the formulation based on Equation \ref{eqn:cpm-bound}.
 % \textcolor{blue}{Should we write something like, ``Thus, the guarantees offered by Leiden are stronger for larger clusters, whereas, our formulation is more stringent for small to medium sized clusters.''?}
 
