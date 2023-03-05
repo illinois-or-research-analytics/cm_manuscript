@@ -120,7 +120,7 @@ IKC (v1.0.0) available at \cite{ikc-code}.
 %\item \texttt{cluster\_analyzer.py}: a parallelized version of find\_trees.py
 %\item \texttt{subset\_graph\_nonnetworkit.R}: a fast script without dependence on Networkit that also returns maxDegree for a cluster.
 %\end{enumerate}
-\item  \textbf{CM}: Applying connectivity modifier, available at \cite{cm2022}.
+\item  \textbf{CM}: Applying connectivity modifier, available at \cite{cm2022},
  %\href{https://github.com/RuneBlaze/connectivity-modifier}{https://github.com/RuneBlaze/connectivity-modifier} 
  with the following commands (assuming the clustering method used is Leiden), where the option \texttt{-g} specifies the resolution parameter:
 \begin{lstlisting}[basicstyle=\ttfamily\small]
@@ -227,7 +227,7 @@ Only after pruning all such clusters from WCC will we return what is left.
 \clearpage
 \section{Emulating Real Networks with LFR Graphs}
 
-\textcolor{red}{write the math behind fitting power-law, table with network properties, plots comparing degree distribution and community size distribution of networks vs lFR graphs, commands for generating LFRs, runtime, that we had to change the range of cluster sizes to enable it to generate the network., LFR is not robust to changes in parameters}
+%\textcolor{red}{write the math behind fitting power-law, table with network properties, plots comparing degree distribution and community size distribution of networks vs lFR graphs, commands for generating LFRs, runtime, that we had to change the range of cluster sizes to enable it to generate the network., LFR is not robust to changes in parameters}
 
 \begin{figure}[H]
 \centering
@@ -430,6 +430,11 @@ Only after pruning all such clusters from WCC will we return what is left.
 \caption[CM pipeline on the Wikipedia talk network and its model LFR graph for r=0.5]{\textbf{CM pipeline on the empirical Wikipedia talk network and its model LFR graph for r=0.5.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
 \label{fig:wikitalk-cm-lfr-5}
 \end{figure}
+\clearpage
+\bibliographystyle{apalike}
+\bibliography{cmv1}
+\end{document}
+
 
 \clearpage
 
@@ -498,6 +503,3 @@ Node coverage is the percentage of nodes in the network found in clusters. Minim
 \end{figure}
 
 \clearpage
-\bibliographystyle{apalike}
-\bibliography{cmv1}
-\end{document}
