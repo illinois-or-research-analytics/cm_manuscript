@@ -76,7 +76,14 @@
 
 \section{Connectivity Modifier Pipeline}
 
-In this section, we bring the details of each step of the pipeline, in addition to commands. All scripts used for the analysis in this study are available at \href{https://github.com/illinois-or-research-analytics/cm_manuscript/tree/main/analysis}{https://github.com/illinois-or-research-analytics/cm\_manuscript/tree/main/analysis}, and the CM code is available at \href{https://github.com/RuneBlaze/connectivity-modifier}{https://github.com/RuneBlaze/connectivity-modifier}.
+In this section, we bring the details of each step of the pipeline, in addition to commands. 
+
+\begin{itemize}
+\item All scripts used for the analysis in this study are available at\\
+ \href{https://github.com/illinois-or-research-analytics/cm_manuscript/tree/main/analysis}{https://github.com/illinois-or-research-analytics/cm\_manuscript/tree/main/analysis}. 
+ \item The CM code is available at \\
+ \href{https://github.com/RuneBlaze/connectivity-modifier}{https://github.com/RuneBlaze/connectivity-modifier}.
+ \end{itemize}
 
 \subsubsection*{Preprocessing the network}
 Before running the CM pipeline, we removed duplicate/parallel edges and self-loops from the networks, using the \texttt{cleanup\_el.R} script with the following command:
@@ -98,7 +105,11 @@ leidenalg.find_partition(net, leidenalg.CPMVertexPartition, resolution_parameter
 IKC.py -e <cleaned_network.tsv> -k 10 -o <output file>
 \end{lstlisting}
 
-We used the Python version of Leiden (leidenalg v0.8.2) available at \href{https://github.com/vtraag/leidenalg}{https://github.com/vtraag/leidenalg} and IKC (v1.0.0) available at \href{https://github.com/chackoge/ERNIE_Plus/blob/master/Illinois/clustering/eleanor/code/IKC.py}{https://github.com/chackoge/ERNIE\_Plus/blob/master/Illinois/clustering/} \href{https://github.com/chackoge/ERNIE_Plus/blob/master/Illinois/clustering/eleanor/code/IKC.py}{eleanor/code/IKC.py}.
+We used the Python version of Leiden (leidenalg v0.8.2) available at \cite{leiden-code} and 
+%\href{https://github.com/vtraag/leidenalg}{https://github.com/vtraag/leidenalg} and 
+IKC (v1.0.0) available at \cite{ikc-code}.
+
+ %\href{https://github.com/chackoge/ERNIE_Plus/blob/master/Illinois/clustering/eleanor/code/IKC.py}{https://github.com/chackoge/ERNIE\_Plus/blob/master/Illinois/clustering/} \href{https://github.com/chackoge/ERNIE_Plus/blob/master/Illinois/clustering/eleanor/code/IKC.py}{eleanor/code/IKC.py}.
 
 
 \item  \textbf{Filtering}: Removing clusters of size less than or equal to 10 as well as trees (defined as connected clusters where the number $m$ of edges is one less than the number $n$ of vertices, i.e. $m=n-1$).
@@ -109,7 +120,9 @@ We used the Python version of Leiden (leidenalg v0.8.2) available at \href{https
 %\item \texttt{cluster\_analyzer.py}: a parallelized version of find\_trees.py
 %\item \texttt{subset\_graph\_nonnetworkit.R}: a fast script without dependence on Networkit that also returns maxDegree for a cluster.
 %\end{enumerate}
-\item  \textbf{CM}: Applying connectivity modifier, available at \href{https://github.com/RuneBlaze/connectivity-modifier}{https://github.com/RuneBlaze/connectivity-modifier} with the following commands (assuming the clustering method used is Leiden), where the option \texttt{-g} specifies the resolution parameter:
+\item  \textbf{CM}: Applying connectivity modifier, available at \cite{cm2022}.
+ %\href{https://github.com/RuneBlaze/connectivity-modifier}{https://github.com/RuneBlaze/connectivity-modifier} 
+ with the following commands (assuming the clustering method used is Leiden), where the option \texttt{-g} specifies the resolution parameter:
 \begin{lstlisting}[basicstyle=\ttfamily\small]
 $ cm -i <cleaned_network.tsv> -c leiden -e <filtered_leiden_clustering.tsv> -g <r>
 -t 1log10 -o <cm_output.tsv>
@@ -118,10 +131,12 @@ $ cm2universal -g <cleaned_network.tsv> -i <cm_output.tsv> -o <cm_output.tsv>
 \item \textbf{Filtering}: Removing clusters of size at most 10  (note: there will not be any trees left at this point) using the same commands as the first filtering step.
 \end{itemize}
 
+We note also that in some analyses reported in the paper, we first removed the clusters of size at most 10, before proceeding with filtering; this allows us
+to count the number of clusters of size at least 11 that are trees.
 
 
-\section{Pseudocode for the Connectivity Modifier}
-\textcolor{red}{this section can be merged with the previous one}
+
+\paragraph{Pseudocode for the Connectivity Modifier} 
 The input to the Connectivity Modifier (CM) is a network and a  clustering; the output will be a set of well-connected clusters (WCC), obtained
 by processing each cluster in the input.
 Thus, each cluster in the output WCC will be a subset of one of the input clusters.
@@ -132,13 +147,13 @@ Here we describe CM, beginning  with the necessary definitions.
     \item $deg(u)$: the degree of node $u$
     \item $t(C)$: minimum required edge cut size for  $C$
     \item $\lambda(C)$: the minimum edge cut size of $C$
-    \item $mod(C, H)$: modularity of subgraph $H$ w.r.t.~$C$
+    \item $mod(C, H)$: modularity of subgraph $H$ with respect to $C$, assuming $H \subseteq C$
     \item $f$: clustering method: a clustering method takes as input a graph, and outputs non-singleton subgraphs of the input graph.
 \end{itemize}
 
 Recall that  $t(C)$ is the {\em smallest} cut that can still be considered ``large enough".
-Furthermore, in our experiments, we set $t(C) = \lfloor \log_{10}(n) \rfloor +1$.  This means that any cut that is below $t(C)$ in a number of vertices
-will be considered small, and so will be cut.
+Furthermore, in our experiments, we set $t(C) = \lfloor \log_{10}(n) \rfloor +1$.  This means that any edge cut that has fewer than $t(C)$ edges
+will be considered small, and so will be removed from the cluster.
 Here we explore the effect of this definition of $t(C)$, where $C$ is a cluster with $n$ vertices.
 \begin{itemize}
 \item
@@ -242,7 +257,7 @@ Only after pruning all such clusters from WCC will we return what is left.
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.85\linewidth]{figs/wiki_topcats_cm_size.pdf}
-\caption[Cluster size distribution for Wikipedia hyperlink networks.]{\textbf{Cluster size distribution for Wikipedia hyperlink networks.} The LFR ground-truth communities (shown in green) are generated according to the parameters estimated from the Leiden clustering of the empirical network (in black), and then the LFR network is re-clustered using Leiden with the same resolution value. }
+\caption[Cluster size distribution for Wikipedia hyperlink networks.]{\textbf{Cluster size distribution for wiki\_topcats   networks.} The LFR ground-truth communities (shown in green) are generated according to the parameters estimated from the Leiden clustering of the empirical network (in black), and then the LFR network is re-clustered using Leiden with the same resolution value. }
 \end{figure}
 
 \section{Additional Results for the CM pipeline}
@@ -324,7 +339,7 @@ Only after pruning all such clusters from WCC will we return what is left.
 \centering
 \includegraphics[width=0.62\textwidth]{figs/cit_hepph_cm_steps_lfr001.pdf}
 \includegraphics[width=0.37\textwidth]{figs/cit_hepph_001_cm_size.pdf}
-\caption[CM pipeline on the empirical physics citation network and its model LFR graph for r=0.001]{\textbf{CM pipeline on the empirical physics citation network and its model LFR graph for r=0.001.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\caption[CM pipeline on the empirical high energy physics citation network and its model LFR graph for r=0.001]{\textbf{CM pipeline on the empirical high energy physics citation network and its model LFR graph for r=0.001.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
 \label{fig:hepph-cm-lfr-001}
 \end{figure}
 
@@ -332,7 +347,7 @@ Only after pruning all such clusters from WCC will we return what is left.
 \centering
 \includegraphics[width=0.62\textwidth]{figs/cit_hepph_cm_steps_lfr01.pdf}
 \includegraphics[width=0.37\textwidth]{figs/cit_hepph_01_cm_size.pdf}
-\caption[CM pipeline on the empirical physics citation network and its model LFR graph for r=0.01]{\textbf{CM pipeline on the empirical physics citation network and its model LFR graph for r=0.01.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\caption[CM pipeline on the empirical high energy  physics citation network and its model LFR graph for r=0.01]{\textbf{CM pipeline on the empirical high energy physics citation network and its model LFR graph for r=0.01.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
 \label{fig:hepph-cm-lfr-01}
 \end{figure}
 
@@ -340,7 +355,7 @@ Only after pruning all such clusters from WCC will we return what is left.
 \centering
 \includegraphics[width=0.62\textwidth]{figs/cit_hepph_cm_steps_lfr1.pdf}
 \includegraphics[width=0.37\textwidth]{figs/cit_hepph_1_cm_size.pdf}
-\caption[CM pipeline on the empirical physics citation network and its model LFR graph for r=0.1]{\textbf{CM pipeline on the empirical physics citation network and its model LFR graph for r=0.1.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\caption[CM pipeline on the empirical high energy  physics citation network and its model LFR graph for r=0.1]{\textbf{CM pipeline on the empirical high energy physics citation network and its model LFR graph for r=0.1.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
 \label{fig:hepph-cm-lfr-1}
 \end{figure}
 
@@ -348,7 +363,7 @@ Only after pruning all such clusters from WCC will we return what is left.
 \centering
 \includegraphics[width=0.62\textwidth]{figs/cit_hepph_cm_steps_lfr5.pdf}
 \includegraphics[width=0.37\textwidth]{figs/cit_hepph_5_cm_size.pdf}
-\caption[CM pipeline on the empirical physics citation network and its model LFR graph for r=0.5]{\textbf{CM pipeline on the empirical physics citation network and its model LFR graph for r=0.5.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\caption[CM pipeline on the empirical high energy  physics citation network and its model LFR graph for r=0.5]{\textbf{CM pipeline on the empirical high energy physics citation network and its model LFR graph for r=0.5.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
 \label{fig:hepph-cm-lfr-5}
 \end{figure}
 
@@ -356,7 +371,7 @@ Only after pruning all such clusters from WCC will we return what is left.
 \centering
 \includegraphics[width=0.62\textwidth]{figs/wiki_topcats_cm_steps_lfr001.pdf}
 \includegraphics[width=0.37\textwidth]{figs/wiki_topcats_001_cm_size.pdf}
-\caption[CM pipeline on the Wikipedia hyperlinks network and its model LFR graph for r=0.001]{\textbf{CM pipeline on the empirical Wikipedia hyperlinks network and its model LFR graph for r=0.001.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\caption[CM pipeline on the wiki\_topcats  network and its model LFR graph for r=0.001]{\textbf{CM pipeline on the empirical wiki\_topcats network and its model LFR graph for r=0.001.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
 \label{fig:wikitopcats-cm-lfr-001}
 \end{figure}
 
@@ -364,7 +379,7 @@ Only after pruning all such clusters from WCC will we return what is left.
 \centering
 \includegraphics[width=0.62\textwidth]{figs/wiki_topcats_cm_steps_lfr01.pdf}
 \includegraphics[width=0.37\textwidth]{figs/wiki_topcats_01_cm_size.pdf}
-\caption[CM pipeline on the Wikipedia hyperlinks network and its model LFR graph for r=0.01]{\textbf{CM pipeline on the empirical Wikipedia hyperlinks network and its model LFR graph for r=0.01.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\caption[CM pipeline on the wiki\_topcats  network and its model LFR graph for r=0.01]{\textbf{CM pipeline on the empirical wiki\_topcats  network and its model LFR graph for r=0.01.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
 \label{fig:wikitopcats-cm-lfr-01}
 \end{figure}
 
@@ -372,7 +387,7 @@ Only after pruning all such clusters from WCC will we return what is left.
 \centering
 \includegraphics[width=0.62\textwidth]{figs/wiki_topcats_cm_steps_lfr1.pdf}
 \includegraphics[width=0.37\textwidth]{figs/wiki_topcats_1_cm_size.pdf}
-\caption[CM pipeline on the Wikipedia hyperlinks network and its model LFR graph for r=0.1]{\textbf{CM pipeline on the empirical Wikipedia hyperlinks network and its model LFR graph for r=0.1.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\caption[CM pipeline on the wiki\_topcats  network and its model LFR graph for r=0.1]{\textbf{CM pipeline on the empirical wiki\_topcats network and its model LFR graph for r=0.1.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
 \label{fig:wikitopcats-cm-lfr-1}
 \end{figure}
 
@@ -380,7 +395,7 @@ Only after pruning all such clusters from WCC will we return what is left.
 \centering
 \includegraphics[width=0.62\textwidth]{figs/wiki_topcats_cm_steps_lfr5.pdf}
 \includegraphics[width=0.37\textwidth]{figs/wiki_topcats_5_cm_size.pdf}
-\caption[CM pipeline on the Wikipedia hyperlinks network and its model LFR graph for r=0.5]{\textbf{CM pipeline on the empirical Wikipedia hyperlinks network and its model LFR graph for r=0.5.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
+\caption[CM pipeline on the wiki\_topcats s network and its model LFR graph for r=0.5]{\textbf{CM pipeline on the empirical wiki\_topcats network and its model LFR graph for r=0.5.} The left panel shows the community size distribution in each step of running CM and the right panel shows a comparison between the community size distribution of the original Leiden clustering, the LFR ground-truth communities and the Leiden clustering of the LFR network.}
 \label{fig:wikitopcats-cm-lfr-5}
 \end{figure}
 
@@ -426,7 +441,7 @@ Only after pruning all such clusters from WCC will we return what is left.
   10      & 2569       & 23.6     & 11  & 40  & 6,650,349 \\
   \hline
 \end{tabular}
-\caption[IKC clusters of size at least 11 for the Open Citations Network]{\textbf{IKC clusters of size at least 11 for the Open Citations Network} The Open Citations Network (Materials and Methods) consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered with the IKC algorithm using a k value of 10.
+\caption[IKC clusters for the Open Citations Network]{\textbf{IKC clusters  for the Open Citations Network} The Open Citations Network (Materials and Methods) consisting of 75,025,194 nodes and 1,363,605,603 edges was clustered with the IKC algorithm using a k value of 10.
 Node coverage is the percentage of nodes in the network found in clusters of size at least 11. Minimum, median, and max cluster sizes, restricted to clusters of size at least 11, are shown in the last three columns. }
 \label{tab:IKC-11-OC-basicstats}
 \end{table}
@@ -439,7 +454,7 @@ Node coverage is the percentage of nodes in the network found in clusters of siz
   IKC        & 10       & 3999        & 19.5      & 11  & 45  & 6,650,087 \\
   \hline
 \end{tabular}
-\caption[Identifying well connected clusters from IKC clustering of the OC]{\textbf{Identifying well connected clusters from IKC clustering of the OC} Following the same procedure as Leiden, the clusters were limited to those of size 11 or greater, then depleted of trees, then processed by CM, and then filtered to remove any clusters of size 10 or less as well as trees. However, this result excludes three large (size 100,000+) clusters of IKC for which CM could not run. In order to make CM scalable to the OpenCitations network, we processed all clusters above size 100,000 individually through CM and processed all clusters size 100,000 or below as one clustering through CM. There were 19 clusters that were greater than size 100,000, of which 3 clusters failed to run through CM. The CM results of the 16 clusters were combined with the CM result of the clusters size 100,000 or below to produce the final clustering whose cluster statistics are reported in the table.}
+\caption[Identifying well connected clusters from IKC clustering of the OC]{\textbf{Identifying well connected clusters from IKC clustering of the Open Citations network} Following the same procedure as Leiden, the clusters were limited to those of size 11 or greater, then depleted of trees, then processed by CM, and then filtered to remove any clusters of size 10 or less as well as trees. However, this result excludes three large (size 100,000+) clusters of IKC for which CM could not run. In order to make CM scalable to the OpenCitations network, we processed all clusters above size 100,000 individually through CM and processed all clusters size 100,000 or below as one clustering through CM. There were 19 clusters that were greater than size 100,000, of which 3 clusters failed to run through CM. The CM results of the 16 clusters were combined with the CM result of the clusters size 100,000 or below to produce the final clustering whose cluster statistics are reported in the table.}
 \label{tab:CM-IKC-11-OC-basicstats}
 \end{table}
 
@@ -451,8 +466,8 @@ Node coverage is the percentage of nodes in the network found in clusters of siz
   10       & 128         & 3.8       & 14  & 79  & 214,877 \\
   \hline
 \end{tabular}
-\caption[IKC clusters of size at least 11 for the CEN]{\textbf{IKC clusters of size at least 11 for the CEN} The Curated Exososome Network was clustered with the IKC algorithm using a k value of 10.
-Node coverage is the percentage of nodes in the network found in clusters of size at least 11. Minimum, median, and max cluster sizes, restricted to clusters of size at least 11, are shown in the last three columns.}
+\caption[IKC clusters  for the CEN]{\textbf{IKC clusters of size at least 11 for the CEN} The Curated Exososome Network was clustered with the IKC algorithm using a k value of 10.
+Node coverage is the percentage of nodes in the network found in clusters. Minimum, median, and max cluster sizes are shown in the last three columns.}
 \label{tab:IKC-11-CEN-basicstats}
 \end{table}
 
@@ -464,14 +479,14 @@ Node coverage is the percentage of nodes in the network found in clusters of siz
   IKC        & 10       & 187         & 3.8       & 14  & 64  & 214,850 \\
   \hline
 \end{tabular}
-\caption[Identifying well connected clusters from IKC clustering of the CEN]{\textbf{Identifying well connected clusters from IKC clustering of the CEN} Following the same procedure as Leiden, the clusters were limited to those of size 11 or greater, then depleted of trees, the processed by CM, and then filtered to remove any clusters of size 10 or less as well as trees.}
+\caption[Identifying well connected clusters from IKC clustering of the CEN]{\textbf{Identifying well connected clusters from IKC clustering of the CEN} .}
 \label{tab:CM-IKC-11-CEN-basicstats}
 \end{table}
 
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.37\textwidth]{figs/oc_ikc_istouched.pdf}
-\caption[IKC Clusters of the Open Citations Network Impacted by CM]{\textbf{IKC Clusters of the Open Citations Network (OC) Impacted by CM}. For IKC followed by CM processing, each bar shows the total number of clusters of size at least 11. The fraction of the clusters that are affected by the CM processing is colored in red and the fraction in blue are for those that are not affected by the CM processing (because their min cut size is at least that large). Overall, 6.38\% of the input IKC clusters were modified by CM.}
+\caption[IKC Clusters of the Open Citations Network Impacted by CM]{\textbf{IKC Clusters of the Open Citations Network (OC) Impacted by CM}. For IKC followed by CM processing, each bar shows the total number of clusters. The fraction of the clusters that are affected by the CM processing is colored in red and the fraction in blue are for those that are not affected by the CM processing (because their min cut size is at least that large). Overall, 6.38\% of the input IKC clusters had small edge cuts.}
 \label{fig:ocistouched-ikc}
 \end{figure}
 
