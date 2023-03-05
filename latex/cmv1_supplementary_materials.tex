@@ -124,7 +124,7 @@ Each of the  following options can be used to perform this step:
 \item \texttt{cluster\_analyzer.py}: a parallelized version of find\_trees.py
 \item \texttt{subset\_graph\_nonnetworkit.R}: a fast script without dependence on Networkit that also returns maxDegree for a cluster.
 \end{enumerate}
-}
+
 \item  \textbf{CM}: Applying connectivity modifier, available at \cite{cm2022} (however, also see Section \ref{sec:cm-codes} for additional software for CM)
  %\href{https://github.com/RuneBlaze/connectivity-modifier}{https://github.com/RuneBlaze/connectivity-modifier}
  with the following commands (assuming the clustering method used is Leiden), where the option \texttt{-g} specifies the resolution parameter:
@@ -247,7 +247,9 @@ preprocessing of existing clusterings and post-processing of CM output is handle
 Subsequent extensions to the original CM code for its use with Leiden clustering have been made by Vikram Ramavarapu, and Fabio Ayres. These new versions are more performant but are 
 algorithmically identical so that any changes in output are due only to randomness. Vidya Kamath Pailodi developed a modular pipeline that is being used to test and facilitate 
 continuous integration of these extensions. Both the pipeline and later versions of the CM code were used to generate data for this manuscript. We used the original  CM code for all IKC-based pipelines, 
-and the new codes for some of the Leiden-based analysis.}. Code for the pipeline and extended CM are available at \cite{cm_pipe2023}. Details of the extensions, the pipeline, and evaluation will be 
+and the new codes for some of the Leiden-based analysis.
+Code for the pipeline and extended CM are available at \cite{cm_pipe2023}. 
+Details of the extensions, the pipeline, and evaluation will be 
 made available in a manuscript that is presently under preparation.
 
 \clearpage
