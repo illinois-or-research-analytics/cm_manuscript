@@ -257,7 +257,7 @@ As suggested previously \citep{hagberg2008exploring}, a somewhat limited range o
     \item In all our real networks with all resolution parameters, the minimum community size was 1, as singletons were always present in the empirical networks. However, the LFR methodology assumes that all nodes are in a valid community. In most cases, by setting (\texttt{minc}) equal to 1, the LFR software either took very long to run (more than our time limit of 4 hours per network), or could not generate the community size distribution with the given properties at all. Therefore, with the exception of high energy physics citation network for which \texttt{minc} = 1 successfully generated the LFR, for other networks, we found the \textit{minimum} value of \texttt{minc} that generated the LFR graph in less than 4 hours with a brute-force search (exploring all values of \texttt{minc} starting from 1, to the point were the LFR was generated int he given time limit).
 \end{itemize}
 
-Figures \ref{fig:all-degrees} to \ref{fig:wiki_topcats_cm_size} show a comparison between the degree distribution and community size distributions of the six empirical networks and their corresponding LFR graphs for different resolution values.
+Figures \ref{fig:all-degrees} to \ref{fig:wiki_topcats_cm_size} show a comparison between the degree distribution and community size distributions of the six empirical networks and their corresponding LFR graphs for different resolution values. Table \ref{table:all-params} shows various parameters of the empirical networks and their corresponding LFR graphs.
 
 \begin{table}[h!]
 \caption[Properties of the empirical networks and their LFR model graphs.]{Properties of the empirical networks and their LFR model graphs. $r$ stands for resolution value used for generating the Leiden clustering, $\mu$ stands for the mixing parameter, and $\tau_1$ and $\tau_2$ are the \textit{estimated} power-law exponents for the degree and the community size distributions respectively.}
@@ -306,8 +306,16 @@ wiki\_topcats\_LFR & 0.01  & 1,791,489 & 24,494,292 & 27.35    & 0.682 & 2.441 &
 wiki\_topcats      & 0.1   & 1,791,489 & 25,444,207 & 28.41    & 0.791 & 2.430 & 3.311 \\
 wiki\_topcats\_LFR & 0.1   & 1,791,489 & 24,255,498 & 27.08    & 0.792 & 2.442 & 3.305 \\ \hline
 wiki\_topcats      & 0.5   & 1,791,489 & 25,444,207 & 28.41    & 0.902 & 2.430 & 4.048 \\
-wiki\_topcats\_LFR & 0.5   & 1,791,489 & 24,332,705 & 27.16    & 0.903 & 2.442 & 4.058 \\ \hline
+wiki\_topcats\_LFR & 0.5   & 1,791,489 & 24,332,705 & 27.16    & 0.903 & 2.442 & 4.058 \\ \hline \hline
+wiki\_talk      & 0.001 & 2,394,385 & 4,659,565 & 3.89     & 0.357 & 1.901 & 1.861 \\
+wiki\_talk\_LFR & 0.001 & 2,394,385 & 3,304,671 & 2.76     & 0.355 & 2.073 & 1.874 \\ \hline
+wiki\_talk      & 0.01  & 2,394,385 & 4,659,565 & 3.89     & 0.753 & 1.901 & 1.917 \\
+wiki\_talk\_LFR & 0.01  & 2,394,385 & 3,297,391 & 2.75     & 0.752 & 2.062 & 2.261 \\ \hline
+wiki\_talk      & 0.1   & 2,394,385 & 4,659,565 & 3.89     & 0.941 & 1.901 & 2.034 \\
+wiki\_talk\_LFR & 0.1   & 2,394,385 & 3,296,122 & 2.75     & 0.940 & 2.062 & 2.188 \\ \hline
+wiki\_talk      & 0.5   & 2,394,385 & 4,659,565 & 3.89     & 0.984 & 1.901 & 2.931 \\ \hline
 \end{tabular}
+\label{table:all-params}
 \end{table}
 
  \clearpage
