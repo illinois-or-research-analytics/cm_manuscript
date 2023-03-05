@@ -734,7 +734,7 @@ networks for the Open Citations Network and Curated Exosome Network (CEN). We sh
 \label{tab:LFR-vs-empirical-OC-CEN}
 \end{table}
 
-In the bottom row of Figures \ref{fig:oc-cm-lfr-001} and  \ref{fig:cen-cm-lfr-01} we see the result of using the CM-pipeline on the LFR network based on the Open Citations  and CEN networks, respectively, each using Leiden clustering with
+In the bottom row of Figures \ref{fig:oc-cm-lfr-001} and  \ref{fig:cen-cm-lfr-01}, we see the result of using the CM-pipeline on the LFR network based on the Open Citations  and CEN networks, respectively, each using Leiden clustering with
 resolution value $r=0.001$.
 For the LFR version of the Open Citations network, the input Leiden clustering has one cluster of size 10, but this is deleted during the filtering stage, and then no subsequent change occurs.
 For the LFR version of the CEN network, the input Leiden clustering has four clusters of size less than 11 that are  deleted during the filtering stage, and there is a small change to the distribution of cluster sizes at the low end (e.g., between 11 and perhaps 50) as a result of the final stage of CM-processing.
@@ -890,7 +890,8 @@ On the LFR version of this network, we also see big differences, but the final o
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.8\textwidth]{figs/cm_stats_trimmed.pdf}
-\caption{\textbf{A Composite View of CM Pipeline Effects}}
+\caption{\textbf{A Composite View of CM Pipeline Effects}. Each row corresponds to a network (top to bottom: Open Citations, CEN, cit \_patents, cit\_hepph, wiki\_topcats, and wiki\_talk). Each column refers to one resolution parameter (left to right: 0.5, 0.1, 0.01, 0.001, and 0.0001; however, only the Open Citations network was analyzed using resolution value 0.0001).
+Within each entry (column, row), we show the node coverage for Leiden with the selected resolution parameter applied to both the empirical network (green) and the LFR version (red) as the clustering progresses through the CM pipeline. Note that the trends for the three lower resolution values ($r=0.01, 0.001$, and $0.001$) are very different from the trends on the two higher resolution values, and that trends on LFR networks are also different from trends on real-world networks.}
 \label{fig:composite-view}
 \end{figure}
 
