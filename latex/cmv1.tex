@@ -716,9 +716,9 @@ much larger  for the CEN than for Open Citations.
 
 We used Iterative k-core (IKC) clustering with $k=10$ (thus, all nodes in all  IKC clusters are adjacent to at least $10$ other nodes in the cluster). 
 After running IKC on the CEN we had 128 clusters covering 3.8\% of the network nodes, with a minimum cluster size of 14, median of 79, and maximum of about 214,877 (Table \ref{tab:IKC-11-CEN-basicstats}). 
+We also note that  only 1.41\% of the input IKC clusters have small edge cuts.
 \textcolor{red}{Minhyuk, do you have this information on IKC on the CEN?}
-\textcolor{blue}{Only X\% of the input IKC clusters had small edge cuts. 
- A comparison of cluster sizes with or without small edge cuts is shown in BLAH- BLAH BLAH.}
+\textcolor{blue}{A comparison of cluster sizes with or without small edge cuts is shown in BLAH- BLAH BLAH.}
  After running these clusters through CM-processing, the number of clusters increased to 187 but node coverage remained at 3.8\%.   The  minimum cluster size did not change, the median dropped from 79 to 64, and the maximum cluster size dropped from 214,877 to 214,850. 
  %median cluster size increased from 40 to 45, but the minimum and maximum did not change.
 
@@ -743,7 +743,8 @@ post-CM & 187 & 3.8 & 14 & 64 & 214,850\\
   \hline
 \end{tabular}
 \caption[IKC clusters pre- and post-CM processing for the CEN]{\textbf{IKC clusters  for the CEN}
-The Curated Exososome Network was clustered with the IKC algorithm using  $k=10$.
+The Curated Exososome Network was clustered with the IKC algorithm using  $k=10$. 
+Only 1.41\% of the input IKC clusters have small edge cuts.
 %Results 
 %Node coverage is the percentage of nodes in the network found in clusters of size at least 11. Minimum, median, and max cluster sizes, restricted to clusters of size at least 11, are shown in the last three columns.}
 }
