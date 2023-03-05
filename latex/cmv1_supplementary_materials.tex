@@ -260,7 +260,7 @@ As suggested previously \citep{hagberg2008exploring}, a somewhat limited range o
 Figures \ref{fig:all-degrees} to \ref{fig:wiki_topcats_cm_size} show a comparison between the degree distribution and community size distributions of the six empirical networks and their corresponding LFR graphs for different resolution values.
 
 \begin{table}[h!]
-\caption[Properties of the empirical networks and their LFR model graphs.]{Properties of the empirical networks and their LFR model graphs. $r$ stands for resolution value used for generating the Leiden clustering, $\mu$ stands for the mixing parameter, and $\tau_1$ and $\tau_2$ are the estimated power-law exponents for the community size and the degree distributions respectively.}
+\caption[Properties of the empirical networks and their LFR model graphs.]{Properties of the empirical networks and their LFR model graphs. $r$ stands for resolution value used for generating the Leiden clustering, $\mu$ stands for the mixing parameter, and $\tau_1$ and $\tau_2$ are the estimated power-law exponents for the degree and the community size distributions respectively.}
 \centering
 \begin{tabular}{llllllll}
 \hline
@@ -274,7 +274,15 @@ open\_citations\_LFR & 0.01   & 3,000,000  & 55,135,215    & 36.76    & 0.602 & 
 open\_citations      & 0.1    & 75,025,194 & 1,363,303,678 & 36.34    & 0.711 & 2.974 & 6.254 \\
 open\_citations\_LFR & 0.1    & 3,000,000  & 54,911,549    & 36.61    & 0.711 & 2.980 & 6.241 \\ \hline
 open\_citations      & 0.5    & 75,025,194 & 1,363,303,678 & 36.34    & 0.871 & 2.974 & 6.137 \\
-open\_citations\_LFR & 0.5    & 3,000,000  & 55,114,185    & 36.74    & 0.871 & 2.978 & 6.135 \\ \hline
+open\_citations\_LFR & 0.5    & 3,000,000  & 55,114,185    & 36.74    & 0.871 & 2.978 & 6.135 \\ \hline\hline
+CEN      & 0.001 & 13,989,436 & 92,051,051 & 13.16    & 0.522 & 2.618 & 2.363 \\
+CEN\_LFR & 0.001 & 3,000,000  & 20,819,461 & 13.88    & 0.522 & 2.621 & 2.366 \\ \hline
+CEN      & 0.01  & 13,989,436 & 92,051,051 & 13.16    & 0.645 & 2.618 & 2.743 \\
+CEN\_LFR & 0.01  & 3,000,000  & 20,762,221 & 13.84    & 0.645 & 2.621 & 2.746 \\ \hline
+CEN      & 0.1   & 13,989,436 & 92,051,051 & 13.16    & 0.880 & 2.618 & 4.652 \\
+CEN\_LFR & 0.1   & 3,000,000  & 20,712,745 & 13.81    & 0.878 & 2.625 & 4.630 \\ \hline
+CEN      & 0.5   & 13,989,436 & 92,051,051 & 13.16    & 0.988 & 2.618 & 3.271 \\
+CEN\_LFR & 0.5   & 3,000,000  & 20,821,434 & 13.88    & 0.988 & 2.620 & 3.311 \\ \hline
 \end{tabular}
 \end{table}
 
