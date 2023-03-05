@@ -249,7 +249,6 @@ in which the LFR software \citep{lancichinetti2008benchmark} is used with the fo
 
 
 
-
 As suggested previously \citep{hagberg2008exploring}, a somewhat limited range of parameters can be used to successfully generate an LFR graph. Due to restrictions of the LFR methodology, we made the following adjustments in our experiments for emulating our collection of empirical networks:
 
 \begin{itemize}
@@ -260,7 +259,27 @@ As suggested previously \citep{hagberg2008exploring}, a somewhat limited range o
 
 Figures \ref{fig:all-degrees} to \ref{fig:wiki_topcats_cm_size} show a comparison between the degree distribution and community size distributions of the six empirical networks and their corresponding LFR graphs for different resolution values.
 
-%\textcolor{red}{write the math behind fitting power-law, table with network properties, plots comparing degree distribution and community size distribution of networks vs lFR graphs, commands for generating LFRs, runtime, that we had to change the range of cluster sizes to enable it to generate the network., LFR is not robust to changes in parameters}
+\begin{table}[h!]
+\caption[Properties of the empirical networks and their LFR model graphs.]{Properties of the empirical networks and their LFR model graphs. $r$ stands for resolution value used for generating the Leiden clustering, $\mu$ stands for the mixing parameter, and $\tau_1$ and $\tau_2$ are the estimated power-law exponents for the community size and the degree distributions respectively.}
+\centering
+\begin{tabular}{llllllll}
+\hline
+network              & $r$      & nodes      & edges         & average degree & $\mu$    & $\tau_1$  & $\tau_2$  \\ \hline \hline
+open\_citations      & 0.0001 & 75,025,194 & 1,363,303,678 & 36.34    & 0.407 & 2.974 & 4.025 \\
+open\_citations\_LFR & 0.0001 & 3,000,000  & 55,134,611    & 36.76    & 0.407 & 2.978 & 4.027 \\\hline
+open\_citations      & 0.001  & 75,025,194 & 1,363,303,678 & 36.34    & 0.500 & 2.974 & 4.607 \\
+open\_citations\_LFR & 0.001  & 3,000,000  & 54,946,186    & 36.63    & 0.501 & 2.982 & 4.603 \\ \hline
+open\_citations      & 0.01   & 75,025,194 & 1,363,303,678 & 36.34    & 0.602 & 2.974 & 2.079 \\
+open\_citations\_LFR & 0.01   & 3,000,000  & 55,135,215    & 36.76    & 0.602 & 2.978 & 2.110 \\ \hline
+open\_citations      & 0.1    & 75,025,194 & 1,363,303,678 & 36.34    & 0.711 & 2.974 & 6.254 \\
+open\_citations\_LFR & 0.1    & 3,000,000  & 54,911,549    & 36.61    & 0.711 & 2.980 & 6.241 \\ \hline
+open\_citations      & 0.5    & 75,025,194 & 1,363,303,678 & 36.34    & 0.871 & 2.974 & 6.137 \\
+open\_citations\_LFR & 0.5    & 3,000,000  & 55,114,185    & 36.74    & 0.871 & 2.978 & 6.135 \\ \hline
+\end{tabular}
+\end{table}
+
+ \clearpage
+%\textcolor{red}{write the math behind fitting power-law}
 
 \begin{figure}[H]
 \centering
