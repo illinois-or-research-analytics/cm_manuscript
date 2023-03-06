@@ -1,0 +1,46 @@
+\begin{thebibliography}{}
+
+\bibitem[Hagberg et~al., 2008]{hagberg2008exploring}
+Hagberg, A., Swart, P., and S~Chult, D. (2008).
+\newblock Exploring network structure, dynamics, and function using networkx.
+\newblock Technical report, Los Alamos National Lab.(LANL), Los Alamos, NM
+  (United States).
+
+\bibitem[Kamath et~al., 2023]{cm_pipe2023}
+Kamath, V., Ramavarapu, V., Ayres, F., and Chacko, G. (2023).
+\newblock Connectivity modifier pipeline.
+\newblock \url{https://github.com/illinois-or-research-analytics/cm_pipeline}.
+
+\bibitem[Lancichinetti et~al., 2008]{lancichinetti2008benchmark}
+Lancichinetti, A., Fortunato, S., and Radicchi, F. (2008).
+\newblock Benchmark graphs for testing community detection algorithms.
+\newblock {\em Physical review E}, 78(4):046110.
+
+\bibitem[Liu, 2022]{belinda2022}
+Liu, B. (2022).
+\newblock belinda.
+\newblock \url{https://illinois-or-research-analytics.github.io/belinda/},
+  version {0.0.4a13}.
+
+\bibitem[Liu and Park, 2022]{cm2022}
+Liu, B. and Park, M. (2022).
+\newblock Connectivity modifier.
+\newblock \url{https://github.com/RuneBlaze/connectivity-modifier}.
+
+\bibitem[Staudt et~al., 2016]{Staudt2016}
+Staudt, C.~L., Sazonovs, A., and Meyerhenke, H. (2016).
+\newblock {NetworKit}: A tool suite for large-scale complex network analysis.
+\newblock {\em Network Science}, 4(4):508--530.
+
+\bibitem[Traag, 2023]{leiden-code}
+Traag, V. (2023).
+\newblock Leiden algorithm: leidenalg.
+\newblock \url{https://github.com/vtraag/leidenalg}.
+
+\bibitem[Wedell and Park, 2023]{ikc-code}
+Wedell, E. and Park, M. (2023).
+\newblock Iterative k-core software.
+\newblock
+  \url{https://github.com/chackoge/ERNIE_Plus/blob/master/Illinois/clustering/eleanor/code/IKC.py}.
+
+\end{thebibliography}

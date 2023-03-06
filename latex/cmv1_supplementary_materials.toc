@@ -1,0 +1,6 @@
+\contentsline {section}{\numberline {S1}Connectivity Modifier Pipeline}{3}{section.1}%
+\contentsline {subsection}{\numberline {S1.1}Details about the pipeline}{3}{subsection.1.1}%
+\contentsline {paragraph}{Pseudocode for the Connectivity Modifier}{4}{section*.6}%
+\contentsline {subsection}{\numberline {S1.2}Evolution of the CM pipeline}{5}{subsection.1.2}%
+\contentsline {section}{\numberline {S2}Emulating Real Networks with LFR Graphs}{6}{section.2}%
+\contentsline {section}{\numberline {S3}Additional Results for the CM pipeline}{15}{section.3}%

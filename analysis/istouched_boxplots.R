@@ -45,11 +45,11 @@ l1_box[,tag:='leiden 0.1']
 l5_box[,tag:='leiden 0.5']
 combined_box <- rbind(l5_box,l1_box,l01_box,l001_box)
 combined_box[,V2:=NULL]
-combined_box[V2.y=='TRUE',log10_mincut:='no']
-combined_box[V2.y=='FALSE',log10_mincut:='yes']
-combined_box$log10_mincut <- factor(combined_box$log10_mincut,levels=c('yes','no'))
+combined_box[V2.y=='TRUE',small_cut:='no']
+combined_box[V2.y=='FALSE',small_cut:='yes']
+combined_box$small_cut <- factor(combined_box$small_cut,levels=c('yes','no'))
 combined_box$tag <- factor(combined_box$tag,levels=c('leiden 0.5','leiden 0.1','leiden 0.01','leiden 0.001'))
-p <- ggplot(combined_box,aes(x=tag,y=log10(N),gp=log10_mincut,color=log10_mincut)) + geom_boxplot() +ylab("log10(Cluster Size)") + theme_bw()
+p <- ggplot(combined_box,aes(x=tag,y=log10(N),gp=small_cut,color=small_cut)) + geom_boxplot() +ylab("log10(Cluster Size)") + theme_bw()
 p1 <- p + theme(axis.text.x=element_text(angle = -80, hjust = 0),text = element_text(size = 20,family="Helvetica")) + xlab("")
 pdf('~/repos/cm_manuscript/latex/figs/cen_boxplot.pdf')
 print(p1)
